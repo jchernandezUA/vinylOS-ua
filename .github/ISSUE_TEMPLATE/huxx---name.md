@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-||Identificador|HUXX|
+|Identificador|HUXX|
 |-|-|
 |**Nombre**||
 |**Descripción**||
