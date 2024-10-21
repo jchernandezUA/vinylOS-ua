@@ -1,10 +1,10 @@
-package com.uniandes.vynilos.domain.repository
+package com.uniandes.vynilos.data.repository
 
 import com.uniandes.vynilos.common.DataState
-import com.uniandes.vynilos.domain.model.User
-import com.uniandes.vynilos.remote.service.UserService
+import com.uniandes.vynilos.data.model.User
+import com.uniandes.vynilos.data.remote.service.UserService
 import com.uniandes.vynilos.common.resultOrError
-import com.uniandes.vynilos.domain.model.toDomain
+import com.uniandes.vynilos.data.model.toDomain
 
 interface ExampleRepository {
     suspend fun getGreeting(userId: String): DataState<User>

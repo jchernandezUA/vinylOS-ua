@@ -1,6 +1,6 @@
 package com.uniandes.vynilos.common
 
-import com.uniandes.vynilos.remote.service.UserService
+import com.uniandes.vynilos.data.remote.service.UserService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

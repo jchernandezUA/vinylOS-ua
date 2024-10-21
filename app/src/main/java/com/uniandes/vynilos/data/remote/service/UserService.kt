@@ -1,6 +1,6 @@
-package com.uniandes.vynilos.remote.service
+package com.uniandes.vynilos.data.remote.service
 
-import com.uniandes.vynilos.remote.entity.UserResponse
+import com.uniandes.vynilos.data.remote.entity.UserResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
