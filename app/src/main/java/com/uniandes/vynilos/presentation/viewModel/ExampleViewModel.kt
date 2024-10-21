@@ -3,8 +3,8 @@ package com.uniandes.vynilos.presentation.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.uniandes.vynilos.common.DataState
-import com.uniandes.vynilos.domain.model.User
-import com.uniandes.vynilos.domain.repository.ExampleRepositoryImpl
+import com.uniandes.vynilos.data.model.User
+import com.uniandes.vynilos.data.repository.ExampleRepositoryImpl
 import com.uniandes.vynilos.common.NetworkModule
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
