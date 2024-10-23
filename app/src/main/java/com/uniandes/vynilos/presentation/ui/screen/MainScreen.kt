@@ -1,6 +1,5 @@
 package com.uniandes.vynilos.presentation.ui.screen
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,7 +10,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,25 +17,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.uniandes.vynilos.common.DataStatus
 import com.uniandes.vynilos.common.observeAsActions
+import com.uniandes.vynilos.presentation.navigation.ActionType
+import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
-import com.uniandes.vynilos.presentation.viewModel.ExampleViewModel
-import kotlinx.coroutines.flow.onEach
+import com.uniandes.vynilos.presentation.viewModel.AlbumViewModel
 
 
 @Composable
-fun ExampleScreen(viewModel: ExampleViewModel) {
-    val userResult by viewModel.greeting.collectAsState()
-
-    val userId by viewModel.userId.collectAsState()
+fun MainScreen(
+    viewModel: AlbumViewModel,
+    navigationActions: NavigationActions = NavigationActions()
+) {
+    val albumsResult by viewModel.albumsResult.collectAsState()
 
     var errorMessage by remember { mutableStateOf("") }
 
-    viewModel.greeting.observeAsActions {
+    viewModel.albumsResult.observeAsActions {
         if (it?.status == DataStatus.ERROR) {
             errorMessage = it.error!!.message
         }
@@ -47,29 +46,29 @@ fun ExampleScreen(viewModel: ExampleViewModel) {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 
             Column {
-                TextField(
-                    value = userId,
-                    onValueChange = {
-                        viewModel.setUserId(it)
-                    }
-                )
+
                 Button(
-                    onClick = { viewModel.getUser() }
+                    onClick = { viewModel.getAlbums() }
                 ) {
-                    Text(text = "Get User")
+                    Text(text = "Get albums")
+                }
+                Button(
+                    onClick = {
+                        navigationActions.onAction(ActionType.CLICK_NOT_MAIN)
+                    }) {
+                    Text(text = "Move to not main")
                 }
 
-                when(userResult?.status) {
+                when(albumsResult?.status) {
                     DataStatus.LOADING -> {
                         CircularProgressIndicator(
                             modifier = Modifier.size(100.dp)
                         )
                     }
                     DataStatus.SUCCESS -> {
-                        GreetingMessage(
-                            name = viewModel.getFullName(),
-                            modifier = Modifier.padding(innerPadding)
-                        )
+                       albumsResult?.data?.forEach {
+                           Text(text = it.name)
+                       }
                     }
                     else -> {
                         Text(
@@ -83,17 +82,11 @@ fun ExampleScreen(viewModel: ExampleViewModel) {
     }
 }
 
-@Composable
-fun GreetingMessage(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    val viewModel = ExampleViewModel()
-    ExampleScreen(viewModel)
+    val viewModel = AlbumViewModel()
+    MainScreen(viewModel)
 }
