@@ -9,6 +9,7 @@ lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.9.2"
 composeBom = "2024.04.01"
 compose-navigation= "2.8.3"
+compose-material = "1.7.4"
 ktor = "2.3.12"
 retrofit = "2.9.0"
 
@@ -22,6 +23,7 @@ androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecyc
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation"}
+androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "compose-material"}
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
