@@ -5,7 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
-import com.uniandes.vynilos.presentation.viewModel.AlbumViewModel
+import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
 
 
 @Composable
@@ -21,6 +21,5 @@ fun NotMainScreen() {
 @Preview(showBackground = true)
 @Composable
 fun NotPreview() {
-    val viewModel = AlbumViewModel()
-    MainScreen(viewModel)
+    NotMainScreen()
 }

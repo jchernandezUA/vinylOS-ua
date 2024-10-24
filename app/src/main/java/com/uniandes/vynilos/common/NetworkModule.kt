@@ -12,5 +12,5 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    val userService: AlbumServiceAdapter = getRetrofit().create(AlbumServiceAdapter::class.java)
+    val albumServiceAdapter: AlbumServiceAdapter = getRetrofit().create(AlbumServiceAdapter::class.java)
 }

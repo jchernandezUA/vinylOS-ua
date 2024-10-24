@@ -2,8 +2,8 @@ package com.uniandes.vynilos.common
 
 inline fun <T> resultOrError(block: () -> T): DataState<T> {
     return try {
-        DataState.success(block())
+        DataState.Success(block())
     } catch (e: Exception) {
-        DataState.error(e)
+        DataState.Error(e)
     }
 }

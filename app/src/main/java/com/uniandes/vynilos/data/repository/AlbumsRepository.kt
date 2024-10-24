@@ -6,12 +6,12 @@ import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.model.DTO
 import com.uniandes.vynilos.data.remote.service.AlbumServiceAdapter
 
-interface AlbumsRepository {
+interface AlbumRepository {
     suspend fun getAlbums(): DataState<List<Album>>
 }
-class AlbumsRepositoryImpl(
+class AlbumRepositoryImpl(
     private val albumService: AlbumServiceAdapter
-): AlbumsRepository {
+): AlbumRepository {
 
     override suspend fun getAlbums(): DataState<List<Album>> {
         return resultOrError {

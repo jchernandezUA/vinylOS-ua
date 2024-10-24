@@ -1,40 +1,34 @@
 package com.uniandes.vynilos.common
 
+import com.uniandes.vynilos.data.model.Album
 import retrofit2.HttpException
-import retrofit2.Retrofit
+import java.io.IOException
 
-class DataState<T>(val data: T? = null,
-                   val error: DataError? = null,
-                   var status: DataStatus = DataStatus.LOADING
-)  {
-
-    companion object {
-        fun <T> success(data: T): DataState<T> =
-            DataState(data = data, status = DataStatus.SUCCESS)
-        fun <T> error(exception: Exception): DataState<T> =
+sealed class DataState<out T> {
+    object Loading : DataState<Nothing>()
+    data class Success<out T> (val data: T): DataState<T>()
+    class Error(val error: DataError): DataState<Nothing>() {
+        constructor(exception: Exception) : this(exception.let {
             when(exception) {
+                is IOException  -> {
+                    DataError(
+                        message = exception.message?:"No connection available",
+                        statusCode = -1)
+                }
                 is HttpException -> {
-                    DataState(error = DataError(
+                    DataError(
                         message = exception.message?:"Not defined error",
                         statusCode = exception.code()
-                    ),
-                        status = DataStatus.ERROR
                     )
                 }
                 else -> {
-                    DataState(error = DataError(exception.message?:"Not defined error"), status = DataStatus.ERROR)
+                    DataError(
+                        exception.message?:"Not defined error"
+                    )
                 }
             }
+        })
     }
 
-    override fun toString(): String {
-        return "Status: ${status.name}, Data: ${data?.toString()}, Error: ${error?.message}"
-    }
-
-}
-
-enum class DataStatus {
-    LOADING,
-    SUCCESS,
-    ERROR
+    fun getDataOrNull(): T? = if (this is Success) data else null
 }
