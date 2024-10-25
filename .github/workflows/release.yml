@@ -1,39 +1,70 @@
 name: Release Automation
-#cambio solo para probar
+
 on:
   push:
     branches:
       - develop
     paths:
-      - '**' # escucha cambios en el contenido de los archivos
+      - '**'
 
 jobs:
   create-release-branch-and-build-apk:
-    if: "github.event.head_commit.message == 'Release *'"
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Print last commit message
+        id: commit_message
+        run: |
+          echo "Last commit message: ${{ github.event.head_commit.message }}"
+          echo "commit_message=${{ github.event.head_commit.message }}" >> $GITHUB_ENV
+
+      - name: Check for Release version in commit message
+        id: check_version
+        run: |
+          if [[ "${{ env.commit_message }}" =~ ^Release\ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
+            echo "Valid release message found."
+            echo "release_found=true" >> $GITHUB_ENV
+          else
+            echo "No valid release message found."
+            echo "release_found=false" >> $GITHUB_ENV
+          fi
+
       - name: Extract version number
         id: extract_version
-        run: echo "::set-output name=version::$(echo ${{ github.event.head_commit.message }} | grep -oP 'Release \K[0-9]+\.[0-9]+\.[0-9]+')"
+        if: env.release_found == 'true'
+        run: |
+          version=$(echo "${{ env.commit_message }}" | grep -oP 'Release \K[0-9]+\.[0-9]+\.[0-9]+')
+          echo "version=$version" >> $GITHUB_ENV
 
-      - name: Create release branch
+      - name: Debug git configuration
+        run: |
+          git config --list
+          git remote -v
+
+      - name: Push release branch to origin
+        if: env.release_found == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }} # Usar el token personal de acceso
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git checkout -b release/${{ steps.extract_version.outputs.version }}
-          git push origin release/${{ steps.extract_version.outputs.version }}
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/jchernandezUA/vinylOS-ua.git"
+          git checkout test/actions
+          git checkout -b release/$version
+          git push origin release/$version
 
-      - name: Set up JDK 11
+      - name: Set up JDK 17
+        if: env.release_found == 'true'
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '11'
+          java-version: '17'
 
       - name: Cache Gradle packages
+        if: env.release_found == 'true'
         uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
@@ -41,14 +72,54 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
+      - name: Decode Keystore
+        if: env.release_found == 'true'
+        run: |
+          echo "${{ secrets.KEY_STORE }}" | base64 -d > app/my-release-key.jks
+
       - name: Build APK
+        if: env.release_found == 'true'
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
         run: ./gradlew assembleRelease
 
-      - name: Upload APK to GitHub Release
-        uses: ncipollo/release-action@v1
+      - name: Check APK Existence
+        if: env.release_found == 'true'
+        run: |
+          ls -l app/build/outputs/apk/release/
+
+      - name: Release
+        if: env.release_found == 'true'
+        uses: ncipollo/release-action@v1.10.0
         with:
-          tag: v${{ steps.extract_version.outputs.version }}
-          release_name: Release ${{ steps.extract_version.outputs.version }}
+          tag: v0.0.0
+          name: Release 0.0.0  # Reemplaza release_name por name
           draft: false
           prerelease: false
-          files: app/build/outputs/apk/release/*.apk
+          artifacts: app/build/outputs/apk/release/app-release.apk
+          generateReleaseNotes: false
+          omitBody: false
+          omitBodyDuringUpdate: false
+          omitDraftDuringUpdate: false
+          omitName: false
+          omitNameDuringUpdate: false
+          omitPrereleaseDuringUpdate: false
+          removeArtifacts: false
+          replacesArtifacts: true
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Merge release branch into main
+        if: env.release_found == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }} # Usar el token personal de acceso
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/jchernandezUA/vinylOS-ua.git"
+          git fetch --all 
+          git checkout mai
+          git merge --ff-only --allow-unrelated-histories release/$version
+          git push origin main
