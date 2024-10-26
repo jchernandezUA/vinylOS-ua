@@ -19,3 +19,13 @@ fun NavGraphBuilder.composable(
         content(it)
     }
 }
+
+fun NavGraphBuilder.composable(
+    navItem: BottomNavItem,
+    content: @Composable (NavBackStackEntry) -> Unit) {
+    composable(
+        route= navItem.baseRoute
+    ) {
+        content(it)
+    }
+}

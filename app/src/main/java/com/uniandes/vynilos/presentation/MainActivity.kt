@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.uniandes.vynilos.common.NetworkModule
 import com.uniandes.vynilos.data.repository.AlbumRepositoryImpl
 import com.uniandes.vynilos.presentation.navigation.ActionType
+import com.uniandes.vynilos.presentation.navigation.HomeNavigation
 import com.uniandes.vynilos.presentation.navigation.NavItem
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.navigation.composable
@@ -23,8 +24,9 @@ class MainActivity : ComponentActivity() {
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
+            HomeNavigation(this)
+            /*
             val navController = rememberNavController()
             NavHost(
                 navController = navController,
@@ -41,7 +43,7 @@ class MainActivity : ComponentActivity() {
                 composable(NavItem.NotMain) {
                     NotMainScreen()
                 }
-            }
+            }*/
         }
     }
 }
