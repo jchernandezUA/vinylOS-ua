@@ -52,7 +52,7 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/jchernandezUA/vinylOS-ua.git"
-          git checkout test/actions
+          git checkout develop
           git checkout -b release/$version
           git push origin release/$version
 
