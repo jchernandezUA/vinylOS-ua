@@ -35,7 +35,7 @@ import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeNavigation(activity: MainActivity) {
+fun HomeNavigation(onBack: () -> Unit = {}) {
 
 
 
@@ -44,7 +44,7 @@ fun HomeNavigation(activity: MainActivity) {
     }
 
     BackHandler(enabled = true) {
-        activity.finish()
+        onBack()
     }
 
     val navController = rememberNavController()
