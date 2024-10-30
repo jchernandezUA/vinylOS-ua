@@ -3,12 +3,8 @@ package com.uniandes.vynilos.presentation.navigation
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigation
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigationItem
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -16,11 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -30,6 +24,10 @@ import com.uniandes.vynilos.presentation.MainActivity
 import com.uniandes.vynilos.presentation.navigation.BottomNavItem.Companion.BOTTOM_ITEMS
 import com.uniandes.vynilos.presentation.ui.screen.NotMainScreen
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
+import com.uniandes.vynilos.common.NetworkModule
+import com.uniandes.vynilos.data.repository.ArtistRepositoryImpl
+import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
+import com.uniandes.vynilos.presentation.ui.screen.ArtistScreen
 
 
 
@@ -49,6 +47,10 @@ fun HomeNavigation(activity: MainActivity) {
 
     val navController = rememberNavController()
 
+    val artistServiceAdapter = NetworkModule.artistServiceAdapter
+    val artistRepository = ArtistRepositoryImpl(artistServiceAdapter)
+    val listArtistViewModel = ListArtistViewModel(artistRepository)
+
      VynilOSTheme {
         Scaffold (bottomBar = {
             BottomBar(BOTTOM_ITEMS, selectedTab) { selectedItem ->
@@ -62,7 +64,7 @@ fun HomeNavigation(activity: MainActivity) {
                 startDestination = BottomNavItem.Albums.baseRoute
             ) {
                 composable(BottomNavItem.Artists) {
-                    NotMainScreen("artists")
+                    ArtistScreen(viewModel = listArtistViewModel)
                 }
                 composable(BottomNavItem.Albums) {
                     NotMainScreen("albums")
