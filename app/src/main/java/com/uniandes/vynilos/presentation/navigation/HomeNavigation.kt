@@ -26,11 +26,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.uniandes.vynilos.common.NetworkModule
+import com.uniandes.vynilos.data.repository.AlbumRepository
+import com.uniandes.vynilos.data.repository.AlbumRepositoryImpl
 import com.uniandes.vynilos.presentation.MainActivity
 import com.uniandes.vynilos.presentation.navigation.BottomNavItem.Companion.BOTTOM_ITEMS
 import com.uniandes.vynilos.presentation.ui.screen.NotMainScreen
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
-
+import com.uniandes.vynilos.presentation.ui.screen.AlbumListScreen
+import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
@@ -47,7 +51,14 @@ fun HomeNavigation(activity: MainActivity) {
         activity.finish()
     }
 
+    val albumServiceAdapter = NetworkModule.albumServiceAdapter
+    val albumRepository = AlbumRepositoryImpl(albumServiceAdapter)
+    val listAlbumViewModel = ListAlbumViewModel(albumRepository)
+
     val navController = rememberNavController()
+
+
+
 
      VynilOSTheme {
         Scaffold (bottomBar = {
@@ -65,7 +76,7 @@ fun HomeNavigation(activity: MainActivity) {
                     NotMainScreen("artists")
                 }
                 composable(BottomNavItem.Albums) {
-                    NotMainScreen("albums")
+                    AlbumListScreen(viewModel = listAlbumViewModel)
 
                 }
                 composable(BottomNavItem.Collectors) {

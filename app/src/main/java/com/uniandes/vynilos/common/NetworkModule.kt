@@ -6,6 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object NetworkModule {
     private const val BASE_URL = "https://back-vinylos-e11-da7f5dfc1c26.herokuapp.com/"
+    //private const val BASE_URL = "http://web:3000/"
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
