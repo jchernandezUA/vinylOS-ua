@@ -34,6 +34,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.uniandes.vynilos.R
@@ -72,8 +73,7 @@ fun ArtistScreen(
         Scaffold(modifier = Modifier.fillMaxSize()) { _ ->
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
+                    .fillMaxSize(),
                 contentAlignment = Alignment.TopCenter
             ) {
                 Column(
@@ -81,8 +81,8 @@ fun ArtistScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Text(
-                        text = "Artistas",
-                        modifier = Modifier.padding(bottom = 16.dp)
+                        text = stringResource(R.string.artists),
+                        modifier = Modifier.padding(16.dp)
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -97,7 +97,7 @@ fun ArtistScreen(
                             val data = result.getDataOrNull()
                             if (!data.isNullOrEmpty()) {
                                 LazyColumn(
-                                    modifier = Modifier.fillMaxSize(),
+                                    modifier = Modifier.fillMaxSize().padding(16.dp),
                                     verticalArrangement = Arrangement.spacedBy(8.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
@@ -107,7 +107,7 @@ fun ArtistScreen(
                                 }
                             } else {
                                 Text(
-                                    text = "No artists found",
+                                    text = stringResource(R.string.no_artist),
                                     color = Color.Gray,
                                     modifier = Modifier.align(Alignment.CenterHorizontally)
                                 )
@@ -153,7 +153,6 @@ fun ArtistCard(artist: Artist) {
                 contentDescription = "Artist Image",
                 modifier = Modifier
                     .size(64.dp)
-                    .padding(end = 8.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
@@ -163,7 +162,6 @@ fun ArtistCard(artist: Artist) {
             ) {
                 Text(text = artist.name, color = Color.Black, style = androidx.compose.ui.text.TextStyle.Default)
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = artist.description, color = Color.Gray)
             }
         }
     }
