@@ -15,8 +15,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +39,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
@@ -87,41 +91,40 @@ fun ArtistScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    when (val result = artistsResult) {
-                        is DataState.Loading -> {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(100.dp).align(Alignment.CenterHorizontally)
-                            )
-                        }
-                        is DataState.Success -> {
-                            val data = result.getDataOrNull()
-                            if (!data.isNullOrEmpty()) {
-                                LazyColumn(
-                                    modifier = Modifier.fillMaxSize().padding(16.dp),
-                                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    items(data) { artist ->
-                                        ArtistCard(artist)
+                    artistsResult?.apply {
+                        when (this) {
+                            is DataState.Loading -> {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(100.dp).align(Alignment.CenterHorizontally)
+                                )
+                            }
+                            is DataState.Success -> {
+                                val data = getDataOrNull()
+                                if (!data.isNullOrEmpty()) {
+                                    LazyColumn(
+                                        modifier = Modifier.fillMaxSize().padding(16.dp),
+                                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        items(data) { artist ->
+                                            ArtistCard(artist)
+                                        }
                                     }
+                                } else {
+                                    Text(
+                                        text = stringResource(R.string.no_artist),
+                                        color = Color.Gray,
+                                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                                    )
                                 }
-                            } else {
+                            }
+                            is DataState.Error -> {
                                 Text(
-                                    text = stringResource(R.string.no_artist),
-                                    color = Color.Gray,
+                                    text = errorMessage,
+                                    color = Color.Red,
                                     modifier = Modifier.align(Alignment.CenterHorizontally)
                                 )
                             }
-                        }
-                        is DataState.Error -> {
-                            Text(
-                                text = errorMessage,
-                                color = Color.Red,
-                                modifier = Modifier.align(Alignment.CenterHorizontally)
-                            )
-                        }
-                        else -> {
-                            // En caso de que no haya ningún estado particular
                         }
                     }
                 }
@@ -143,24 +146,35 @@ fun ArtistCard(artist: Artist) {
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val painter: Painter = rememberAsyncImagePainter(
-                model = artist.image,
-                placeholder = painterResource(id = R.drawable.placeholder_artist),
-                error = painterResource(id = R.drawable.placeholder_artist)
-            )
-            Image(
-                painter = painter,
-                contentDescription = "Artist Image",
-                modifier = Modifier
-                    .size(64.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
+            val painter = rememberAsyncImagePainter(artist.image)
 
+            if (painter.state is AsyncImagePainter.State.Success) {
+                Image(
+                    painter = painter,
+                    contentDescription = "Artist Image",
+                    modifier = Modifier
+                        .size(64.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Filled.Person,
+                    contentDescription = "Default Artist Icon",
+                    modifier = Modifier
+                        .size(64.dp)
+                        .clip(CircleShape),
+                )
+            }
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 8.dp)
             ) {
-                Text(text = artist.name, color = Color.Black, style = androidx.compose.ui.text.TextStyle.Default)
+                Text(
+                    text = artist.name,
+                    color = Color.Black,
+                )
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
