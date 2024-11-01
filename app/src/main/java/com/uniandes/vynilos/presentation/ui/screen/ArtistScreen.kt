@@ -46,6 +46,7 @@ import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.common.NetworkModule
 import com.uniandes.vynilos.common.observeAsActions
 import com.uniandes.vynilos.data.model.Artist
+import com.uniandes.vynilos.data.remote.service.ArtistServiceAdapter
 import com.uniandes.vynilos.data.repository.ArtistRepositoryImpl
 
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
@@ -183,10 +184,11 @@ fun ArtistCard(artist: Artist) {
 @Preview(showBackground = true)
 @Composable
 fun ArtistScreenPreview() {
-    val artistServiceAdapter = NetworkModule.artistServiceAdapter
-    val artistRepository = ArtistRepositoryImpl(artistServiceAdapter)
     val viewModel = ListArtistViewModel(
-        artistRepository
+        ArtistRepositoryImpl(
+            NetworkModule.createService(ArtistServiceAdapter::class.java
+            )
+        )
     )
     ArtistScreen(viewModel)
 }
