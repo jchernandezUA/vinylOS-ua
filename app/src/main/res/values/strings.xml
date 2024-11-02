@@ -5,4 +5,5 @@
     <string name="collectors">Collectors</string>
     <string name="no_artist">No artists found</string>
     <string name="title_activity_album_list_screen">AlbumListScreen</string>
+    <string name="MensajeListaAlbumVacia">No hay álbumes disponibles en este momento.</string>
 </resources>

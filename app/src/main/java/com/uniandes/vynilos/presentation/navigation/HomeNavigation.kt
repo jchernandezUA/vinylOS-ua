@@ -35,7 +35,7 @@ import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeNavigation(listArtistViewModel: ListArtistViewModel) {
+fun HomeNavigation(listArtistViewModel: ListArtistViewModel, listAlbumViewModel : ListAlbumViewModel) {
 
     val selectedTab = remember {
         mutableIntStateOf(1)
@@ -104,7 +104,7 @@ fun BottomBar(
                 BottomNavigationItem(
                     icon = {
                         Icon(
-                            painter = painterResource(id = item.icon),
+                            item.icon,
                             contentDescription = stringResource(id = item.title)
                         )
                     },

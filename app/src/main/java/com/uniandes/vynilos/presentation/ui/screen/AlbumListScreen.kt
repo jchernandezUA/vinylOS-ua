@@ -37,11 +37,18 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Card
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import coil.compose.rememberAsyncImagePainter
+import com.uniandes.vynilos.R
 
 
 @Composable
@@ -91,9 +98,14 @@ fun AlbumListScreen(
                                 ){
                                     items(data){
                                         album ->
-                                        ListAlbums(album)
+                                        AlbumsCard(album)
                                     }
                                 }
+                            }
+                            else{
+                                // Mostrar mensaje cuando no hay álbumes disponibles
+                                CardMensajes(mensaje = stringResource(R.string.MensajeListaAlbumVacia)
+                                )
                             }
                         }
                         is DataState.Error -> {
@@ -114,8 +126,40 @@ fun AlbumListScreen(
 }
 
 
+
 @Composable
-fun ListAlbums(album : Album){
+fun CardMensajes(mensaje: String) {
+    Card(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Transparent
+        ),
+        elevation = CardDefaults.cardElevation(8.dp)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .padding(24.dp)
+                .fillMaxWidth()
+        ) {
+
+            Text(
+                text = mensaje,
+                fontSize = 18.sp,
+                color = colorResource(R.color.purpleIcon),
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun AlbumsCard(album : Album){
     Card(
         modifier = Modifier
             .padding(8.dp)
