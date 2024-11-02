@@ -29,14 +29,10 @@ import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeNavigation(activity: MainActivity, listArtistViewModel: ListArtistViewModel) {
+fun HomeNavigation(listArtistViewModel: ListArtistViewModel) {
 
     val selectedTab = remember {
         mutableIntStateOf(1)
-    }
-
-    BackHandler(enabled = true) {
-        activity.finish()
     }
 
     val navController = rememberNavController()
