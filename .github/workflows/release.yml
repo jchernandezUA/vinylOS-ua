@@ -3,7 +3,7 @@ name: Release Automation
 on:
   push:
     branches:
-      - develop
+      - task/ci_cd
     paths:
       - '**'
 
@@ -19,7 +19,7 @@ jobs:
         id: commit_message
         run: |
           echo "Last commit message: ${{ github.event.head_commit.message }}"
-          echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+          echo "commit_message=$(git log -1 --pretty=%B | tr '\n' ' ')" >> $GITHUB_ENV
 
       - name: Check for Release version in commit message
         id: check_version
@@ -39,29 +39,36 @@ jobs:
           version=$(echo "${{ env.commit_message }}" | grep -oP 'Release \K[0-9]+\.[0-9]+\.[0-9]+')
           echo "version=$version" >> $GITHUB_ENV
 
-      - name: Debug git configuration
-        run: |
-          git config --list
-          git remote -v
-
-      - name: Push release branch to origin
-        if: env.release_found == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }} # Usar el token personal de acceso
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/jchernandezUA/vinylOS-ua.git"
-          git checkout develop
-          git checkout -b release/$version
-          git push origin release/$version
-
       - name: Set up JDK 17
         if: env.release_found == 'true'
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '17'
+
+      - name: Download Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 21             # API level for Android 5.0 Lollipop
+          target: default            # System image target
+          arch: x86                  # Architecture for the emulator
+          channel: 0                 # Stable channel for SDK tools
+
+      - name: Create AVD
+        run: |
+          echo "no" | avdmanager create avd -n test -k "system-images;android-21;default;x86" --device "pixel"
+
+      - name: Start Emulator
+        run: |
+          nohup $ANDROID_HOME/emulator/emulator -avd test -no-snapshot -no-boot-anim -no-audio -no-window -gpu swiftshader_indirect &
+          adb wait-for-device
+          adb shell input keyevent 82  # Unlock the emulator screen
+        timeout-minutes: 5
+
+      - name: Run Instrumentation Tests
+        run: |
+          adb devices  # Ensure the emulator is running
+          ./gradlew connectedAndroidTest
 
       - name: Cache Gradle packages
         if: env.release_found == 'true'
@@ -90,6 +97,23 @@ jobs:
         if: env.release_found == 'true'
         run: |
           ls -l app/build/outputs/apk/release/
+
+      - name: Debug git configuration
+        run: |
+          git config --list
+          git remote -v
+
+      - name: Push release branch to origin
+        if: env.release_found == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }} # Usar el token personal de acceso
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/jchernandezUA/vinylOS-ua.git"
+          git checkout develop
+          git checkout -b release/$version
+          git push origin release/$version
 
       - name: Release
         if: env.release_found == 'true'
