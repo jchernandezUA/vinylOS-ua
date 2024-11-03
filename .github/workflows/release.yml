@@ -10,41 +10,6 @@ on:
 
 
 jobs:
-#  build-and-test:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v3
-#
-#      - name: Set up JDK 17
-#        uses: actions/setup-java@v3
-#        with:
-#          distribution: 'zulu'
-#          java-version: '17'
-#
-#      - name: Set up Android SDK
-#        uses: android-actions/setup-android@v2
-#        with:
-#          api-level: 33
-#          build-tools: 33.0.3
-#          components: platform-tools, emulator, "system-images;android-33;google_apis;x86_64"
-#
-#      - name: Accept Licenses
-#        run: |
-#          yes | sdkmanager --licenses
-#
-#      - name: Cache Gradle packages
-#        uses: actions/cache@v3
-#        with:
-#          path: ~/.gradle/caches
-#          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-#          restore-keys: |
-#            gradle-${{ runner.os }}-
-#
-#      - name: Run Unit Tests
-#        run: ./gradlew test
-
   create-release-branch-and-build-apk:
     if: github.event_name == 'push' && github.ref == 'refs/heads/test/ci_cd'
     needs: build-and-test
