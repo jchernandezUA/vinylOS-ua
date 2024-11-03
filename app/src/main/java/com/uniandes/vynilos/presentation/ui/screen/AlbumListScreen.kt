@@ -76,7 +76,7 @@ fun AlbumListScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(12.dp)
+                    .padding(start = 12.dp, top = 60.dp, end = 1.dp, bottom = 12.dp)
             ){
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,

@@ -2,6 +2,7 @@ package com.uniandes.vynilos.presentation.navigation
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -13,13 +14,20 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.NetworkModule
 import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.data.repository.AlbumRepositoryImpl
@@ -31,6 +39,7 @@ import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 import com.uniandes.vynilos.presentation.ui.screen.AlbumListScreen
 import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
+import kotlin.math.min
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
@@ -42,9 +51,30 @@ fun HomeNavigation(listArtistViewModel: ListArtistViewModel, listAlbumViewModel 
     }
 
     val navController = rememberNavController()
-
     VynilOSTheme {
-        Scaffold(bottomBar = {
+        Scaffold(
+            topBar = {
+                // Franja superior con el texto "VISITANTE"
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .background(color = Color.Black) // Cambia esto por el color deseado
+                        .padding(end = 15.dp)
+
+                ) {
+                    Text(
+                        text = stringResource(R.string.visitor),
+                        color = colorResource(R.color.purpleIcon), // Cambia el color según el diseño
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Right,
+                        modifier = Modifier.align(Alignment.CenterEnd)
+
+                    )
+                }
+            },
+            bottomBar = {
             BottomBar(BOTTOM_ITEMS, selectedTab) { selectedItem ->
                 changeScreen(navController, selectedItem)
             }

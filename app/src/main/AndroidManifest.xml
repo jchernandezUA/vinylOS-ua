@@ -16,11 +16,6 @@
         android:name=".App"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.ui.screen.AlbumListScreen"
-            android:exported="false"
-            android:label="@string/title_activity_album_list_screen"
-            android:theme="@style/Theme.VynilOS" />
-        <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
