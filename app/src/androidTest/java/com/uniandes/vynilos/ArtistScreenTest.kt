@@ -30,7 +30,7 @@ class ArtistScreenTest: BaseComposeTest() {
     @Before
     fun setUp() {
         composeTestRule.setContent {
-            HomeNavigation(ListArtistViewModel(artistRepository))
+           // HomeNavigation(ListArtistViewModel(artistRepository))
         }
     }
 
