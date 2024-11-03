@@ -57,9 +57,10 @@ jobs:
       - name: Print last commit message
         id: commit_message
         run: |
-          echo "Last commit message: ${{ github.event.head_commit.message }}"
+          # Safely fetch the last commit message and escape newlines
           commit_message=$(git log -1 --pretty=%B | sed ':a;N;$!ba;s/\n/\\n/g')
           echo "commit_message=$commit_message" >> $GITHUB_ENV
+          echo "Last commit message: $commit_message"
 
       - name: Check for Release version in commit message
         id: check_version
