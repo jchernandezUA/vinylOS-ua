@@ -6,8 +6,7 @@ on:
       - test/ci_cd
   pull_request:
     branches:
-      - '**'
-
+      - develop
 
 jobs:
   build-and-test:
