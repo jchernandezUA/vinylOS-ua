@@ -3,8 +3,8 @@ package com.uniandes.vynilos.common
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun <T> Flow<T>.observeAsActions(onEach: (T) -> Unit) {

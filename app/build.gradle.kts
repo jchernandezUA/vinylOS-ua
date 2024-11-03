@@ -65,7 +65,10 @@ android {
 }
 
 dependencies {
-
+    implementation(kotlin("test"))
+    implementation(kotlin("test-junit"))
+    androidTestImplementation("androidx.work:work-testing:2.9.0")
+    androidTestImplementation("android.arch.core:core-testing:1.1.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

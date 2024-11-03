@@ -1,15 +1,12 @@
 package com.uniandes.vynilos.presentation.navigation
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Album
 import androidx.compose.material.icons.filled.Diversity2
 import androidx.compose.material.icons.filled.Groups
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.uniandes.vynilos.R
-import java.util.ArrayList
 
 sealed class BottomNavItem(
     @StringRes
