@@ -1,6 +1,5 @@
 package com.uniandes.vynilos.common
 
-import com.uniandes.vynilos.data.model.Album
 import retrofit2.HttpException
 import java.io.IOException
 
