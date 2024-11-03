@@ -3,7 +3,7 @@ name: CI and CD
 on:
   push:
     branches:
-      - develop
+      - test/ci_cd
   pull_request:
     branches:
       - '**'
@@ -57,7 +57,8 @@ jobs:
         id: commit_message
         run: |
           echo "Last commit message: ${{ github.event.head_commit.message }}"
-          echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+          commit_message=$(git log -1 --pretty=%B | sed ':a;N;$!ba;s/\n/\\n/g')
+          echo "commit_message=$commit_message" >> $GITHUB_ENV
 
       - name: Check for Release version in commit message
         id: check_version
