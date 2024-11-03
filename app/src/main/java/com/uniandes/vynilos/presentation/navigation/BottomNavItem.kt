@@ -2,14 +2,19 @@ package com.uniandes.vynilos.presentation.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Album
+import androidx.compose.material.icons.filled.Diversity2
+import androidx.compose.material.icons.filled.Groups
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.uniandes.vynilos.R
 import java.util.ArrayList
 
 sealed class BottomNavItem(
     @StringRes
     val title: Int,
-    @DrawableRes
-    val icon: Int,
+    val icon: ImageVector,
     val baseRoute: String
 ) {
 
@@ -27,17 +32,17 @@ sealed class BottomNavItem(
 
     data object Artists:  BottomNavItem (
         R.string.artists,
-        R.drawable.ic_home,
+        Icons.Filled.Groups,
         ROUTE_ARTIST)
 
     data object Albums:  BottomNavItem (
         R.string.albums,
-        R.drawable.ic_home,
+        Icons.Filled.Album,
         ROUTE_ALBUMS)
 
     data object Collectors:  BottomNavItem (
         R.string.collectors,
-        R.drawable.ic_home,
+        Icons.Filled.Diversity2,
         ROUTE_COLLECTORS)
 }
 
