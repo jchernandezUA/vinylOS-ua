@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.common.NetworkModule
 import com.uniandes.vynilos.common.observeAsActions
-import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.repository.AlbumRepositoryImpl
 import com.uniandes.vynilos.presentation.navigation.ActionType
 import com.uniandes.vynilos.presentation.navigation.NavigationActions

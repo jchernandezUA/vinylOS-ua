@@ -3,7 +3,6 @@ package com.uniandes.vynilos.presentation.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.uniandes.vynilos.common.DataState
-import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.model.Artist
 import com.uniandes.vynilos.data.repository.ArtistRepository
 import kotlinx.coroutines.flow.MutableStateFlow
