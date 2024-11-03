@@ -1,6 +1,5 @@
-package com.uniandes.vynilos
+package com.uniandes.vynilos.viewModel
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.model.ALBUM_LIST
@@ -9,8 +8,10 @@ import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -18,18 +19,14 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class ListAlbumViewModelTest {
-
-    @get:Rule
-    val instantExecutorRule = InstantTaskExecutorRule()
 
     private val albumRepository: AlbumRepository = mockk()
     private lateinit var viewModel: ListAlbumViewModel
-
-    private val testDispatcher = UnconfinedTestDispatcher()
+    private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun setUp() {
@@ -43,7 +40,7 @@ class ListAlbumViewModelTest {
         coEvery { albumRepository.getAlbums() } returns DataState.Success(albumList)
 
         viewModel.getAlbums()
-
+        advanceUntilIdle()
         val result = viewModel.albumsResult.first()
         assertTrue(result is DataState.Success)
         assertEquals(albumList, (result as DataState.Success).data)
@@ -55,7 +52,7 @@ class ListAlbumViewModelTest {
         coEvery { albumRepository.getAlbums() } returns DataState.Error(Exception(errorMessage))
 
         viewModel.getAlbums()
-
+        advanceUntilIdle()
         val result = viewModel.albumsResult.first()
         assertTrue(result is DataState.Error)
         assertEquals(errorMessage, (result as DataState.Error).error.message)

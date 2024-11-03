@@ -1,4 +1,4 @@
-package com.uniandes.vynilos
+package com.uniandes.vynilos.repository
 
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.DTO

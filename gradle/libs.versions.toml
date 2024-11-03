@@ -18,6 +18,7 @@ retrofit = "2.9.0"
 koin = "4.0.0"
 mockk = "1.13.13"
 archCoreTesting = "1.1.1"
+kotlinxCoroutinesTest = "1.6.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,7 +46,8 @@ retrofit2-converter = { module = "com.squareup.retrofit2:converter-gson", versio
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockk" }
-android-arch-core-testing = { group = "android.arch.core", name = "core-testing", version.ref = "archCoreTesting" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

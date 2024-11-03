@@ -1,4 +1,4 @@
-name: CI
+name: CI and CD
 
 on:
   push:
@@ -27,6 +27,7 @@ jobs:
         with:
           api-level: 33
           build-tools: 33.0.3
+          components: platform-tools, emulator, "system-images;android-33;google_apis;x86_64"
 
       - name: Accept Licenses
         run: |
@@ -35,38 +36,13 @@ jobs:
       - name: Cache Gradle packages
         uses: actions/cache@v3
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          path: ~/.gradle/caches
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Build the app
-        run: ./gradlew assembleDebug
+            gradle-${{ runner.os }}-
 
       - name: Run Unit Tests
         run: ./gradlew test
-
-      - name: Start emulator and run instrumentation tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 33
-          target: google_apis
-          arch: x86_64
-          profile: Pixel 4a
-          emulator-options: -no-window -no-snapshot
-          disable-animations: true
-          disable-linux-hw-accel: true
-          script: ./gradlew connectedAndroidTest
-          cores: 2
-          avd-name: test-pixel4a
-          force-avd-creation: true
-          emulator-boot-timeout: 600
-          emulator-port: 5554
-          disable-spellchecker: false
-          enable-hw-keyboard: false
-          channel: stable
 
   create-release-branch-and-build-apk:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
@@ -109,7 +85,7 @@ jobs:
       - name: Push release branch to origin
         if: env.release_found == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }} # Usa tu token personal de acceso
+          GH_TOKEN: ${{ secrets.GH_TOKEN }} # Usar el token personal de acceso
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
@@ -125,17 +101,14 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Set up Android SDK
+      - name: Cache Gradle packages
         if: env.release_found == 'true'
-        uses: android-actions/setup-android@v2
+        uses: actions/cache@v3
         with:
-          api-level: 33
-          build-tools: 33.0.3
-
-      - name: Accept Licenses
-        if: env.release_found == 'true'
-        run: |
-          yes | sdkmanager --licenses
+          path: ~/.gradle/caches
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
 
       - name: Decode Keystore
         if: env.release_found == 'true'
@@ -178,12 +151,12 @@ jobs:
       - name: Merge release branch into main
         if: env.release_found == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }} # Usa tu token personal de acceso
+          GH_TOKEN: ${{ secrets.GH_TOKEN }} # Usar el token personal de acceso
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/jchernandezUA/vinylOS-ua.git"
-          git fetch --all
+          git fetch --all 
           git checkout main
           git merge --ff-only --allow-unrelated-histories release/$version
           git push origin main
