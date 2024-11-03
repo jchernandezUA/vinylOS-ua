@@ -27,7 +27,7 @@ jobs:
       - name: run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 21
+          api-level: 33
           script: ./gradlew connectedCheck
 
   create-release-branch-and-build-apk:
