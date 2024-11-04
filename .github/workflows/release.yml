@@ -121,7 +121,7 @@ jobs:
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/jchernandezUA/vinylOS-ua.git"
           git fetch --all 
           git checkout main
-          git merge -s ours release/$version
+          git merge -s ours --allow-unrelated-histories release/$version
           git push origin main --force-with-lease
 
       - name: Release
