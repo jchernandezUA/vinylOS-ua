@@ -51,7 +51,7 @@ class AlbumListScreenTest {
         composeTestRule.onNodeWithText(composeTestRule.activity.getString(R.string.albums)).performClick()
 
         // Then
-        composeTestRule.onNodeWithText(composeTestRule.activity.getString(R.string.MensajeListaAlbumVacia)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.activity.getString(R.string.empty_message_album)).assertIsDisplayed()
     }
 
     @Test

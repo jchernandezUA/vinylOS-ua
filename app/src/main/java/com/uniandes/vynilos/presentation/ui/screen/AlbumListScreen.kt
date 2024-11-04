@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
@@ -102,7 +103,7 @@ fun AlbumListScreen(
                             }
                             else{
                                 // Mostrar mensaje cuando no hay álbumes disponibles
-                                CardMensajes(mensaje = stringResource(R.string.MensajeListaAlbumVacia)
+                                CardMensajes(mensaje = stringResource(R.string.empty_message_album)
                                 )
                             }
                         }
@@ -147,7 +148,7 @@ fun CardMensajes(mensaje: String) {
             Text(
                 text = mensaje,
                 fontSize = 18.sp,
-                color = colorResource(R.color.purpleIcon),
+                color = MaterialTheme.colors.primary,
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = 16.dp)
