@@ -2,6 +2,7 @@ package com.uniandes.vynilos.presentation.ui.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,6 +47,8 @@ import com.uniandes.vynilos.common.NetworkModule
 import com.uniandes.vynilos.common.observeAsActions
 import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.repository.AlbumRepositoryImpl
+import com.uniandes.vynilos.presentation.navigation.AlbumActions
+import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.ui.screen.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
 
@@ -54,7 +57,8 @@ import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun AlbumListScreen(
     viewModel: ListAlbumViewModel,
-    ) {
+    navigationActions: NavigationActions = NavigationActions()
+) {
 
     val albumsResult by viewModel.albumsResult.collectAsState()
     var errorMessage by remember { mutableStateOf("") }
@@ -97,7 +101,11 @@ fun AlbumListScreen(
                                 ){
                                     items(data){
                                         album ->
-                                        AlbumsCard(album)
+                                        AlbumsCard(album) {
+                                            navigationActions.onAction(
+                                                AlbumActions.OnClickAlbum(album)
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -158,11 +166,17 @@ fun CardMensajes(mensaje: String) {
 }
 
 @Composable
-fun AlbumsCard(album : Album){
+fun AlbumsCard(
+    album: Album,
+    onItemClick: () -> Unit
+){
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                onItemClick()
+            },
         colors = CardDefaults.cardColors(
             //containerColor = Color.LightGray
             containerColor = Color.Transparent

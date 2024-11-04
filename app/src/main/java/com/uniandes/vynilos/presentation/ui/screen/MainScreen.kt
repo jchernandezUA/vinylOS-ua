@@ -56,7 +56,7 @@ fun MainScreen(
                 }
                 Button(
                     onClick = {
-                        navigationActions.onAction(ActionType.CLICK_NOT_MAIN)
+                        navigationActions.onAction(ActionType.ClickNotMain)
                     }) {
                     Text(text = "Move to not main")
                 }

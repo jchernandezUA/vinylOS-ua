@@ -1,6 +1,9 @@
 package com.uniandes.vynilos.presentation.navigation
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,6 +36,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.uniandes.vynilos.R
+import com.uniandes.vynilos.presentation.activities.AlbumActivity
 import com.uniandes.vynilos.presentation.navigation.BottomNavItem.Companion.BOTTOM_ITEMS
 import com.uniandes.vynilos.presentation.ui.screen.AlbumListScreen
 import com.uniandes.vynilos.presentation.ui.screen.ArtistScreen
@@ -43,7 +48,10 @@ import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeNavigation(listArtistViewModel: ListArtistViewModel, listAlbumViewModel : ListAlbumViewModel) {
+fun HomeNavigation(
+    listArtistViewModel: ListArtistViewModel,
+    listAlbumViewModel : ListAlbumViewModel
+) {
 
     val selectedTab = remember {
         mutableIntStateOf(1)
@@ -88,7 +96,21 @@ fun HomeNavigation(listArtistViewModel: ListArtistViewModel, listAlbumViewModel 
                     ArtistScreen(viewModel = listArtistViewModel)
                 }
                 composable(BottomNavItem.Albums) {
-                    AlbumListScreen(viewModel = listAlbumViewModel)
+
+                    val context = LocalContext.current
+
+                    AlbumListScreen(
+                        viewModel = listAlbumViewModel,
+                        navigationActions = NavigationActions{
+
+                            if (it is AlbumActions.OnClickAlbum) {
+                                val intent = Intent(context, AlbumActivity::class.java)
+                                //se envia el album por intent
+                                intent.putExtra(AlbumActivity.ALBUM, it.album)
+                                context.startActivity(intent)
+                            }
+                        }
+                    )
 
                 }
                 composable(BottomNavItem.Collectors) {
@@ -99,7 +121,7 @@ fun HomeNavigation(listArtistViewModel: ListArtistViewModel, listAlbumViewModel 
     }
 }
 
-fun changeScreen(navController: NavController, navItem: BottomNavItem) {
+private fun changeScreen(navController: NavController, navItem: BottomNavItem) {
     navController.navigate(navItem.baseRoute) {
 
         navController.graph.startDestinationRoute?.let { screenRoute ->
