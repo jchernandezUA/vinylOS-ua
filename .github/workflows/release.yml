@@ -123,7 +123,7 @@ jobs:
           git checkout release/$version
           git pull origin release/$version
           git checkout main
-          git merge -s theirs --allow-unrelated-histories release/$version
+          git merge release/$version --allow-unrelated-histories
           git push origin main -ff
 
       - name: Release
