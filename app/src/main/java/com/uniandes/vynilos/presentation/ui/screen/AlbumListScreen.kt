@@ -49,7 +49,7 @@ import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.repository.AlbumRepositoryImpl
 import com.uniandes.vynilos.presentation.navigation.AlbumActions
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
-import com.uniandes.vynilos.presentation.ui.screen.ui.theme.VynilOSTheme
+import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
 
 
@@ -203,7 +203,6 @@ fun AlbumsCard(
             Text(
                 text = album.name,
                 fontSize = 16.sp,
-                color = Color.Black,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = 8.dp)
             )
