@@ -123,15 +123,15 @@ jobs:
           git checkout release/$version
           git pull origin release/$version
           git checkout main
-          git merge -s yours --allow-unrelated-histories release/$version
+          git merge -s theirs --allow-unrelated-histories release/$version
           git push origin main -ff
 
       - name: Release
         if: env.release_found == 'true'
         uses: ncipollo/release-action@v1.10.0
         with:
-          tag: v$version
-          name: Release $version
+          tag: v${{ env.version }}
+          name: Release ${{ env.version }}
           draft: false
           prerelease: false
           artifacts: app/build/outputs/apk/release/app-release.apk
