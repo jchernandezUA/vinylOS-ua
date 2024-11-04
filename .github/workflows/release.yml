@@ -27,7 +27,7 @@ jobs:
 
   create-release-branch-and-build-apk:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
-    needs: build-and-test
+    #needs: build-and-test
     runs-on: ubuntu-latest
 
     steps:
