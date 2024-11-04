@@ -64,7 +64,7 @@ fun HomeNavigation(listArtistViewModel: ListArtistViewModel, listAlbumViewModel 
                 ) {
                     Text(
                         text = stringResource(R.string.visitor),
-                        color = colorResource(R.color.purpleIcon), // Cambia el color según el diseño
+                        color =  MaterialTheme.colors.primary,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Right,
