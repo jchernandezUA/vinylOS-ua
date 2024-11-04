@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - develop
-  pull_request:
-    branches:
-      - '**'
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -21,28 +17,13 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
+          cache: 'gradle'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v2
+      - name: run tests
+        uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 33
-          build-tools: 33.0.3
-          components: platform-tools, emulator, "system-images;android-33;google_apis;x86_64"
-
-      - name: Accept Licenses
-        run: |
-          yes | sdkmanager --licenses
-
-      - name: Cache Gradle packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            gradle-${{ runner.os }}-
-
-      - name: Run Unit Tests
-        run: ./gradlew test
+          api-level: 29
+          script: ./gradlew connectedCheck
 
   create-release-branch-and-build-apk:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
@@ -56,8 +37,10 @@ jobs:
       - name: Print last commit message
         id: commit_message
         run: |
-          echo "Last commit message: ${{ github.event.head_commit.message }}"
-          echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+          # Safely fetch the last commit message and escape newlines
+          commit_message=$(git log -1 --pretty=%B | sed ':a;N;$!ba;s/\n/\\n/g')
+          echo "commit_message=$commit_message" >> $GITHUB_ENV
+          echo "Last commit message: $commit_message"
 
       - name: Check for Release version in commit message
         id: check_version
@@ -85,7 +68,7 @@ jobs:
       - name: Push release branch to origin
         if: env.release_found == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }} # Usar el token personal de acceso
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
@@ -128,6 +111,19 @@ jobs:
         run: |
           ls -l app/build/outputs/apk/release/
 
+      - name: Merge release branch into main
+        if: env.release_found == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }} # Usar el token personal de acceso
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/jchernandezUA/vinylOS-ua.git"
+          git fetch --all 
+          git checkout main
+          git merge -s ours a release/$version
+          git push origin main --force-with-lease
+
       - name: Release
         if: env.release_found == 'true'
         uses: ncipollo/release-action@v1.10.0
@@ -147,16 +143,3 @@ jobs:
           removeArtifacts: false
           replacesArtifacts: true
           token: ${{ secrets.GH_TOKEN }}
-
-      - name: Merge release branch into main
-        if: env.release_found == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }} # Usar el token personal de acceso
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/jchernandezUA/vinylOS-ua.git"
-          git fetch --all 
-          git checkout main
-          git merge --ff-only --allow-unrelated-histories release/$version
-          git push origin main
