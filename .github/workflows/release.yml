@@ -45,7 +45,7 @@ jobs:
       - name: Check for Release version in commit message
         id: check_version
         run: |
-          if [[ "${{ env.commit_message }}" =~ ^Release\ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
+          if [[ "${{ env.commit_message }}" =~ Release\ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
             echo "Valid release message found."
             echo "release_found=true" >> $GITHUB_ENV
           else
