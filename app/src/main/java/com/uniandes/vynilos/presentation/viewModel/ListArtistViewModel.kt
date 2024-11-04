@@ -21,14 +21,8 @@ class ListArtistViewModel(
 
     fun getArtists() {
         viewModelScope.launch {
-            try {
-                viewModelScope.launch {
-                    _artistResult.value = DataState.Loading
-                    _artistResult.value = artistRepository.getArtists() //success or error
-                }
-            } catch (e: Exception) {
-                _artistResult.value = DataState.Error(e)
-            }
+            _artistResult.value = DataState.Loading
+            _artistResult.value = artistRepository.getArtists() //success or error
         }
     }
 }
