@@ -1,4 +1,4 @@
-package com.uniandes.vynilos.presentation
+package com.uniandes.vynilos.presentation.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

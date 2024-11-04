@@ -1,6 +1,7 @@
 package com.uniandes.vynilos.data.model
 
 import com.uniandes.vynilos.data.remote.entity.AlbumResponse
+import java.io.Serializable
 
 
 data class Album(
@@ -8,7 +9,7 @@ data class Album(
     val name: String,
     val cover: String,
     val description: String,
-)
+): Serializable
 
 
 fun AlbumResponse.DTO() = Album(
