@@ -4,7 +4,8 @@ import retrofit2.HttpException
 import java.io.IOException
 
 sealed class DataState<out T> {
-    object Loading : DataState<Nothing>()
+    data object Idle : DataState<Nothing>()
+    data object Loading : DataState<Nothing>()
     data class Success<out T> (val data: T): DataState<T>()
     class Error(val error: DataError): DataState<Nothing>() {
         constructor(exception: Exception) : this(exception.let {

@@ -129,6 +129,7 @@ fun ArtistScreen(
                                     modifier = Modifier.align(Alignment.CenterHorizontally)
                                 )
                             }
+                            else -> {}
                         }
                     }
                 }
