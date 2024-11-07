@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
@@ -44,7 +45,11 @@ import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.common.NetworkModule
 import com.uniandes.vynilos.common.observeAsActions
+import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.model.Artist
+import com.uniandes.vynilos.data.remote.entity.AlbumResponse
+import com.uniandes.vynilos.data.remote.entity.ArtistResponse
+import com.uniandes.vynilos.data.remote.service.AlbumServiceAdapter
 import com.uniandes.vynilos.data.remote.service.ArtistServiceAdapter
 import com.uniandes.vynilos.data.repository.ArtistRepositoryImpl
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
@@ -170,22 +175,27 @@ fun ArtistCard(artist: Artist) {
                     .weight(1f)
                     .padding(start = 8.dp)
             ) {
-                Text(
-                    text = artist.name,
-                    color = MaterialTheme.colors.background,
-                )
+                Text(text = artist.name)
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
     }
 }
-@Preview(showBackground = true)
+@PreviewLightDark()
 @Composable
 fun ArtistScreenPreview() {
     val viewModel = ListArtistViewModel(
         ArtistRepositoryImpl(
-            NetworkModule.createService(ArtistServiceAdapter::class.java
-            )
+            object : ArtistServiceAdapter {
+                override suspend fun getArtist(): List<ArtistResponse> {
+                    return listOf(ArtistResponse(
+                        id = 1,
+                        name = "Michael Jackson",
+                        description = "asdsadsadasddsadasda",
+                        image = "https://google.com/image"
+                    ))
+                }
+            }
         )
     )
     ArtistScreen(viewModel)
