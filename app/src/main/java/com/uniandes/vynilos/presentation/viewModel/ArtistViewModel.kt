@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ArtistViewModel(
+    val artist: Artist,
     private val artistRepository: ArtistRepository
 ) : ViewModel() {
 
@@ -17,10 +18,10 @@ class ArtistViewModel(
     val artistResult: StateFlow<DataState<Artist>?> = _artistResult
 
 
-    fun getArtist(id: Int) {
+    fun getArtist() {
         viewModelScope.launch {
             _artistResult.value = DataState.Loading
-            _artistResult.value = artistRepository.getArtist(id)
+            _artistResult.value = artistRepository.getArtist(artist.id)
         }
     }
 

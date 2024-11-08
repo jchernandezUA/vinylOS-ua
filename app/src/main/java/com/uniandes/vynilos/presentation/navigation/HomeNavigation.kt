@@ -1,8 +1,6 @@
 package com.uniandes.vynilos.presentation.navigation
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -25,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -39,7 +36,7 @@ import com.uniandes.vynilos.R
 import com.uniandes.vynilos.presentation.activities.AlbumActivity
 import com.uniandes.vynilos.presentation.navigation.BottomNavItem.Companion.BOTTOM_ITEMS
 import com.uniandes.vynilos.presentation.ui.screen.AlbumListScreen
-import com.uniandes.vynilos.presentation.ui.screen.ArtistScreen
+import com.uniandes.vynilos.presentation.ui.screen.artist.ArtistScreen
 import com.uniandes.vynilos.presentation.ui.screen.NotMainScreen
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel

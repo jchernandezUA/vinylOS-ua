@@ -9,9 +9,11 @@ class NavigationActions (
 
 sealed class ActionType {
     data object ClickNotMain : ActionType()
+    data object OnBack: ActionType()
 }
 
 
 sealed class AlbumActions : ActionType() {
     class OnClickAlbum(val album: Album) : AlbumActions()
 }
+

@@ -2,8 +2,7 @@ package com.uniandes.vynilos.data.model
 
 import com.uniandes.vynilos.common.convertDateToTimestamp
 import com.uniandes.vynilos.data.remote.entity.ArtistResponse
-import com.uniandes.vynilos.data.remote.entity.MusicianResponse
-import com.uniandes.vynilos.data.remote.entity.PerformerPrizeResponse
+import java.io.Serializable
 
 
 data class Artist(
@@ -15,7 +14,7 @@ data class Artist(
     val albums: List<Album>,
     val musicians: List<Musician>,
     val performerPrizes: List<PerformerPrize>
-)
+): Serializable
 
 fun ArtistResponse.DTO() = Artist(
     id = id,
