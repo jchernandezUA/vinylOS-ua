@@ -17,7 +17,11 @@ val ARTIST_RESPONSE_LIST = List(10) { index ->
         id = index + 1,
         name = "Artist Name ${index + 1}",
         image = "https://www.example.com/artist${index + 1}.png",
-        description = "Description of artist ${index + 1}"
+        description = "Description of artist ${index + 1}",
+        creationDate = "2024-11-08T15:35:22.123Z",
+        albums = emptyList(),
+        musicians = emptyList(),
+        performerPrizes = emptyList()
     )
 }
 
@@ -33,7 +37,10 @@ val ALBUM_RESPONSE_LIST = List(10) { index ->
         id = index + 1,
         name = "Album Name ${index + 1}",
         cover = "https://www.example.com/album${index + 1}.png",
-        description = "Description of album ${index + 1}"
+        description = "Description of album ${index + 1}",
+        releaseDate = "2024-11-08T15:35:22.123Z",
+        genre = "",
+        recordLabel = ""
     )
 }
 
@@ -50,7 +57,11 @@ fun createArtist(
         id = id,
         name = name,
         image = image,
-        description = description
+        description = description,
+        albums = emptyList(),
+        musicians = emptyList(),
+        performerPrizes = emptyList(),
+        creationDate = 0
     )
 }
 
@@ -64,6 +75,9 @@ fun createAlbum(
         id = id,
         name = name,
         cover = cover,
-        description = description
+        description = description,
+        releaseDate = 0,
+        genre = "",
+        recordLabel = ""
     )
 }
