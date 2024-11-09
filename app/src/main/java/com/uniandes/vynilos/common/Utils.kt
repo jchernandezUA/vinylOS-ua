@@ -2,6 +2,7 @@ package com.uniandes.vynilos.common
 
 import android.content.Intent
 import android.os.Build
+import android.os.Parcelable
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -16,12 +17,12 @@ inline fun <T> resultOrError(block: () -> T): DataState<T> {
     }
 }
 
-inline fun <reified T : Serializable> Intent.getSafeSerializableExtra(key: String): T? {
+inline fun <reified T : Parcelable> Intent.getSafeParcelableExtra(key: String): T? {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        getSerializableExtra(key, T::class.java)
+        getParcelableExtra(key, T::class.java)
     } else {
         @Suppress("DEPRECATION")
-        getSerializableExtra(key) as? T
+        getParcelableExtra(key) as? T
     }
 }
 

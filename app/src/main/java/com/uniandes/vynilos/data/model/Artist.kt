@@ -1,10 +1,11 @@
 package com.uniandes.vynilos.data.model
 
+import android.os.Parcelable
 import com.uniandes.vynilos.common.convertDateToTimestamp
 import com.uniandes.vynilos.data.remote.entity.ArtistResponse
-import java.io.Serializable
+import kotlinx.parcelize.Parcelize
 
-
+@Parcelize
 data class Artist(
     val id: Int,
     val name: String,
@@ -14,7 +15,7 @@ data class Artist(
     val albums: List<Album>,
     val musicians: List<Musician>,
     val performerPrizes: List<PerformerPrize>
-): Serializable
+): Parcelable
 
 fun ArtistResponse.DTO() = Artist(
     id = id,

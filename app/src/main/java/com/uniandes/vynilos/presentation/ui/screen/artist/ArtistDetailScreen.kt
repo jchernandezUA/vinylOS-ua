@@ -137,7 +137,7 @@ private fun ArtistTopBar(onBack: () -> Unit) {
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                    contentDescription = ""
+                    contentDescription = stringResource(R.string.back)
                 )
             }
         },

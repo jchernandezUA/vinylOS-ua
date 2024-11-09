@@ -1,16 +1,19 @@
 package com.uniandes.vynilos.data.model
 
+import android.os.Parcelable
+import com.uniandes.vynilos.common.convertDateToTimestamp
 import com.uniandes.vynilos.data.remote.entity.PerformerPrizeResponse
-import java.io.Serializable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class PerformerPrize(
     val id: Int,
-    val premiationDate: String
-): Serializable
+    val premiationDate: Long
+): Parcelable
 
 fun PerformerPrizeResponse.DTO() = PerformerPrize(
     id = id,
-    premiationDate = premiationDate
+    premiationDate = premiationDate.convertDateToTimestamp()
 )
 
 fun List<PerformerPrizeResponse>.DTO() = map { it.DTO() }

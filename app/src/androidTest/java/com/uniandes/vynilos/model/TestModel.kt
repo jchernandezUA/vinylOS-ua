@@ -18,7 +18,7 @@ val ARTIST_RESPONSE_LIST = List(10) { index ->
         name = "Artist Name ${index + 1}",
         image = "https://www.example.com/artist${index + 1}.png",
         description = "Description of artist ${index + 1}",
-        creationDate = "",
+        creationDate = "2024-11-08T15:35:22.123Z",
         albums = emptyList(),
         musicians = emptyList(),
         performerPrizes = emptyList()
@@ -38,7 +38,7 @@ val ALBUM_RESPONSE_LIST = List(10) { index ->
         name = "Album Name ${index + 1}",
         cover = "https://www.example.com/album${index + 1}.png",
         description = "Description of album ${index + 1}",
-        releaseDate = "",
+        releaseDate = "2024-11-08T15:35:22.123Z",
         genre = "",
         recordLabel = ""
     )

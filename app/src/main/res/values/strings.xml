@@ -8,4 +8,5 @@
     <string name="visitor">VISITANTE</string>
     <string name="try_again">Intentar de nuevo</string>
     <string name="no_albums_artist">El artista no tiene álbumes aún</string>
+    <string name="back">Atras</string>
 </resources>

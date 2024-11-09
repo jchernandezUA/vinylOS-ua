@@ -25,7 +25,7 @@ object PreviewModel {
 
     val performerPrize = PerformerPrize(
         id = 1,
-        premiationDate = "1970-01-01T00:00:00.000Z"
+        premiationDate = 1731108106
     )
 
     val artist = Artist(
@@ -33,8 +33,8 @@ object PreviewModel {
         name = "The Beatles",
         description = "description",
         image = "https:/immage.com",
-        albums = List(15) { index -> album },
-        musicians = List(15) { index -> musician},
+        albums = List(15) { _ -> album },
+        musicians = List(15) { _ -> musician},
         performerPrizes = List(15) {performerPrize},
         creationDate = 1731108106
     )

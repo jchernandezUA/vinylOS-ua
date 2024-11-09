@@ -15,5 +15,5 @@ val artistModule = module {
     single { createService(ArtistServiceAdapter::class.java) }
     factory<ArtistRepository> { ArtistRepositoryImpl(get()) }
     factory { ListArtistViewModel(get()) }
-    viewModel { (artistId: Artist) -> ArtistViewModel(artistId, get()) }
+    viewModel { (artist: Artist) -> ArtistViewModel(artist, get()) }
 }
