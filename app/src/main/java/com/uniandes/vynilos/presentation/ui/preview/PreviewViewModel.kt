@@ -4,6 +4,7 @@ import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Artist
 import com.uniandes.vynilos.data.repository.ArtistRepository
 import com.uniandes.vynilos.presentation.viewModel.ArtistViewModel
+import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 
 object PreviewViewModel {
 
@@ -34,4 +35,7 @@ object PreviewViewModel {
             artist = artist,
         )
     )
+
+    fun getListArtistViewModel(artistList: List<Artist>? = List(10){PreviewModel.artist})
+    = ListArtistViewModel(getArtistRepository(artistList = artistList))
 }

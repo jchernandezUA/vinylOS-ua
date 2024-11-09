@@ -52,6 +52,7 @@ import com.uniandes.vynilos.data.remote.entity.ArtistResponse
 import com.uniandes.vynilos.data.remote.service.AlbumServiceAdapter
 import com.uniandes.vynilos.data.remote.service.ArtistServiceAdapter
 import com.uniandes.vynilos.data.repository.ArtistRepositoryImpl
+import com.uniandes.vynilos.presentation.ui.preview.PreviewViewModel
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 
@@ -185,19 +186,5 @@ fun ArtistCard(artist: Artist) {
 @PreviewLightDark()
 @Composable
 fun ArtistScreenPreview() {
-    val viewModel = ListArtistViewModel(
-        ArtistRepositoryImpl(
-            object : ArtistServiceAdapter {
-                override suspend fun getArtist(): List<ArtistResponse> {
-                    return listOf(ArtistResponse(
-                        id = 1,
-                        name = "Michael Jackson",
-                        description = "asdsadsadasddsadasda",
-                        image = "https://google.com/image"
-                    ))
-                }
-            }
-        )
-    )
-    ArtistScreen(viewModel)
+    ArtistScreen(PreviewViewModel.getListArtistViewModel())
 }
