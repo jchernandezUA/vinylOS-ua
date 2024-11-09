@@ -38,6 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -49,7 +50,7 @@ import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.repository.AlbumRepositoryImpl
 import com.uniandes.vynilos.presentation.navigation.AlbumActions
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
-import com.uniandes.vynilos.presentation.ui.screen.ui.theme.VynilOSTheme
+import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
 
 
@@ -203,7 +204,6 @@ fun AlbumsCard(
             Text(
                 text = album.name,
                 fontSize = 16.sp,
-                color = Color.Black,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = 8.dp)
             )
@@ -212,7 +212,7 @@ fun AlbumsCard(
 
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 fun AlbumListScreenPreview() {
     val albumServiceAdapter = NetworkModule.albumServiceAdapter
