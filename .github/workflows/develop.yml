@@ -28,6 +28,14 @@ jobs:
             distribution: 'zulu'
             java-version: '17'
             cache: 'gradle'
+        - name: Run Lint checks
+          run: ./gradlew lint
+
+        - name: Upload Lint Report as Artifact
+          uses: actions/upload-artifact@v3
+          with:
+            name: lint-report
+            path: /home/runner/work/vinylOS-ua/vinylOS-ua/app/build/reports/lint/lint-report.html
 
         - name: run tests
           uses: reactivecircus/android-emulator-runner@v2
