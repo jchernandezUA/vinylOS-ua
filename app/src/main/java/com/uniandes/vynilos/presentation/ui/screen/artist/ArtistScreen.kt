@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
@@ -36,22 +35,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
-import com.uniandes.vynilos.common.NetworkModule
-import com.uniandes.vynilos.common.observeAsActions
-import com.uniandes.vynilos.data.model.Album
+import com.uniandes.vynilos.common.ObserveAsActions
 import com.uniandes.vynilos.data.model.Artist
-import com.uniandes.vynilos.data.remote.entity.AlbumResponse
-import com.uniandes.vynilos.data.remote.entity.ArtistResponse
-import com.uniandes.vynilos.data.remote.service.AlbumServiceAdapter
-import com.uniandes.vynilos.data.remote.service.ArtistServiceAdapter
-import com.uniandes.vynilos.data.repository.ArtistRepositoryImpl
 import com.uniandes.vynilos.presentation.ui.preview.PreviewViewModel
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
@@ -71,7 +62,7 @@ fun ArtistScreen(
     }
 
 
-    viewModel.artistResult.observeAsActions {
+    viewModel.artistResult.ObserveAsActions {
         if (it is DataState.Error) {
             errorMessage = it.error.message
         }

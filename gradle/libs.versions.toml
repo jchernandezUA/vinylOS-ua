@@ -1,7 +1,6 @@
 [versions]
-agp = "8.6.0"
+agp = "8.6.1"
 coilCompose = "2.4.0"
-coilComposeVersion = "2.2.2"
 kotlin = "1.9.0"
 coreKtx = "1.10.1"
 junit = "4.13.2"
@@ -17,14 +16,12 @@ materialIconsExtended = "1.7.5"
 retrofit = "2.9.0"
 koin = "4.0.0"
 mockk = "1.13.13"
-archCoreTesting = "1.1.1"
 kotlinxCoroutinesTest = "1.6.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
-coil-compose-v222 = { module = "io.coil-kt:coil-compose", version.ref = "coilComposeVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -46,7 +43,6 @@ retrofit2-converter = { module = "com.squareup.retrofit2:converter-gson", versio
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockk" }
-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
