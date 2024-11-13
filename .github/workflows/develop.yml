@@ -42,8 +42,3 @@ jobs:
           with:
             api-level: 29
             script: ./gradlew connectedCheck
-        - name: Upload Lint Report as Artifact
-          uses: actions/upload-artifact@v3
-          with:
-            name: lint-report
-            path: build/reports/lint-results.html  # Ruta del reporte generado
