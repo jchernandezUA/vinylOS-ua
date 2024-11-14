@@ -38,16 +38,9 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun VynilOSTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
@@ -61,7 +54,7 @@ fun VynilOSTheme(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VynilOSTopAppBarColors() =
+fun vynilOSTopAppBarColors() =
     TopAppBarDefaults
         .topAppBarColors(
             containerColor = Color.Black,

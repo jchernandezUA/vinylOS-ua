@@ -49,14 +49,12 @@ import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.common.timestampToYear
 import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.model.Artist
-import com.uniandes.vynilos.data.model.DTO
-import com.uniandes.vynilos.data.repository.ArtistRepositoryImpl
 import com.uniandes.vynilos.presentation.navigation.ActionType
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.ui.preview.PreviewModel
 import com.uniandes.vynilos.presentation.ui.preview.PreviewViewModel
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
-import com.uniandes.vynilos.presentation.ui.theme.VynilOSTopAppBarColors
+import com.uniandes.vynilos.presentation.ui.theme.vynilOSTopAppBarColors
 import com.uniandes.vynilos.presentation.viewModel.ArtistViewModel
 
 
@@ -141,7 +139,7 @@ private fun ArtistTopBar(onBack: () -> Unit) {
                 )
             }
         },
-        colors = VynilOSTopAppBarColors()
+        colors = vynilOSTopAppBarColors()
     )
 }
 

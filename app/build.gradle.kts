@@ -65,13 +65,16 @@ android {
     }
 
     lint {
+        lintConfig = file("lint.xml")
         abortOnError = false
         xmlReport = false
         textReport = false
         htmlReport = true
         htmlOutput = layout.buildDirectory.file("reports/lint/lint-report.html").get().asFile
         warningsAsErrors = false
-        disable += listOf("GradleDependency")
+        abortOnError = true
+        warningsAsErrors = true
+        disable += listOf("GradleDependency", "Typos")
     }
 }
 

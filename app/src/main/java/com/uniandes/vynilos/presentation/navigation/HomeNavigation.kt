@@ -8,10 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -69,7 +70,7 @@ fun HomeNavigation(
                 ) {
                     Text(
                         text = stringResource(R.string.visitor),
-                        color =  MaterialTheme.colors.primary,
+                        color =  MaterialTheme.colorScheme.primary,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Right,
@@ -141,15 +142,15 @@ fun BottomBar(
     val selectedItem: Int by selectedTab
 
     Box {
-        BottomNavigation(
-            backgroundColor = MaterialTheme.colors.onBackground,
+        BottomAppBar (
             modifier = Modifier.fillMaxWidth(),
+            containerColor = Color.Black,
         ) {
-            val selectedColor = MaterialTheme.colors.primary
+            val selectedColor = MaterialTheme.colorScheme.primary
             val unselectedColor = Color.White.copy(0.4f)
             for (i in items.indices) {
                 val item = items[i]
-                BottomNavigationItem(
+                NavigationBarItem(
                     icon = {
                         Icon(
                             item.icon,
@@ -162,11 +163,13 @@ fun BottomBar(
                             color = if (items[selectedItem] == item)
                                 selectedColor else
                                 unselectedColor,
-                            style = MaterialTheme.typography.caption
+                            style = MaterialTheme.typography.labelSmall
                         )
                     },
-                    selectedContentColor = selectedColor,
-                    unselectedContentColor = unselectedColor,
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.Black,
+                        selectedIconColor = MaterialTheme.colorScheme.primary,
+                    ),
                     alwaysShowLabel = true,
                     selected = items[selectedItem] == item,
                     onClick = {
