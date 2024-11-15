@@ -40,7 +40,11 @@ val ALBUM_RESPONSE_LIST = List(10) { index ->
         description = "Description of album ${index + 1}",
         releaseDate = "2024-11-08T15:35:22.123Z",
         genre = "",
-        recordLabel = ""
+        recordLabel = "",
+        tracks = emptyList(),
+        performers = emptyList(),
+        comments = emptyList(),
+
     )
 }
 
@@ -78,6 +82,9 @@ fun createAlbum(
         description = description,
         releaseDate = 0,
         genre = "",
-        recordLabel = ""
+        recordLabel = "",
+        tracks = emptyList(),
+        performers = emptyList(),
+        comments = emptyList(),
     )
 }
