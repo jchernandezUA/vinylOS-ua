@@ -22,7 +22,6 @@ class AlbumActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ///se recibe el album por medio del intent
         val album = intent.getSafeParcelableExtra<Album>(ALBUM)
         if (album == null) finish()
 

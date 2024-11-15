@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.uniandes.vynilos.data.model
 
 import android.os.Parcelable

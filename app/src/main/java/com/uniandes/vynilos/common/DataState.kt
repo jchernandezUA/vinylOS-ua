@@ -12,13 +12,11 @@ sealed class DataState<out T> {
             when(exception) {
                 is IOException  -> {
                     DataError(
-                        message = exception.message?:"No connection available",
-                        statusCode = -1)
+                        message = exception.message?:"No connection available")
                 }
                 is HttpException -> {
                     DataError(
-                        message = exception.message?:"Not defined error",
-                        statusCode = exception.code()
+                        message = exception.message?:"Not defined error"
                     )
                 }
                 else -> {

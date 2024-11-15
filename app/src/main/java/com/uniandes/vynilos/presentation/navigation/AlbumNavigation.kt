@@ -11,7 +11,6 @@ import com.uniandes.vynilos.presentation.viewModel.AlbumViewModel
 
 @Composable
 fun AlbumNavigation(
-    /*solo ejemplo, usar viewModel*/
     viewModel: AlbumViewModel,
     onFinish: () -> Unit
 ) {

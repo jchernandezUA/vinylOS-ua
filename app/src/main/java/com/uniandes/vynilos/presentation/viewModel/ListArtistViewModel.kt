@@ -13,9 +13,7 @@ class ListArtistViewModel(
     private val artistRepository: ArtistRepository
 ) : ViewModel() {
 
-    //cambiante
     private val _artistResult: MutableStateFlow<DataState<List<Artist>>?> = MutableStateFlow(null)
-    //referencia
     val artistResult: StateFlow<DataState<List<Artist>>?>
         get() = _artistResult
 
