@@ -12,8 +12,15 @@ object PreviewModel {
 
     private val tracks = Tracks(
         id = 1,
-        name = "El nombre de cancion",
-        duration ="10:30"
+        name = "The Beatles",
+        cover = "https:/immage.com",
+        releaseDate = 1731108106,
+        description = "dasdsadsadasda",
+        genre = "Rock",
+        recordLabel = "EMI",
+        tracks = List(2) {trakcs},
+        comments = List(2) {comment},
+        performers = List(2) {permorfer}
     )
 
 
@@ -42,14 +49,19 @@ object PreviewModel {
         creationDate = 1731108106
     )
 
+    val trakcs = Tracks(
+        id = 1,
+        name = "El cantor",
+        duration ="10:30"
+    )
 
-    private val comment = Comment(
+    val comment = Comment(
         id = 1,
         rating = 3,
         description = "pues ahí le va"
     )
 
-    private val permorfer = Performer(
+    val permorfer = Performer(
         id = 1,
         name = "Rubén Blades",
         description = "Es un mal actor",
