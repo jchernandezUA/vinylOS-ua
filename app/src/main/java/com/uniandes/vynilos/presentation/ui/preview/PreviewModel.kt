@@ -12,7 +12,7 @@ object PreviewModel {
 
     private val tracks = Tracks(
         id = 1,
-        name = "El cantor",
+        name = "El nombre de cancion",
         duration ="10:30"
     )
 

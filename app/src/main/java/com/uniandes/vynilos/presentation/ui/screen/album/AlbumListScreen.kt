@@ -207,7 +207,6 @@ fun AlbumsCard(
             )
         }
     }
-
 }
 
 @PreviewLightDark
