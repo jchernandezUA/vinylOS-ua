@@ -29,9 +29,9 @@ fun AlbumResponse.DTO() = Album(
     genre = genre,
     recordLabel = recordLabel,
     releaseDate = releaseDate.convertDateToTimestamp(),
-    tracks = tracks.DTO(),
-    performers = performers.DTO(),
-    comments = comments.DTO()
+    tracks = tracks?.DTO() ?: emptyList(),
+    performers = performers?.DTO()?: emptyList(),
+    comments = comments?.DTO()?: emptyList()
 )
 
 fun List<AlbumResponse>.DTO() = map { it.DTO() }

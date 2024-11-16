@@ -20,7 +20,7 @@ fun PerformerResponse.DTO() = Performer(
     name = name,
     image = image,
     description = description,
-    birthDate = birthDate.convertDateToTimestamp()
+    birthDate = birthDate?.convertDateToTimestamp() ?: 0
 )
 
 fun List<PerformerResponse>.DTO() = map { it.DTO() }
