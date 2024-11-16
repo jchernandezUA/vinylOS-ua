@@ -259,12 +259,12 @@ private fun AlbumDetailView(album : Album){
             )
         }
 
-        if (album.tracks.isNotEmpty()) {
-            // Lista horizontal de canciones
-            item {
-                LazyRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(15.dp)
+        if(!album.tracks.isNullOrEmpty()) {
+            items(album.tracks) { track ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
                 ) {
                     items(album.tracks) { track ->
                         TrackCard(track = track) // Usamos la función TrackCard

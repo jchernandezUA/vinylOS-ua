@@ -12,15 +12,8 @@ object PreviewModel {
 
     private val tracks = Tracks(
         id = 1,
-        name = "The Beatles",
-        cover = "https://i.pinimg.com/564x/aa/5f/ed/aa5fed7fac61cc8f41d1e79db917a7cd.jpg",
-        releaseDate = 1731108106,
-        description = "Buscando América es el primer álbum de la banda de Rubén Blades y Seis del Solar lanzado en 1984. La producción, bajo el sello Elektra, fusiona diferentes ritmos musicales tales como la salsa, reggae, rock, y el jazz latino. El disco fue grabado en Eurosound Studios en Nueva York entre mayo y agosto de 1983.",
-        genre = "Rock",
-        recordLabel = "EMI",
-        tracks = List(2) {trakcs},
-        comments = List(2) {comment},
-        performers = List(2) {permorfer}
+        name = "El cantor",
+        duration ="10:30"
     )
 
 
@@ -49,19 +42,14 @@ object PreviewModel {
         creationDate = 1731108106
     )
 
-    val trakcs = Tracks(
-        id = 1,
-        name = "El cantor",
-        duration ="10:30"
-    )
 
-    val comment = Comment(
+    private val comment = Comment(
         id = 1,
         rating = 3,
         description = "pues ahí le va"
     )
 
-    val permorfer = Performer(
+    private val permorfer = Performer(
         id = 1,
         name = "Rubén Blades",
         description = "Es un mal actor",
