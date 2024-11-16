@@ -244,7 +244,7 @@ private fun AlbumDetailView(album : Album){
             )
         }
 
-        if(album.tracks.isNotEmpty()) {
+        if(!album.tracks.isNullOrEmpty()) {
             items(album.tracks) { track ->
                 Card(
                     modifier = Modifier
