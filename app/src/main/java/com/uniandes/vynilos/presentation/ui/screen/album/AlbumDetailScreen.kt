@@ -1,6 +1,8 @@
 package com.uniandes.vynilos.presentation.ui.screen.album
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -53,10 +55,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Card
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.CardDefaults
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
+import com.uniandes.vynilos.data.model.Performer
+import com.uniandes.vynilos.data.model.Tracks
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -244,29 +259,15 @@ private fun AlbumDetailView(album : Album){
             )
         }
 
-        if(!album.tracks.isNullOrEmpty()) {
-            items(album.tracks) { track ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
+        if (album.tracks.isNotEmpty()) {
+            // Lista horizontal de canciones
+            item {
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(15.dp)
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = track.name,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Text(
-                            text = track.duration,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                    items(album.tracks) { track ->
+                        TrackCard(track = track) // Usamos la función TrackCard
                     }
                 }
             }
@@ -284,10 +285,208 @@ private fun AlbumDetailView(album : Album){
             }
         }
 
+        // Songs Section
+        item {
+            Text(
+                text = "Artistas:",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(top = 15.dp)
+            )
+        }
 
+        if (album.performers.isNotEmpty()) {
+            // Lista horizontal de canciones
+            item {
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(15.dp)
+                ) {
+                    items(album.performers) { performer ->
+                        PerformerCard(performer = performer) // Usamos la función TrackCard
+                    }
+                }
+            }
+        }else{
+            item {
+                Box(
+                    Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = stringResource(R.string.no_albums_artist),
+                        color = Color.Gray,
+                        modifier = Modifier.align(Center)
+                    )
+                }
+            }
+        }
+
+        // Comments Section
+        item {
+            Text(
+                text = "Comentarios:",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+        }
+
+        if(album.comments.isNotEmpty()){
+
+            items(album.comments) { comment ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp)
+                        .border(
+                            width = 1.dp,
+                            color = Color(0xFF613EEA)
+                        ),
+                    colors = CardDefaults.cardColors(
+                        //containerColor = Color.LightGray
+                        containerColor = Color.Transparent
+                    )
+                ) {
+                    Column(
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Text(
+                            text = comment.description,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        // Estrellas dinámicas según el rating
+                        Row(
+                            horizontalArrangement = Arrangement.Start,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(top = 4.dp) // Separación con la descripción
+                        ) {
+                            repeat(comment.rating) {
+                                Icon(
+                                    imageVector = Icons.Default.Star, // Estrella de Material Icons
+                                    contentDescription = null, // No se necesita descripción
+                                    tint = Color(0xFF613EEA), // Color personalizado
+                                    modifier = Modifier.size(16.dp) // Tamaño ajustado para las estrellas
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+        }else{
+            item {
+                Box(
+                    Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = stringResource(R.string.no_albums_artist),
+                        color = Color.Gray,
+                        modifier = Modifier.align(Center)
+                    )
+                }
+            }
+        }
     }
 }
 
+@Composable
+fun PerformerCard(
+    performer: Performer
+){
+    Card(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            //containerColor = Color.LightGray
+            containerColor = Color.Transparent
+        )
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth()
+        ) {
+
+            // Carga de la imagen usando Coil
+            Image(
+                painter = rememberAsyncImagePainter(performer.image),
+                contentDescription = "Imagen del Artista",
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
+
+            // Nombre del álbum
+            Text(
+                text = performer.name,
+                fontSize = 10.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+    }
+}
+
+
+@Composable
+fun TrackCard(track: Tracks) {
+    Card(
+        modifier = Modifier
+            .width(100.dp) // Ancho de la tarjeta
+            .height(100.dp)
+            .border(
+                width = 1.dp,
+                color = Color.Black
+            ),
+        colors = CardDefaults.cardColors(
+            //containerColor = Color.LightGray
+            containerColor = Color.Transparent
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally, // Centrar contenido horizontalmente
+            verticalArrangement = Arrangement.Top
+        ) {
+            // Ícono de canción
+            Icon(
+                imageVector = Icons.Default.MusicNote, // Material Icons
+                contentDescription = "Icono de canción",
+                tint = Color(0xFF613EEA),
+                modifier = Modifier
+                    .size(30.dp)
+                    .padding(end = 8.dp)
+            )
+
+            Spacer(modifier = Modifier.height(3.dp))
+
+                // Nombre de la canción
+                Text(
+                    text = track.name,
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    textAlign = TextAlign.Center
+                )
+
+                // Duración de la canción
+                Text(
+                    text = "Duración: ${track.duration}",
+                    style = MaterialTheme.typography.bodySmall,
+                    fontSize = 9.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center
+                )
+
+
+        }
+    }
+}
 
 @Composable
 private fun ExpandableDescription(description: String) {
