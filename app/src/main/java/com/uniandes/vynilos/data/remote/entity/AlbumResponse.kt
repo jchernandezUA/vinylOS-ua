@@ -12,9 +12,9 @@ data class AlbumResponse(
     val description: String,
     val genre: String,
     val recordLabel: String,
-    val tracks : List<TracksResponse>,
-    val performers : List<PerformerResponse>,
-    val comments : List<CommentResponse>
+    val tracks : List<TracksResponse>?,
+    val performers : List<PerformerResponse>?,
+    val comments : List<CommentResponse>?
 )
 
 data class CommentResponse(
@@ -28,7 +28,7 @@ data class PerformerResponse(
     val name: String,
     val image: String,
     val description: String,
-    val birthDate: String
+    val birthDate: String?
 )
 
 data class TracksResponse(
