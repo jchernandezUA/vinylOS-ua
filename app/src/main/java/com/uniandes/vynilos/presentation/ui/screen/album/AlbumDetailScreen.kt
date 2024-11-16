@@ -24,12 +24,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.presentation.navigation.ActionType
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
+import com.uniandes.vynilos.presentation.ui.preview.PreviewViewModel
+import com.uniandes.vynilos.presentation.ui.screen.artist.ArtistScreen
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTopAppBarColors
 import com.uniandes.vynilos.presentation.viewModel.AlbumViewModel
