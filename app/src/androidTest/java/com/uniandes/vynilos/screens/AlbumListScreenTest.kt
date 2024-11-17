@@ -8,10 +8,13 @@ import androidx.compose.ui.test.performClick
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Album
+import com.uniandes.vynilos.data.model.DTO
+import com.uniandes.vynilos.data.remote.entity.AlbumResponse
 import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.data.repository.ArtistRepository
 import com.uniandes.vynilos.data.repository.CollectorRepository
 import com.uniandes.vynilos.model.ALBUM_LIST
+import com.uniandes.vynilos.model.ALBUM_RESPONSE_LIST
 import com.uniandes.vynilos.model.DEFAULT_ERROR
 import com.uniandes.vynilos.presentation.navigation.HomeNavigation
 import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
@@ -30,8 +33,11 @@ class AlbumListScreenTest {
     private val albumRepository: AlbumRepository = mockk()
     private val collectorRepository: CollectorRepository = mockk()
 
-    private fun setUp(response: DataState<List<Album>>) {
-        setMockResponseAlbums(response)
+    private fun setUp(albumListResponse: DataState<List<Album>>, albumDetailResponse: AlbumResponse? = null) {
+        setMockResponseAlbums(albumListResponse)
+        albumDetailResponse?.let {
+            setMockResponseAlbumById(it)
+        }
         composeTestRule.setContent {
             HomeNavigation(
                 ListArtistViewModel(artistRepository),
@@ -44,6 +50,11 @@ class AlbumListScreenTest {
     private fun setMockResponseAlbums(response: DataState<List<Album>>) {
         coEvery { albumRepository.getAlbums() } returns response
     }
+
+    private fun setMockResponseAlbumById(albumResponse: AlbumResponse) {
+        coEvery { albumRepository.getAlbum(albumResponse.id) } returns DataState.Success(albumResponse.DTO())
+    }
+
 
     @Test
     fun testLoadEmptyAlbumScreen() {
@@ -88,5 +99,25 @@ class AlbumListScreenTest {
         composeTestRule.onNodeWithText(
             DEFAULT_ERROR
         ).assertIsDisplayed()
+    }
+    @Test
+    fun testNavigateToAlbumDetail()  {
+        // Given
+        val testList = ALBUM_LIST
+        val albumId = 1
+        val albumResponse: AlbumResponse = ALBUM_RESPONSE_LIST[albumId - 1]
+        setUp(DataState.Success(testList), albumResponse)
+        val test = setMockResponseAlbumById(albumResponse)
+
+        // When
+        composeTestRule.onNodeWithText(
+            composeTestRule.activity.getString(R.string.albums)
+        ).performClick()
+
+        composeTestRule.onNodeWithText(albumResponse.name).performClick()
+
+        // Then
+        composeTestRule.onNodeWithText(albumResponse.name).assertIsDisplayed()
+        composeTestRule.onNodeWithText(albumResponse.genre).assertIsDisplayed()
     }
 }
