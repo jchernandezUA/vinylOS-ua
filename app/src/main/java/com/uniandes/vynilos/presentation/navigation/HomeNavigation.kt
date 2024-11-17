@@ -36,6 +36,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.presentation.activities.AlbumActivity
+import com.uniandes.vynilos.presentation.activities.ArtistActivity
 import com.uniandes.vynilos.presentation.navigation.BottomNavItem.Companion.BOTTOM_ITEMS
 import com.uniandes.vynilos.presentation.ui.screen.AlbumListScreen
 import com.uniandes.vynilos.presentation.ui.screen.artist.ArtistScreen
@@ -94,7 +95,18 @@ fun HomeNavigation(
                 startDestination = BottomNavItem.Albums.baseRoute
             ) {
                 composable(BottomNavItem.Artists) {
-                    ArtistScreen(viewModel = listArtistViewModel)
+                    val context = LocalContext.current
+
+                    ArtistScreen(
+                        viewModel = listArtistViewModel,
+                        navigationActions = NavigationActions {
+                            if (it is ArtistActions.OnClickArtist) {
+                                val intent = Intent(context, ArtistActivity::class.java)
+                                intent.putExtra(ArtistActivity.ARTIST, it.artist)
+                                context.startActivity(intent)
+                            }
+                        }
+                    )
                 }
                 composable(BottomNavItem.Albums) {
 

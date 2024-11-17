@@ -25,9 +25,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.activities.AlbumActivity"
+        <activity
+            android:name=".presentation.activities.AlbumActivity"
             android:exported="true"
             android:theme="@style/Theme.VynilOS"/>
+        <activity
+            android:name=".presentation.activities.ArtistActivity"
+            android:exported="true"
+            android:theme="@style/Theme.VynilOS" />
     </application>
 
 </manifest>
