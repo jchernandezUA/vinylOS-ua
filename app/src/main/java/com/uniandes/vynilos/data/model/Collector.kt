@@ -20,8 +20,8 @@ fun CollectorResponse.toModel() = Collector(
     name = name,
     telephone = telephone,
     email = email,
-    comments = comments.map { it.toModel() },
-    favoritePerformers = favoritePerformers.map { it.toModel() },
+    comments = comments.map { it.DTO() },
+    favoritePerformers = favoritePerformers.map { it.DTO() },
     collectorAlbums = collectorAlbums.map { it.toModel() }
 )
 

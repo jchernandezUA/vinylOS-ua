@@ -10,11 +10,6 @@ data class CollectorResponse(
     val collectorAlbums: List<CollectorAlbumResponse> = emptyList()
 )
 
-data class CommentResponse(
-    val id: Int,
-    val description: String
-)
-
 data class CollectorAlbumResponse(
     val id: Int,
     val price: Double,
