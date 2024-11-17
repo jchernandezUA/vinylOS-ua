@@ -44,7 +44,7 @@ import com.uniandes.vynilos.presentation.navigation.ActionType
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.ui.preview.PreviewViewModel
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
-import com.uniandes.vynilos.presentation.ui.theme.VynilOSTopAppBarColors
+import com.uniandes.vynilos.presentation.ui.theme.vynilOSTopAppBarColors
 import com.uniandes.vynilos.presentation.viewModel.AlbumViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -146,7 +146,7 @@ private fun AlbumTopBar(onBack: () -> Unit) {
                 )
             }
         },
-        colors = VynilOSTopAppBarColors()
+        colors = vynilOSTopAppBarColors()
     )
 }
 
