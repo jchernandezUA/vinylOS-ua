@@ -1,12 +1,13 @@
 <resources>
     <string name="app_name">VynilOS</string>
     <string name="artists">Artistas</string>
-    <string name="albums">Albums</string>
-    <string name="collectors">Collectors</string>
-    <string name="no_artist">No artistas encontrados</string>
+    <string name="albums">Álbumes</string>
+    <string name="collectors">Coleccionistas</string>
+    <string name="no_artist">No se encontraron artistas</string>
     <string name="empty_message_album">No hay álbumes disponibles en este momento.</string>
     <string name="visitor">VISITANTE</string>
     <string name="try_again">Intentar de nuevo</string>
     <string name="no_albums_artist">El artista no tiene álbumes aún</string>
-    <string name="back">Atras</string>
+    <string name="back">Atrás</string>
+    <string name="no_collectors">No hay coleccionistas disponibles en este momento.</string>
 </resources>
