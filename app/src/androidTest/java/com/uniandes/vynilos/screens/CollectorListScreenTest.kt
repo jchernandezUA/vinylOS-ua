@@ -60,6 +60,8 @@ class CollectorListScreenTest {
 
         //then
         composeTestRule.onNodeWithText(text = collectors[0].name).assertIsDisplayed()
+        composeTestRule.onNodeWithText(text = collectors[0].email).assertIsDisplayed()
+        composeTestRule.onNodeWithText(text = collectors[0].telephone).assertIsDisplayed()
 
     }
 
