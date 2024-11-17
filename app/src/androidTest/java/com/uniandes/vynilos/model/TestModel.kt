@@ -55,7 +55,9 @@ val ALBUM_RESPONSE_LIST = List(10) { index ->
 val COLLECTOR_LIST = List(10) { i ->
     createCollectors(
         id = i + 1,
-        name = "Collector Name ${i + 1}"
+        name = "Collector Name ${i + 1}",
+        telephone = "123456789$i",
+        email = "test.$i@examplepetstore.com"
     )
 }
 
