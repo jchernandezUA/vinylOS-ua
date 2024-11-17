@@ -11,11 +11,13 @@ import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.model.Artist
 import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.data.repository.ArtistRepository
+import com.uniandes.vynilos.data.repository.CollectorRepository
 import com.uniandes.vynilos.model.ARTIST_LIST
 import com.uniandes.vynilos.model.DEFAULT_ERROR
 import com.uniandes.vynilos.presentation.navigation.HomeNavigation
 import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
+import com.uniandes.vynilos.presentation.viewModel.ListCollectorViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import org.junit.Before
@@ -28,6 +30,7 @@ class ArtistScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
     private val artistRepository: ArtistRepository = mockk()
     private val albumRepository: AlbumRepository = mockk()
+    private val collectorRepository: CollectorRepository = mockk()
 
     @Before
     fun setUp() {
@@ -35,7 +38,8 @@ class ArtistScreenTest {
         composeTestRule.setContent {
             HomeNavigation(
                 ListArtistViewModel(artistRepository),
-                ListAlbumViewModel(albumRepository)
+                ListAlbumViewModel(albumRepository),
+                ListCollectorViewModel(collectorRepository)
             )
         }
     }

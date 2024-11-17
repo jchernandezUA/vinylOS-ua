@@ -32,23 +32,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.presentation.activities.AlbumActivity
 import com.uniandes.vynilos.presentation.navigation.BottomNavItem.Companion.BOTTOM_ITEMS
 import com.uniandes.vynilos.presentation.ui.screen.AlbumListScreen
 import com.uniandes.vynilos.presentation.ui.screen.artist.ArtistScreen
-import com.uniandes.vynilos.presentation.ui.screen.NotMainScreen
+import com.uniandes.vynilos.presentation.ui.screen.collector.CollectorScreen
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
+import com.uniandes.vynilos.presentation.viewModel.ListCollectorViewModel
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeNavigation(
     listArtistViewModel: ListArtistViewModel,
-    listAlbumViewModel : ListAlbumViewModel
+    listAlbumViewModel : ListAlbumViewModel,
+    listCollectorViewModel: ListCollectorViewModel
 ) {
 
     val selectedTab = remember {
@@ -99,7 +102,7 @@ fun HomeNavigation(
 
                     AlbumListScreen(
                         viewModel = listAlbumViewModel,
-                        navigationActions = NavigationActions{
+                        navigationActions = NavigationActions {
 
                             if (it is AlbumActions.OnClickAlbum) {
                                 val intent = Intent(context, AlbumActivity::class.java)
@@ -111,9 +114,17 @@ fun HomeNavigation(
                     )
 
                 }
-                composable(BottomNavItem.Collectors) {
-                    NotMainScreen("collectors")
+                composable(BottomNavItem.Collectors.baseRoute) {
+                    CollectorScreen(
+                        viewModel = listCollectorViewModel
+                    )
                 }
+                /*composable("collector_detail/{collectorId}") { backStackEntry ->
+                    val collectorId = backStackEntry.arguments?.getString("collectorId")?.toIntOrNull()
+                    collectorId?.let {
+                        CollectorDetailScreen(collectorId = it)
+                    }
+                }*/
             }
         }
     }
