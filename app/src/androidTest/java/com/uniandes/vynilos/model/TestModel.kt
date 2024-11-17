@@ -2,6 +2,10 @@ package com.uniandes.vynilos.model
 
 import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.model.Artist
+import com.uniandes.vynilos.data.model.Collector
+import com.uniandes.vynilos.data.model.CollectorAlbum
+import com.uniandes.vynilos.data.model.Comment
+import com.uniandes.vynilos.data.model.Performer
 import com.uniandes.vynilos.data.remote.entity.AlbumResponse
 import com.uniandes.vynilos.data.remote.entity.ArtistResponse
 
@@ -48,6 +52,15 @@ val ALBUM_RESPONSE_LIST = List(10) { index ->
     )
 }
 
+val COLLECTOR_LIST = List(10) { i ->
+    createCollectors(
+        id = i + 1,
+        name = "Collector Name ${i + 1}",
+        telephone = "123456789$i",
+        email = "test.$i@examplepetstore.com"
+    )
+}
+
 const val DEFAULT_ERROR = "Something went wrong"
 const val NOT_DEFINED_ERROR = "Not defined error"
 
@@ -88,3 +101,21 @@ fun createAlbum(
         comments = emptyList(),
     )
 }
+
+fun createCollectors(
+    id: Int = 0,
+    name: String = "Collector Name",
+    telephone: String = "1234567890",
+    email: String = "james.a.garfield@examplepetstore.com",
+    comments : List<Comment> = emptyList(),
+    favoriteArtists : List<Performer>  = emptyList(),
+    collectorAlbums : List<CollectorAlbum>  = emptyList()
+) = Collector(
+    id,
+    name,
+    telephone,
+    email,
+    comments,
+    favoriteArtists,
+    collectorAlbums
+)
