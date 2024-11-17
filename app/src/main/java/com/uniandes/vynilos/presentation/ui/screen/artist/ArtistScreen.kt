@@ -2,6 +2,7 @@ package com.uniandes.vynilos.presentation.ui.screen.artist
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,17 +42,23 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
+import com.uniandes.vynilos.common.NetworkModule
 import com.uniandes.vynilos.common.ObserveAsActions
 import com.uniandes.vynilos.data.model.Artist
+import com.uniandes.vynilos.data.repository.AlbumRepositoryImpl
+import com.uniandes.vynilos.data.repository.ArtistRepositoryImpl
+import com.uniandes.vynilos.presentation.navigation.ArtistActions
+import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.ui.preview.PreviewViewModel
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
+import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun ArtistScreen(
     viewModel: ListArtistViewModel,
-    //navigationActions: NavigationActions = NavigationActions()
+    navigationActions: NavigationActions = NavigationActions()
 ) {
     val artistsResult by viewModel.artistResult.collectAsState()
 
@@ -102,8 +109,13 @@ fun ArtistScreen(
                                         verticalArrangement = Arrangement.spacedBy(8.dp),
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
-                                        items(data) { artist ->
-                                            ArtistCard(artist)
+                                        items(data) {
+                                            artist ->
+                                            ArtistCard(artist) {
+                                                navigationActions.onAction(
+                                                    ArtistActions.OnClickArtist(artist)
+                                                )
+                                            }
                                         }
                                     }
                                 } else {
@@ -131,11 +143,12 @@ fun ArtistScreen(
 }
 
 @Composable
-fun ArtistCard(artist: Artist) {
+fun ArtistCard(artist: Artist, onItemClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .padding(vertical = 4.dp)
+            .clickable { onItemClick() }
     ) {
         Row(
             modifier = Modifier
@@ -177,5 +190,10 @@ fun ArtistCard(artist: Artist) {
 @PreviewLightDark()
 @Composable
 fun ArtistScreenPreview() {
-    ArtistScreen(PreviewViewModel.getListArtistViewModel())
+    val artistServiceAdapter = NetworkModule.artistServiceAdapter
+    val artistRepository = ArtistRepositoryImpl(artistServiceAdapter)
+    val viewModel = ListArtistViewModel(
+        artistRepository
+    )
+    ArtistScreen(viewModel)
 }

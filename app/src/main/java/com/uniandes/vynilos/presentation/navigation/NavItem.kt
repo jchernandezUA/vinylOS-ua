@@ -9,6 +9,8 @@ sealed class NavItem (val baseRoute: String) {
     object  Main: NavItem("main")
     object  NotMain: NavItem("not_main")
     object  AlbumDetail: NavItem("album_detail")
+    object  ArtistDetail: NavItem("artist_detail")
+
 }
 
 fun NavGraphBuilder.composable(
