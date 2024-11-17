@@ -18,7 +18,7 @@ data class Performer(
 fun PerformerResponse.DTO() = Performer(
     id = id,
     name = name,
-    image = image,
+    image = image?:"",
     description = description,
     birthDate = birthDate?.convertDateToTimestamp() ?: 0
 )

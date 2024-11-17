@@ -44,7 +44,6 @@ import com.uniandes.vynilos.presentation.navigation.ActionType
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.ui.preview.PreviewViewModel
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
-import com.uniandes.vynilos.presentation.ui.theme.VynilOSTopAppBarColors
 import com.uniandes.vynilos.presentation.viewModel.AlbumViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -53,7 +52,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -72,6 +70,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.uniandes.vynilos.data.model.Performer
 import com.uniandes.vynilos.data.model.Tracks
+import com.uniandes.vynilos.presentation.ui.theme.vynilOSTopAppBarColors
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -146,7 +145,7 @@ private fun AlbumTopBar(onBack: () -> Unit) {
                 )
             }
         },
-        colors = VynilOSTopAppBarColors()
+        colors = vynilOSTopAppBarColors()
     )
 }
 

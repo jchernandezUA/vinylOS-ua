@@ -23,14 +23,6 @@ data class CommentResponse(
     val rating: Int
 )
 
-data class PerformerResponse(
-    val id: Int,
-    val name: String,
-    val image: String,
-    val description: String,
-    val birthDate: String?
-)
-
 data class TracksResponse(
     val id: Int,
     val name: String,
