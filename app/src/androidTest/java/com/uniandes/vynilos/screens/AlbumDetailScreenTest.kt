@@ -18,7 +18,7 @@ import io.mockk.mockk
 import org.junit.Rule
 import org.junit.Test
 
-class AlbumDetalScreenTest {
+class AlbumDetailScreenTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()

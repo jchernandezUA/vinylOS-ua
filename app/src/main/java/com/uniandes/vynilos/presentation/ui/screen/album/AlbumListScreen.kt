@@ -1,4 +1,4 @@
-package com.uniandes.vynilos.presentation.ui.screen
+package com.uniandes.vynilos.presentation.ui.screen.album
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -15,10 +15,10 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -109,9 +109,7 @@ fun AlbumListScreen(
                                 }
                             }
                             else{
-                                // Mostrar mensaje cuando no hay álbumes disponibles
-                                CardMensajes(mensaje = stringResource(R.string.empty_message_album)
-                                )
+                                CardMessage(message = stringResource(R.string.empty_message_album))
                             }
                         }
                         is DataState.Error -> {
@@ -121,9 +119,7 @@ fun AlbumListScreen(
                                 modifier = Modifier.align(Alignment.CenterHorizontally)
                             )
                         }
-                        else -> {
-                            // quedo por defecto, teniendo en cuenta que el when necesita un else
-                        }
+                        else -> {}
                     }
                 }
             }
@@ -134,7 +130,7 @@ fun AlbumListScreen(
 
 
 @Composable
-fun CardMensajes(mensaje: String) {
+fun CardMessage(message: String) {
     Card(
         modifier = Modifier
             .padding(16.dp)
@@ -153,7 +149,7 @@ fun CardMensajes(mensaje: String) {
         ) {
 
             Text(
-                text = mensaje,
+                text = message,
                 fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.SemiBold,
@@ -188,17 +184,15 @@ fun AlbumsCard(
                 .fillMaxWidth()
         ) {
 
-            // Carga de la imagen usando Coil
             Image(
                 painter = rememberAsyncImagePainter(album.cover),
-                contentDescription = "Imagen del álbum",
+                contentDescription = album.name,
                 modifier = Modifier
                     .size(100.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
 
-            // Nombre del álbum
             Text(
                 text = album.name,
                 fontSize = 16.sp,

@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.de.undercouch.gradle.tasks.download.org.apache.commons.logging.LogFactory.release
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)

@@ -29,7 +29,6 @@ class AlbumViewModelTest {
     private lateinit var viewModel: AlbumViewModel
     private val testDispatcher = StandardTestDispatcher()
 
-    // Usando el primer álbum de ALBUM_LIST como dato ficticio
     private val testAlbum = ALBUM_LIST.first()
 
     @Before

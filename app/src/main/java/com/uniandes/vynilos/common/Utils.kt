@@ -1,9 +1,10 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.uniandes.vynilos.common
 
 import android.content.Intent
 import android.os.Build
 import android.os.Parcelable
-import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale

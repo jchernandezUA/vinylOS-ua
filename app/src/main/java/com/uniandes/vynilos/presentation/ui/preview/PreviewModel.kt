@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.uniandes.vynilos.presentation.ui.preview
 
 import com.uniandes.vynilos.data.model.Album
@@ -16,16 +18,13 @@ object PreviewModel {
         duration ="10:30"
     )
 
-
-
-
-    val musician = Musician(
+    private val musician = Musician(
         id = 1,
         name = "The Beatles",
         instrument = "Guitar"
     )
 
-    val performerPrize = PerformerPrize(
+    private val performerPrize = PerformerPrize(
         id = 1,
         premiationDate = 1731108106
     )

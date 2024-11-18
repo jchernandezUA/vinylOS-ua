@@ -38,7 +38,7 @@ import com.uniandes.vynilos.R
 import com.uniandes.vynilos.presentation.activities.AlbumActivity
 import com.uniandes.vynilos.presentation.activities.ArtistActivity
 import com.uniandes.vynilos.presentation.navigation.BottomNavItem.Companion.BOTTOM_ITEMS
-import com.uniandes.vynilos.presentation.ui.screen.AlbumListScreen
+import com.uniandes.vynilos.presentation.ui.screen.album.AlbumListScreen
 import com.uniandes.vynilos.presentation.ui.screen.artist.ArtistScreen
 import com.uniandes.vynilos.presentation.ui.screen.collector.CollectorScreen
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
@@ -63,12 +63,11 @@ fun HomeNavigation(
     VynilOSTheme {
         Scaffold(
             topBar = {
-                // Franja superior con el texto "VISITANTE"
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp)
-                        .background(color = Color.Black) // Cambia esto por el color deseado
+                        .background(color = Color.Black)
                         .padding(end = 15.dp)
 
                 ) {
@@ -118,7 +117,6 @@ fun HomeNavigation(
 
                             if (it is AlbumActions.OnClickAlbum) {
                                 val intent = Intent(context, AlbumActivity::class.java)
-                                //se envia el album por intent
                                 intent.putExtra(AlbumActivity.ALBUM, it.album)
                                 context.startActivity(intent)
                             }

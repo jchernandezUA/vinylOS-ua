@@ -187,7 +187,7 @@ fun ArtistCard(artist: Artist, onItemClick: () -> Unit) {
         }
     }
 }
-@PreviewLightDark()
+@PreviewLightDark
 @Composable
 fun ArtistScreenPreview() {
     val artistServiceAdapter = NetworkModule.artistServiceAdapter
