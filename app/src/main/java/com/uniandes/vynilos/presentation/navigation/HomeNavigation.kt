@@ -38,7 +38,7 @@ import com.uniandes.vynilos.R
 import com.uniandes.vynilos.presentation.activities.AlbumActivity
 import com.uniandes.vynilos.presentation.activities.ArtistActivity
 import com.uniandes.vynilos.presentation.navigation.BottomNavItem.Companion.BOTTOM_ITEMS
-import com.uniandes.vynilos.presentation.ui.screen.AlbumListScreen
+import com.uniandes.vynilos.presentation.ui.screen.album.AlbumListScreen
 import com.uniandes.vynilos.presentation.ui.screen.artist.ArtistScreen
 import com.uniandes.vynilos.presentation.ui.screen.collector.CollectorScreen
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
