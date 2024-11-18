@@ -17,4 +17,6 @@
     <string name="songs">Canciones</string>
     <string name="genre">Género</string>
     <string name="record_label">Discográfica</string>
+    <string name="comments">Comentarios</string>
+    <string name="artist_image">Imagen del Artista</string>
 </resources>

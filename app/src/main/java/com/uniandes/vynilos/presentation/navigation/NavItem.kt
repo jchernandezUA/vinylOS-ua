@@ -6,10 +6,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
 sealed class NavItem (val baseRoute: String) {
-    object  Main: NavItem("main")
-    object  NotMain: NavItem("not_main")
-    object  AlbumDetail: NavItem("album_detail")
-    object  ArtistDetail: NavItem("artist_detail")
+    data object  Main: NavItem("main")
+    data object  NotMain: NavItem("not_main")
+    data object  AlbumDetail: NavItem("album_detail")
+    data object  ArtistDetail: NavItem("artist_detail")
 
 }
 

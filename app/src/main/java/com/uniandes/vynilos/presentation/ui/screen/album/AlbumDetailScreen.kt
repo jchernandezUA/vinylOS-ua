@@ -168,7 +168,7 @@ private fun AlbumDetailView(album : Album){
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp),
-                contentAlignment = Alignment.Center
+                contentAlignment = Center
             ) {
                 AsyncImage(
                     model = album.cover,
@@ -209,7 +209,6 @@ private fun AlbumDetailView(album : Album){
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
             ) {
-                // Discográfica
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -227,7 +226,6 @@ private fun AlbumDetailView(album : Album){
                     )
                 }
 
-                // Género
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -263,14 +261,13 @@ private fun AlbumDetailView(album : Album){
         }
 
         if (album.tracks.isNotEmpty()) {
-            // Lista horizontal de canciones
             item {
                 LazyRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(15.dp)
                 ) {
                     items(album.tracks) { track ->
-                        TrackCard(track = track) // Usamos la función TrackCard
+                        TrackCard(track = track)
                     }
                 }
             }
@@ -299,14 +296,13 @@ private fun AlbumDetailView(album : Album){
         }
 
         if (album.performers.isNotEmpty()) {
-            // Lista horizontal de canciones
             item {
                 LazyRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(15.dp)
                 ) {
                     items(album.performers) { performer ->
-                        PerformerCard(performer = performer) // Usamos la función TrackCard
+                        PerformerCard(performer = performer)
                     }
                 }
             }
@@ -327,7 +323,7 @@ private fun AlbumDetailView(album : Album){
         // Comments Section
         item {
             Text(
-                text = "Comentarios:",
+                text = ctx.getString(R.string.comments)+":",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 8.dp)
@@ -357,18 +353,17 @@ private fun AlbumDetailView(album : Album){
                             text = comment.description,
                             style = MaterialTheme.typography.bodyMedium
                         )
-                        // Estrellas dinámicas según el rating
                         Row(
                             horizontalArrangement = Arrangement.Start,
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(top = 4.dp) // Separación con la descripción
+                            modifier = Modifier.padding(top = 4.dp)
                         ) {
                             repeat(comment.rating) {
                                 Icon(
-                                    imageVector = Icons.Default.Star, // Estrella de Material Icons
-                                    contentDescription = null, // No se necesita descripción
-                                    tint = Color(0xFF613EEA), // Color personalizado
-                                    modifier = Modifier.size(16.dp) // Tamaño ajustado para las estrellas
+                                    imageVector = Icons.Default.Star,
+                                    contentDescription = null,
+                                    tint = Color(0xFF613EEA),
+                                    modifier = Modifier.size(16.dp)
                                 )
                             }
                         }
@@ -412,17 +407,15 @@ fun PerformerCard(
                 .fillMaxWidth()
         ) {
 
-            // Carga de la imagen usando Coil
             Image(
                 painter = rememberAsyncImagePainter(performer.image),
-                contentDescription = "Imagen del Artista",
+                contentDescription = stringResource(R.string.artist_image),
                 modifier = Modifier
                     .size(80.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
 
-            // Nombre del álbum
             Text(
                 text = performer.name,
                 fontSize = 10.sp,
@@ -438,7 +431,7 @@ fun PerformerCard(
 fun TrackCard(track: Tracks) {
     Card(
         modifier = Modifier
-            .width(100.dp) // Ancho de la tarjeta
+            .width(100.dp)
             .height(100.dp)
             .border(
                 width = 1.dp,
@@ -453,12 +446,11 @@ fun TrackCard(track: Tracks) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally, // Centrar contenido horizontalmente
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            // Ícono de canción
             Icon(
-                imageVector = Icons.Default.MusicNote, // Material Icons
+                imageVector = Icons.Default.MusicNote,
                 contentDescription = "",
                 tint = Color(0xFF613EEA),
                 modifier = Modifier
@@ -468,7 +460,6 @@ fun TrackCard(track: Tracks) {
 
             Spacer(modifier = Modifier.height(3.dp))
 
-                // Nombre de la canción
                 Text(
                     text = track.name,
                     style = MaterialTheme.typography.bodyMedium,
@@ -477,7 +468,6 @@ fun TrackCard(track: Tracks) {
                     textAlign = TextAlign.Center
                 )
 
-                // Duración de la canción
                 Text(
                     text = stringResource(R.string.duration, track.duration),
                     style = MaterialTheme.typography.bodySmall,

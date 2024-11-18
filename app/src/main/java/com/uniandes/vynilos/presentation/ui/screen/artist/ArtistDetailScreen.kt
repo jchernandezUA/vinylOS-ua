@@ -58,16 +58,6 @@ import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.ui.theme.vynilOSTopAppBarColors
 import com.uniandes.vynilos.presentation.viewModel.ArtistViewModel
 
-
-/*
-ejemplo de como crear el viewModel
-private val artistDetailViewModel: ArtistViewModel by viewModel {
-    val artist = intent.getSafeSerializableExtra(ARTIST)?:f
-    parametersOf(artist)
-}
-
-*/
-
 @Composable
 fun ArtistDetailScreen(
     viewModel: ArtistViewModel,

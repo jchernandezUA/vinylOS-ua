@@ -1,4 +1,4 @@
-package com.uniandes.vynilos.presentation.ui.screen
+package com.uniandes.vynilos.presentation.ui.screen.album
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
