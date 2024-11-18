@@ -29,6 +29,13 @@ val ARTIST_RESPONSE_LIST = List(10) { index ->
     )
 }
 
+fun createAlbumList() = List(10) { index ->
+    createAlbum(
+        id = index + 1,
+        name = "Album Name ${index + 1}"
+    )
+}
+@Deprecated("Use createAlbum instead")
 val ALBUM_LIST = List(10) { index ->
     createAlbum(
         id = index + 1,
@@ -75,7 +82,7 @@ fun createArtist(
         name = name,
         image = image,
         description = description,
-        albums = emptyList(),
+        albums =  createAlbumList(),
         musicians = emptyList(),
         performerPrizes = emptyList(),
         creationDate = 0
