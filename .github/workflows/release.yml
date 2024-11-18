@@ -123,8 +123,8 @@ jobs:
           git checkout release/$version
           git pull origin release/$version
           git checkout main
-          git merge release/$version --allow-unrelated-histories
-          git push origin main -ff
+          git reset --hard release/$version
+          git push origin main --force
 
       - name: Release
         if: env.release_found == 'true'
