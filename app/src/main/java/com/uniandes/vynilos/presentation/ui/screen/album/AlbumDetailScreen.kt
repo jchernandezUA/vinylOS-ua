@@ -65,6 +65,8 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.CardDefaults
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -99,6 +101,7 @@ fun AlbumDetalScreen(
                     is DataState.Loading -> {
                         CircularProgressIndicator(
                             Modifier.size(100.dp)
+                                .testTag("CircularProgressIndicator")
                         )
                     }
                     is DataState.Error -> {
@@ -152,6 +155,7 @@ private fun AlbumTopBar(onBack: () -> Unit) {
 
 @Composable
 private fun AlbumDetailView(album : Album){
+    val ctx = LocalContext.current
     LazyColumn (
         Modifier
             .fillMaxSize()
@@ -213,7 +217,7 @@ private fun AlbumDetailView(album : Album){
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Discográfica: ",
+                        text = ctx.getString(R.string.record_label)+":",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -231,7 +235,7 @@ private fun AlbumDetailView(album : Album){
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Género: ",
+                        text = ctx.getString(R.string.genre)+": ",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -251,7 +255,7 @@ private fun AlbumDetailView(album : Album){
         // Songs Section
         item {
             Text(
-                text = "Canciones:",
+                text = ctx.getString(R.string.songs)+":",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 8.dp)
@@ -287,7 +291,7 @@ private fun AlbumDetailView(album : Album){
         // Songs Section
         item {
             Text(
-                text = "Artistas:",
+                text = ctx.getString(R.string.artists)+": ",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 15.dp)
@@ -455,7 +459,7 @@ fun TrackCard(track: Tracks) {
             // Ícono de canción
             Icon(
                 imageVector = Icons.Default.MusicNote, // Material Icons
-                contentDescription = "Icono de canción",
+                contentDescription = "",
                 tint = Color(0xFF613EEA),
                 modifier = Modifier
                     .size(30.dp)
@@ -475,7 +479,7 @@ fun TrackCard(track: Tracks) {
 
                 // Duración de la canción
                 Text(
-                    text = "Duración: ${track.duration}",
+                    text = stringResource(R.string.duration, track.duration),
                     style = MaterialTheme.typography.bodySmall,
                     fontSize = 9.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -499,7 +503,7 @@ private fun ExpandableDescription(description: String) {
             .padding(bottom = 16.dp)
     ) {
         Text(
-            text = "Descripción:",
+            text = stringResource(R.string.description),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 4.dp)
@@ -514,7 +518,7 @@ private fun ExpandableDescription(description: String) {
 
         if (shouldShowButton) {
             Text(
-                text = if (isExpanded) "Ver menos" else "Ver más",
+                text = stringResource(if (isExpanded) R.string.see_less  else R.string.see_more),
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier

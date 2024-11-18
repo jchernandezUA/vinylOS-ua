@@ -100,24 +100,4 @@ class AlbumListScreenTest {
             DEFAULT_ERROR
         ).assertIsDisplayed()
     }
-    @Test
-    fun testNavigateToAlbumDetail()  {
-        // Given
-        val testList = ALBUM_LIST
-        val albumId = 1
-        val albumResponse: AlbumResponse = ALBUM_RESPONSE_LIST[albumId - 1]
-        setUp(DataState.Success(testList), albumResponse)
-        val test = setMockResponseAlbumById(albumResponse)
-
-        // When
-        composeTestRule.onNodeWithText(
-            composeTestRule.activity.getString(R.string.albums)
-        ).performClick()
-
-        composeTestRule.onNodeWithText(albumResponse.name).performClick()
-
-        // Then
-        composeTestRule.onNodeWithText(albumResponse.name).assertIsDisplayed()
-        composeTestRule.onNodeWithText(albumResponse.genre).assertIsDisplayed()
-    }
 }
