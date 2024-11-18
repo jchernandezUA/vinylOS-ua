@@ -50,3 +50,4 @@ El proyecto cuenta con pruebas unitarias y E2E para compose, se pueden correr la
 `
 ./gradlew connectedAndroidTest
 `
+
