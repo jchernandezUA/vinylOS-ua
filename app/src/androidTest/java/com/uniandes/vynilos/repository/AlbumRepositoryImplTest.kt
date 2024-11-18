@@ -1,7 +1,12 @@
 package com.uniandes.vynilos.repository
 
 import com.uniandes.vynilos.common.DataState
+import com.uniandes.vynilos.data.model.Album
+import com.uniandes.vynilos.data.model.Comment
 import com.uniandes.vynilos.data.model.DTO
+import com.uniandes.vynilos.data.model.Performer
+import com.uniandes.vynilos.data.model.Tracks
+import com.uniandes.vynilos.data.remote.entity.AlbumResponse
 import com.uniandes.vynilos.data.remote.service.AlbumServiceAdapter
 import com.uniandes.vynilos.data.repository.AlbumRepositoryImpl
 import com.uniandes.vynilos.model.ALBUM_RESPONSE_LIST
@@ -45,4 +50,36 @@ class AlbumRepositoryImplTest {
         assertTrue(result is DataState.Error)
         assertEquals(errorMessage, (result as DataState.Error).error.message)
     }
+
+    @Test
+    fun testGetAlbumSuccess() = runBlocking {
+        // Given
+        val albumId = 1
+        val albumResponse: AlbumResponse = ALBUM_RESPONSE_LIST[albumId - 1]
+        val expectedAlbumDTO = albumResponse.DTO()
+        coEvery { albumServiceAdapter.getAlbumById(albumId) } returns albumResponse
+
+        // When
+        val result = albumRepository.getAlbum(albumId)
+
+        // Then
+        assertTrue(result is DataState.Success)
+        assertEquals(expectedAlbumDTO, (result as DataState.Success).data)
+    }
+
+    @Test
+    fun testGetAlbumError() = runBlocking {
+        // Given
+        val albumId = 1
+        val errorMessage = NOT_DEFINED_ERROR
+        coEvery { albumServiceAdapter.getAlbumById(albumId) } throws Exception(errorMessage)
+
+        // When
+        val result = albumRepository.getAlbum(albumId)
+
+        // Then
+        assertTrue(result is DataState.Error)
+        assertEquals(errorMessage, (result as DataState.Error).error.message)
+    }
+
 }
