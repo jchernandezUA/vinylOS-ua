@@ -2,6 +2,7 @@ package com.uniandes.vynilos.data.model
 
 import android.os.Parcelable
 import com.uniandes.vynilos.common.convertDateToTimestamp
+import com.uniandes.vynilos.data.remote.entity.AlbumRequest
 import com.uniandes.vynilos.data.remote.entity.AlbumResponse
 
 import kotlinx.parcelize.Parcelize
@@ -35,3 +36,12 @@ fun AlbumResponse.DTO() = Album(
 )
 
 fun List<AlbumResponse>.DTO() = map { it.DTO() }
+
+fun Album.toDomain() = AlbumRequest(
+    name = name,
+    cover = cover,
+    releaseDate = releaseDate.toString(),
+    description = description,
+    genre = genre,
+    recordLabel = recordLabel
+)
