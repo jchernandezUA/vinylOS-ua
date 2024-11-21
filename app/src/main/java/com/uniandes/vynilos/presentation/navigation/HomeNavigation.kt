@@ -88,7 +88,7 @@ fun HomeNavigation(
                             stringResource(R.string.collector)
                         } else {
                             stringResource(R.string.visitor)
-                        }.toUpperCase(Locale.getDefault()),
+                        }.uppercase(Locale.getDefault()),
                         color =  MaterialTheme.colorScheme.primary,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
@@ -152,20 +152,20 @@ private fun AlbumScreenWrapper(
     listAlbumViewModel: ListAlbumViewModel,
     isCollector: Boolean = false
 ) {
-    var showSnackbar by remember { mutableStateOf(false) }
+    var showSnackBar by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            showSnackbar = true
+            showSnackBar = true
         }
     }
     AlbumListScreen(
         modifier = modifier,
         viewModel = listAlbumViewModel,
         isCollector = isCollector,
-        showSnackbar = showSnackbar,
+        showSnackBar = showSnackBar,
         navigationActions = NavigationActions {
 
             if (it is AlbumActions.OnClickAlbum) {

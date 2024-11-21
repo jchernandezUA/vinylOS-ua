@@ -69,7 +69,7 @@ fun AlbumListScreen(
     modifier: Modifier = Modifier,
     viewModel: ListAlbumViewModel,
     isCollector: Boolean = false,
-    showSnackbar: Boolean = false,
+    showSnackBar: Boolean = false,
     navigationActions: NavigationActions = NavigationActions()
 ) {
 
@@ -82,7 +82,7 @@ fun AlbumListScreen(
         viewModel.getAlbums()
     }
 
-    if (showSnackbar) {
+    if (showSnackBar) {
         viewModel.getAlbums()
         LaunchedEffect(Unit) {
             snackbarHostState.showSnackbar(
