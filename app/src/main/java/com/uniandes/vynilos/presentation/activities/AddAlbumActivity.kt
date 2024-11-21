@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.uniandes.vynilos.presentation.navigation.AlbumActions
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.ui.screen.album.AddAlbumScreen
 import com.uniandes.vynilos.presentation.viewModel.album.AddAlbumViewModel
@@ -26,7 +27,8 @@ class AddAlbumActivity : ComponentActivity() {
             AddAlbumScreen(
                 viewModel = viewModel,
                 navigationActions = NavigationActions {
-                    setResult(RESULT_OK, Intent())
+                    if (it is AlbumActions.OnAlbumAdded)
+                        setResult(RESULT_OK)
                     finish()
                 }
             )

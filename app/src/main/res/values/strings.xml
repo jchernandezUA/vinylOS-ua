@@ -39,4 +39,5 @@
         <item>Fania Records</item>
     </string-array>
     <string name="collector">Collecionista</string>
+    <string name="album_added">El álbum se agregó correctamente</string>
 </resources>

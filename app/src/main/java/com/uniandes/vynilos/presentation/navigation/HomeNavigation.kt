@@ -80,7 +80,7 @@ fun HomeNavigation(
                         .fillMaxWidth()
                         .height(50.dp)
                         .background(color = Color.Black)
-                        .padding(end = 15.dp)
+                        .padding(end = 20.dp)
 
                 ) {
                     Text(
@@ -101,10 +101,10 @@ fun HomeNavigation(
                 }
             },
             bottomBar = {
-            BottomBar(BOTTOM_ITEMS, selectedTab) { selectedItem ->
-                changeScreen(navController, selectedItem)
-            }
-        }) { paddingValue ->
+                BottomBar(BOTTOM_ITEMS, selectedTab) { selectedItem ->
+                    changeScreen(navController, selectedItem)
+                }
+            }) { paddingValue ->
             NavHost(
                 modifier = Modifier
                     .padding(bottom = 56.dp),
@@ -152,14 +152,20 @@ private fun AlbumScreenWrapper(
     listAlbumViewModel: ListAlbumViewModel,
     isCollector: Boolean = false
 ) {
+    var showSnackbar by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ){}
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            showSnackbar = true
+        }
+    }
     AlbumListScreen(
         modifier = modifier,
         viewModel = listAlbumViewModel,
         isCollector = isCollector,
+        showSnackbar = showSnackbar,
         navigationActions = NavigationActions {
 
             if (it is AlbumActions.OnClickAlbum) {

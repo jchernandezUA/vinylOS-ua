@@ -6,9 +6,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -24,6 +26,9 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,12 +36,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -62,14 +69,26 @@ fun AlbumListScreen(
     modifier: Modifier = Modifier,
     viewModel: ListAlbumViewModel,
     isCollector: Boolean = false,
+    showSnackbar: Boolean = false,
     navigationActions: NavigationActions = NavigationActions()
 ) {
 
     val albumsResult by viewModel.albumsResult.collectAsState()
     var errorMessage by remember { mutableStateOf("") }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         viewModel.getAlbums()
+    }
+
+    if (showSnackbar) {
+        viewModel.getAlbums()
+        LaunchedEffect(Unit) {
+            snackbarHostState.showSnackbar(
+                message = context.getString(R.string.album_added)
+            )
+        }
     }
 
     viewModel.albumsResult.ObserveAsActions {
@@ -81,7 +100,12 @@ fun AlbumListScreen(
     VynilOSTheme {
         Scaffold(
             modifier = modifier
-                .fillMaxSize()
+                .fillMaxSize(),
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState)  {
+                    Snackbar(it)
+                }
+            }
         ) { _ ->
             Box(
                 modifier = Modifier
@@ -108,20 +132,26 @@ fun AlbumListScreen(
                             if(!data.isNullOrEmpty()){
                                 LazyVerticalGrid(
                                     columns = GridCells.Fixed(2),
-                                    modifier = Modifier.fillMaxHeight()
+                                    modifier = Modifier.fillMaxSize()
                                 ){
                                     items(data){
-                                        album ->
+                                            album ->
                                         AlbumsCard(album) {
                                             navigationActions.onAction(
                                                 AlbumActions.OnClickAlbum(album)
                                             )
                                         }
                                     }
+                                    item {
+                                        if (isCollector)
+                                            Spacer(modifier = Modifier.height(100.dp))
+                                    }
                                 }
                             }
                             else{
-                                CardMessage(message = stringResource(R.string.empty_message_album))
+                                CardMessage(
+                                    message = stringResource(R.string.empty_message_album)
+                                )
                             }
                         }
                         is DataState.Error -> {
