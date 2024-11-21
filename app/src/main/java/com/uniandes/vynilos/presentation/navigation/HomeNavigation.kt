@@ -1,8 +1,12 @@
 package com.uniandes.vynilos.presentation.navigation
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,7 +23,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,6 +42,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.uniandes.vynilos.R
+import com.uniandes.vynilos.presentation.activities.AddAlbumActivity
 import com.uniandes.vynilos.presentation.activities.AlbumActivity
 import com.uniandes.vynilos.presentation.activities.ArtistActivity
 import com.uniandes.vynilos.presentation.navigation.BottomNavItem.Companion.BOTTOM_ITEMS
@@ -42,9 +50,10 @@ import com.uniandes.vynilos.presentation.ui.screen.album.AlbumListScreen
 import com.uniandes.vynilos.presentation.ui.screen.artist.ArtistScreen
 import com.uniandes.vynilos.presentation.ui.screen.collector.CollectorScreen
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
-import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
+import com.uniandes.vynilos.presentation.viewModel.album.ListAlbumViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListCollectorViewModel
+import java.util.Locale
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
@@ -57,6 +66,9 @@ fun HomeNavigation(
 
     val selectedTab = remember {
         mutableIntStateOf(1)
+    }
+    var isCollector by remember {
+        mutableStateOf(false)
     }
 
     val navController = rememberNavController()
@@ -72,13 +84,19 @@ fun HomeNavigation(
 
                 ) {
                     Text(
-                        text = stringResource(R.string.visitor),
+                        text = if(isCollector) {
+                            stringResource(R.string.collector)
+                        } else {
+                            stringResource(R.string.visitor)
+                        }.toUpperCase(Locale.getDefault()),
                         color =  MaterialTheme.colorScheme.primary,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Right,
                         modifier = Modifier.align(Alignment.CenterEnd)
-
+                            .clickable {
+                                isCollector = !isCollector
+                            }
                     )
                 }
             },
@@ -86,7 +104,7 @@ fun HomeNavigation(
             BottomBar(BOTTOM_ITEMS, selectedTab) { selectedItem ->
                 changeScreen(navController, selectedItem)
             }
-        }) { _ ->
+        }) { paddingValue ->
             NavHost(
                 modifier = Modifier
                     .padding(bottom = 56.dp),
@@ -108,19 +126,13 @@ fun HomeNavigation(
                     )
                 }
                 composable(BottomNavItem.Albums) {
-
-                    val context = LocalContext.current
-
-                    AlbumListScreen(
-                        viewModel = listAlbumViewModel,
-                        navigationActions = NavigationActions {
-
-                            if (it is AlbumActions.OnClickAlbum) {
-                                val intent = Intent(context, AlbumActivity::class.java)
-                                intent.putExtra(AlbumActivity.ALBUM, it.album)
-                                context.startActivity(intent)
-                            }
-                        }
+                    AlbumScreenWrapper(
+                        modifier = Modifier.padding(
+                            top = paddingValue.calculateTopPadding(),
+                            bottom = 15.dp
+                        ),
+                        listAlbumViewModel,
+                        isCollector
                     )
 
                 }
@@ -129,15 +141,39 @@ fun HomeNavigation(
                         viewModel = listCollectorViewModel
                     )
                 }
-                /*composable("collector_detail/{collectorId}") { backStackEntry ->
-                    val collectorId = backStackEntry.arguments?.getString("collectorId")?.toIntOrNull()
-                    collectorId?.let {
-                        CollectorDetailScreen(collectorId = it)
-                    }
-                }*/
             }
         }
     }
+}
+
+@Composable
+private fun AlbumScreenWrapper(
+    modifier: Modifier = Modifier,
+    listAlbumViewModel: ListAlbumViewModel,
+    isCollector: Boolean = false
+) {
+    val context = LocalContext.current
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ){}
+    AlbumListScreen(
+        modifier = modifier,
+        viewModel = listAlbumViewModel,
+        isCollector = isCollector,
+        navigationActions = NavigationActions {
+
+            if (it is AlbumActions.OnClickAlbum) {
+                val intent = Intent(context, AlbumActivity::class.java)
+                intent.putExtra(AlbumActivity.ALBUM, it.album)
+                context.startActivity(intent)
+            }
+            if (it is AlbumActions.OnClickAddAlbum)  {
+                val intent = AddAlbumActivity.getIntent(context)
+                launcher.launch(intent)
+            }
+
+        }
+    )
 }
 
 private fun changeScreen(navController: NavController, navItem: BottomNavItem) {

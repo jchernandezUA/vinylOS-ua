@@ -33,6 +33,11 @@
             android:name=".presentation.activities.ArtistActivity"
             android:exported="true"
             android:theme="@style/Theme.VynilOS" />
+
+        <activity
+            android:name=".presentation.activities.AddAlbumActivity"
+            android:exported="true"
+            android:theme="@style/Theme.VynilOS" />
     </application>
 
 </manifest>

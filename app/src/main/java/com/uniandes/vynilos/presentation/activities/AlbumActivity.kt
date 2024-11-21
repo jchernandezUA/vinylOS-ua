@@ -6,10 +6,9 @@ import androidx.activity.compose.setContent
 import com.uniandes.vynilos.common.NetworkModule
 import com.uniandes.vynilos.common.getSafeParcelableExtra
 import com.uniandes.vynilos.data.model.Album
-import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.data.repository.AlbumRepositoryImpl
 import com.uniandes.vynilos.presentation.navigation.AlbumNavigation
-import com.uniandes.vynilos.presentation.viewModel.AlbumViewModel
+import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 
 class AlbumActivity : ComponentActivity() {
 

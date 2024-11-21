@@ -16,6 +16,8 @@ sealed class ActionType {
 
 sealed class AlbumActions : ActionType() {
     class OnClickAlbum(val album: Album) : AlbumActions()
+    data object OnClickAddAlbum : AlbumActions()
+    data object OnAlbumAdded: AlbumActions()
 }
 
 sealed class ArtistActions : ActionType() {

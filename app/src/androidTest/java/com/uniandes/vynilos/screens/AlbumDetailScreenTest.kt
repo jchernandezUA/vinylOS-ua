@@ -12,7 +12,7 @@ import com.uniandes.vynilos.model.createAlbum
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.ui.screen.album.AlbumDetalScreen
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
-import com.uniandes.vynilos.presentation.viewModel.AlbumViewModel
+import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import org.junit.Rule

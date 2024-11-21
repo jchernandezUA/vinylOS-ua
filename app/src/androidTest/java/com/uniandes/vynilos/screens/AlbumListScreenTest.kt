@@ -14,10 +14,9 @@ import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.data.repository.ArtistRepository
 import com.uniandes.vynilos.data.repository.CollectorRepository
 import com.uniandes.vynilos.model.ALBUM_LIST
-import com.uniandes.vynilos.model.ALBUM_RESPONSE_LIST
 import com.uniandes.vynilos.model.DEFAULT_ERROR
 import com.uniandes.vynilos.presentation.navigation.HomeNavigation
-import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
+import com.uniandes.vynilos.presentation.viewModel.album.ListAlbumViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListCollectorViewModel
 import io.mockk.coEvery

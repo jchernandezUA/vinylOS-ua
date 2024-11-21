@@ -15,9 +15,13 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -49,19 +53,20 @@ import com.uniandes.vynilos.data.repository.AlbumRepositoryImpl
 import com.uniandes.vynilos.presentation.navigation.AlbumActions
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
-import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
+import com.uniandes.vynilos.presentation.viewModel.album.ListAlbumViewModel
 
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun AlbumListScreen(
+    modifier: Modifier = Modifier,
     viewModel: ListAlbumViewModel,
+    isCollector: Boolean = false,
     navigationActions: NavigationActions = NavigationActions()
 ) {
 
     val albumsResult by viewModel.albumsResult.collectAsState()
     var errorMessage by remember { mutableStateOf("") }
-
 
     LaunchedEffect(Unit) {
         viewModel.getAlbums()
@@ -74,11 +79,16 @@ fun AlbumListScreen(
     }
 
     VynilOSTheme {
-        Scaffold(modifier = Modifier.fillMaxSize()) { _ ->
+        Scaffold(
+            modifier = modifier
+                .fillMaxSize()
+        ) { _ ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 12.dp, top = 60.dp, end = 1.dp, bottom = 12.dp)
+                    .padding(
+                        horizontal = 16.dp
+                    )
             ){
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -88,7 +98,9 @@ fun AlbumListScreen(
                     when (val result = albumsResult){
                         is DataState.Loading -> {
                             CircularProgressIndicator(
-                                modifier = Modifier.size(80.dp).align(Alignment.CenterHorizontally)
+                                modifier = Modifier
+                                    .size(80.dp)
+                                    .align(Alignment.CenterHorizontally)
                             )
                         }
                         is DataState.Success -> {
@@ -120,6 +132,23 @@ fun AlbumListScreen(
                             )
                         }
                         else -> {}
+                    }
+                }
+                if (isCollector) {
+                    FloatingActionButton(
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(16.dp),
+                        onClick = {
+                            navigationActions.onAction(
+                                AlbumActions.OnClickAddAlbum
+                            )
+                        },
+                    ) {
+                        Icon(
+                            Icons.Filled.Add,
+                            contentDescription = stringResource(R.string.add_album)
+                        )
                     }
                 }
             }
@@ -211,5 +240,5 @@ fun AlbumListScreenPreview() {
     val viewModel = ListAlbumViewModel(
         albumRepository
     )
-    AlbumListScreen(viewModel)
+    AlbumListScreen(viewModel = viewModel)
 }
