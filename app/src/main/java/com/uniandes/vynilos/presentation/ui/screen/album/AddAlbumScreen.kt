@@ -19,10 +19,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
@@ -51,7 +51,10 @@ import com.uniandes.vynilos.presentation.ui.preview.PreviewViewModel
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.ui.theme.vynilOSTopAppBarColors
 import com.uniandes.vynilos.presentation.viewModel.album.AddAlbumViewModel
+import com.uniandes.vynilos.presentation.ui.component.TextField
+import java.lang.Error
 import java.util.Date
+
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -71,8 +74,14 @@ fun AddAlbumScreen(
     val description by viewModel.description.collectAsState()
     val cover by viewModel.cover.collectAsState()
     val releaseDate by viewModel.releaseDate.collectAsState()
-    val genre by viewModel.genre.collectAsState()
     val recordLabel by viewModel.recordLabel.collectAsState()
+    val genre by viewModel.genre.collectAsState()
+    val albumErrorId by viewModel.albumErrorId.collectAsState()
+    val coverErrorId by viewModel.coverErrorId.collectAsState()
+    val recordLabelErrorId by viewModel.recordLabelErrorId.collectAsState()
+    val genreErrorId by viewModel.genreErrorId.collectAsState()
+    val descriptionErrorId by viewModel.descriptionErrorId.collectAsState()
+    val releaseDateErrorId by viewModel.releaseDateErrorId.collectAsState()
 
 
     viewModel.albumResult.ObserveAsActions {
@@ -85,6 +94,7 @@ fun AddAlbumScreen(
         DatePickerView(
             onDismiss = {
                 showDatePicker = false
+                viewModel.validateReleaseDate()
             },
             onDateSelected = {
                 showDatePicker = false
@@ -116,46 +126,63 @@ fun AddAlbumScreen(
                             .fillMaxWidth(),
                         value = album,
                         onValueChange = { viewModel.onNameChange(it) },
-                        label = { Text(stringResource(R.string.album)) },
+                        label = stringResource(R.string.album),
+                        textError = albumErrorId?.let { stringResource(it) }
                     )
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth(),
                         value = description,
                         onValueChange = { viewModel.onDescriptionChange(it) },
-                        label = { Text(stringResource(R.string.description)) }
+                        label = stringResource(R.string.description),
+                        textError = descriptionErrorId?.let { stringResource(it) }
+
                     )
+
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth(),
                         value = cover,
                         onValueChange = { viewModel.onCoverChange(it) },
-                        label = { Text(stringResource(R.string.image)) }
+                        label = stringResource(R.string.image),
+                        textError = coverErrorId?.let { stringResource(it) }
                     )
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        value = releaseDate,
-                        onValueChange = {},
-                        label = { Text(stringResource(R.string.release_date)) },
-                        interactionSource = remember { MutableInteractionSource() }
-                            .also { interactionSource ->
-                                LaunchedEffect(interactionSource) {
-                                    interactionSource.interactions.collect {
-                                        if (it is PressInteraction.Release) {
-                                            showDatePicker = true
+                    Column {
+                        androidx.compose.material3.TextField(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            value = releaseDate,
+                            onValueChange = {},
+                            isError = releaseDateErrorId != null,
+                            label = { Text(stringResource(R.string.release_date)) },
+                            interactionSource = remember { MutableInteractionSource() }
+                                .also { interactionSource ->
+                                    LaunchedEffect(interactionSource) {
+                                        interactionSource.interactions.collect {
+                                            if (it is PressInteraction.Release) {
+                                                showDatePicker = true
+                                            }
                                         }
                                     }
                                 }
-                            }
-                    )
+                        )
+                        if (releaseDateErrorId != null) {
+                            Text(
+                                text = stringResource(releaseDateErrorId!!),
+                                color = MaterialTheme.colorScheme.error,
+                                style = MaterialTheme.typography.labelSmall,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
                     DropdownTextField(
                         genre,
                         stringResource(R.string.genre),
                         genres.toList(),
                         onItemSelected = {
                             viewModel.onGenreChange(it)
-                        }
+                        },
+                        textError = genreErrorId?.let { stringResource(it) }
                     )
 
                     DropdownTextField(
@@ -164,7 +191,8 @@ fun AddAlbumScreen(
                         recordLabels.toList(),
                         onItemSelected = {
                             viewModel.onRecordLabelChange(it)
-                        }
+                        },
+                        textError = recordLabelErrorId?.let { stringResource(it) }
                     )
                 }
             }

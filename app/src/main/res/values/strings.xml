@@ -40,4 +40,6 @@
     </string-array>
     <string name="collector">Collecionista</string>
     <string name="album_added">El álbum se agregó correctamente</string>
+    <string name="invalid_url">Url no válida</string>
+    <string name="required_field">Campo obligatorio</string>
 </resources>
