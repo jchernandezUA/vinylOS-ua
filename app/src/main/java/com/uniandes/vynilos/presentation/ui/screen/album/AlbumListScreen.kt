@@ -75,7 +75,7 @@ fun AlbumListScreen(
 
     val albumsResult by viewModel.albumsResult.collectAsState()
     var errorMessage by remember { mutableStateOf("") }
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
@@ -85,7 +85,7 @@ fun AlbumListScreen(
     if (showSnackBar) {
         viewModel.getAlbums()
         LaunchedEffect(Unit) {
-            snackbarHostState.showSnackbar(
+            snackBarHostState.showSnackbar(
                 message = context.getString(R.string.album_added)
             )
         }
@@ -102,7 +102,7 @@ fun AlbumListScreen(
             modifier = modifier
                 .fillMaxSize(),
             snackbarHost = {
-                SnackbarHost(hostState = snackbarHostState)  {
+                SnackbarHost(hostState = snackBarHostState)  {
                     Snackbar(it)
                 }
             }

@@ -1,7 +1,6 @@
 package com.uniandes.vynilos.presentation.ui.screen.album
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
@@ -117,7 +116,7 @@ fun AddAlbumScreen(
                             .fillMaxWidth(),
                         value = album,
                         onValueChange = { viewModel.onNameChange(it) },
-                        label = { Text(stringResource(R.string.album)) }
+                        label = { Text(stringResource(R.string.album)) },
                     )
                     TextField(
                         modifier = Modifier
