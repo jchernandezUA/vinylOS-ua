@@ -1,7 +1,9 @@
 package com.uniandes.vynilos.screens
 
+import android.app.Activity.RESULT_OK
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -56,7 +58,6 @@ class AlbumListScreenTest {
         coEvery { albumRepository.getAlbum(albumResponse.id) } returns DataState.Success(albumResponse.DTO())
     }
 
-
     @Test
     fun testLoadEmptyAlbumScreen() {
         // Given
@@ -102,6 +103,13 @@ class AlbumListScreenTest {
         ).assertIsDisplayed()
     }
 
+    private fun changeToCollectorType() {
+        composeTestRule.onNodeWithText(
+            composeTestRule.activity.getString(R.string.visitor),
+            ignoreCase = true
+        ).performClick()
+    }
+
     @Test
     fun testClickVisitorElement() {
         // Given
@@ -109,10 +117,7 @@ class AlbumListScreenTest {
         setUp(DataState.Success(testList))
 
         // When
-        composeTestRule.onNodeWithText(
-            composeTestRule.activity.getString(R.string.visitor),
-            ignoreCase = true
-        ).performClick()
+        changeToCollectorType()
 
         // Then
         composeTestRule.onNodeWithText(
@@ -125,4 +130,27 @@ class AlbumListScreenTest {
             ignoreCase = true
         ).assertIsDisplayed()
     }
+
+    /*@Test
+    fun testClickShowAlbumAddedElement() {
+        // Given
+        val testList = createAlbumList()
+        setUp(DataState.Success(testList))
+
+        // When
+        changeToCollectorType()
+
+        // Then
+        composeTestRule.onNodeWithContentDescription(
+            composeTestRule.activity.getString(R.string.add_album)
+        ).performClick()
+
+        composeTestRule.activityRule.scenario.onActivity {
+            it.setResult(RESULT_OK)
+            it.finish()
+        }
+        composeTestRule.onNodeWithText(
+            composeTestRule.activity.getString(R.string.cancel)
+        ).isDisplayed()
+    }*/
 }

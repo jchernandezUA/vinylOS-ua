@@ -1,6 +1,9 @@
 package com.uniandes.vynilos.screens
 
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasAnySibling
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -44,33 +47,36 @@ class AddAlbumScreenTest {
     }
 
     private fun initValidValues(album: Album, genre: String, recordLabel: String) {
-        composeTestRule.onNodeWithText(composeTestRule.activity.getString(R.string.album))
-            .performTextInput(album.name)
+        composeTestRule.apply {
+            onNodeWithText(activity.getString(R.string.album))
+                .performTextInput(album.name)
 
-        composeTestRule.onNodeWithText(composeTestRule.activity.getString(R.string.description))
-            .performTextInput(album.description)
+            onNodeWithText(activity.getString(R.string.description))
+                .performTextInput(album.description)
 
-        composeTestRule.onNodeWithText(composeTestRule.activity.getString(R.string.image))
-            .performTextInput(album.cover)
+            onNodeWithText(activity.getString(R.string.image))
+                .performTextInput(album.cover)
 
-        composeTestRule.onNodeWithText(composeTestRule.activity.getString(R.string.release_date))
-            .performClick()
+            onNodeWithText(activity.getString(R.string.release_date))
+                .performClick()
 
-        composeTestRule.onNodeWithText(composeTestRule.activity.getString(R.string.select))
-            .performClick()
+            onNodeWithText(activity.getString(R.string.select))
+                .performClick()
 
-        composeTestRule.onNodeWithText(composeTestRule.activity.getString(R.string.genre))
-            .performClick()
-        composeTestRule.onNodeWithText(
-            genre
-        ).performClick()
+            onNodeWithText(activity.getString(R.string.genre))
+                .performClick()
+            onNodeWithText(
+                genre
+            ).performClick()
 
-        composeTestRule.onNodeWithText(composeTestRule.activity.getString(R.string.record_label))
-            .performClick()
+            onNodeWithText(activity.getString(R.string.record_label))
+                .performClick()
 
-        composeTestRule.onNodeWithText(
-            recordLabel
-        ).performClick()
+            onNodeWithText(
+                recordLabel
+            ).performClick()
+        }
+
     }
 
     @Test
@@ -121,4 +127,165 @@ class AddAlbumScreenTest {
         assertEquals(AlbumActions.OnAlbumAdded, action)
     }
 
+    @Test
+    fun testNoAlbumNameErrorDisplays() {
+        // Given
+        //page load
+        //when clicks on album TextField
+        composeTestRule.apply {
+            onNodeWithText(
+                activity.getString(R.string.album)
+            ).performClick()
+
+            //and then clicks on other TextField
+            onNodeWithText(
+                activity.getString(R.string.image)
+            ).performClick()
+
+            //then displays name album required field
+            onNode(
+                matcher = hasText(
+                    activity.getString(R.string.required_field)
+                ).and(
+                    hasAnySibling(
+                        hasText(activity.getString(R.string.album)
+                        )
+                    )
+                )
+            ).assertIsDisplayed()
+        }
+    }
+
+
+    @Test
+    fun testNoAlbumCoverErrorDisplays() {
+        // Given
+        //page load
+        //when clicks on album TextField
+        composeTestRule.apply {
+            onNodeWithText(
+                activity.getString(R.string.image)
+            ).performClick()
+
+            //and then clicks on other TextField
+            onNodeWithText(
+                activity.getString(R.string.album)
+            ).performClick()
+
+            //then displays name album required field
+            onNode(
+                matcher = hasText(
+                    activity.getString(R.string.invalid_url)
+                ).and(
+                    hasAnySibling(hasText(activity.getString(R.string.image)))
+                )
+            ).assertIsDisplayed()
+        }
+
+    }
+
+    @Test
+    fun testNoAlbumDescriptionErrorDisplays() {
+        // Given
+        //page load
+        //when clicks on album TextField
+        composeTestRule.apply {
+            onNodeWithText(
+                activity.getString(R.string.description)
+            ).performClick()
+
+            //and then clicks on other TextField
+            onNodeWithText(
+                activity.getString(R.string.album)
+            ).performClick()
+
+            //then displays name album required field
+            onNode(
+                matcher = hasText(
+                    activity.getString(R.string.required_field)
+                ).and(
+                    hasAnySibling(hasText(activity.getString(R.string.image)))
+                )
+            ).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun testNoAlbumReleaseDateErrorDisplays() {
+        // Given
+        //page load
+        //when clicks on album TextField
+        composeTestRule.apply {
+            onNodeWithText(
+                composeTestRule.activity.getString(R.string.release_date)
+            ).performClick()
+
+            //and then clicks on other TextField
+            onNodeWithText(
+                activity.getString(R.string.cancel)
+            ).performClick()
+
+            //then displays name album required field
+            onNode(
+                matcher = hasText(
+                    activity.getString(R.string.required_field)
+                ).and(
+                    hasAnySibling(hasText(activity.getString(R.string.release_date)))
+                )
+            ).assertIsDisplayed()
+        }
+
+    }
+
+    @Test
+    fun testNoAlbumGenreErrorDisplays() {
+        // Given
+        //page load
+        //when clicks on album TextField
+        composeTestRule.apply {
+            onNodeWithText(
+                activity.getString(R.string.genre)
+            ).performClick()
+
+            //and then clicks on other TextField
+            onNodeWithText(
+                activity.getString(R.string.album)
+            ).performClick()
+
+            //then displays name album required field
+            onNode(
+                matcher = hasText(
+                    activity.getString(R.string.required_field)
+                ).and(
+                    hasAnySibling(hasText(activity.getString(R.string.genre)))
+                )
+            ).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun testNoAlbumRecordLabelErrorDisplays() {
+        // Given
+        //page load
+        //when clicks on album TextField
+        composeTestRule.apply {
+            onNodeWithText(
+                activity.getString(R.string.record_label)
+            ).performClick()
+
+            //and then clicks on other TextField
+            onNodeWithText(
+                activity.getString(R.string.album)
+            ).performClick()
+
+            //then displays name album required field
+            onNode(
+                matcher = hasText(
+                    activity.getString(R.string.required_field)
+                ).and(
+                    hasAnySibling(hasText(activity.getString(R.string.record_label)))
+                )
+            ).assertIsDisplayed()
+        }
+    }
 }

@@ -52,7 +52,6 @@ import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.ui.theme.vynilOSTopAppBarColors
 import com.uniandes.vynilos.presentation.viewModel.album.AddAlbumViewModel
 import com.uniandes.vynilos.presentation.ui.component.TextField
-import java.lang.Error
 import java.util.Date
 
 
