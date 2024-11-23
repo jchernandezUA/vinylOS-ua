@@ -6,6 +6,7 @@ import com.uniandes.vynilos.data.model.Artist
 import com.uniandes.vynilos.data.model.Tracks
 import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.data.repository.ArtistRepository
+import com.uniandes.vynilos.data.model.Comment
 import com.uniandes.vynilos.presentation.viewModel.ArtistViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 import com.uniandes.vynilos.presentation.viewModel.album.AddAlbumViewModel
@@ -13,48 +14,43 @@ import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 
 object PreviewViewModel {
 
+    // Crear una instancia de ArtistRepository para usar en los previews.
     private fun getArtistRepository(
         artist: Artist? = null,
         artistList: List<Artist>? = null
     ) = object : ArtistRepository {
         override suspend fun getArtists(): DataState<List<Artist>> {
-            return if (artistList != null) {
-                DataState.Success(artistList)
-            } else {
-                DataState.Error(Exception("Preview Error"))
-            }
+            return artistList?.let {
+                DataState.Success(it)
+            } ?: DataState.Error(Exception("Preview Error"))
         }
 
         override suspend fun getArtist(id: Int): DataState<Artist> {
-            return if(artist != null) {
-                DataState.Success(artist)
-            } else {
-                DataState.Error(Exception("Preview Error"))
-            }
+            return artist?.let {
+                DataState.Success(it)
+            } ?: DataState.Error(Exception("Preview Error"))
         }
     }
 
+    // ViewModel de ejemplo para un artista específico.
     fun getArtistViewModel(artist: Artist? = PreviewModel.artist) = ArtistViewModel(
-        artist = artist?: PreviewModel.artist,
-        artistRepository = getArtistRepository(
-            artist = artist,
-        )
+        artist = artist ?: PreviewModel.artist,
+        artistRepository = getArtistRepository(artist = artist)
     )
 
-    fun getListArtistViewModel(artistList: List<Artist>? = List(10){PreviewModel.artist})
-    = ListArtistViewModel(getArtistRepository(artistList = artistList))
+    // ViewModel de ejemplo para una lista de artistas.
+    fun getListArtistViewModel(artistList: List<Artist>? = List(10) { PreviewModel.artist }) =
+        ListArtistViewModel(getArtistRepository(artistList = artistList))
 
-
+    // Crear una instancia de AlbumRepository para usar en los previews.
     private fun getAlbumRepository(
         album: Album? = null,
         albumList: List<Album>? = null
     ) = object : AlbumRepository {
         override suspend fun getAlbums(): DataState<List<Album>> {
-            return if (albumList != null) {
-                DataState.Success(albumList)
-            } else {
-                DataState.Error(Exception("Preview Error"))
-            }
+            return albumList?.let {
+                DataState.Success(it)
+            } ?: DataState.Error(Exception("Preview Error"))
         }
 
         override suspend fun getAlbum(id: Int): DataState<Album> {
@@ -63,6 +59,14 @@ object PreviewViewModel {
             } else {
                 DataState.Error(Exception("Preview Error"))
             }
+            return album?.let {
+                DataState.Success(it)
+            } ?: DataState.Error(Exception("Preview Error"))
+        }
+
+        override suspend fun addComment(albumId: Int, comment: Comment): DataState<Unit> {
+            // Implementación de ejemplo para preview, podrías retornar un estado de éxito o error.
+            return DataState.Success(Unit)
         }
 
         override suspend fun addAlbum(album: Album): DataState<Album> {

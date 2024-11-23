@@ -9,6 +9,7 @@ import com.uniandes.vynilos.data.model.Musician
 import com.uniandes.vynilos.data.model.Performer
 import com.uniandes.vynilos.data.model.PerformerPrize
 import com.uniandes.vynilos.data.model.Tracks
+import com.uniandes.vynilos.data.remote.entity.CollectorDTO
 
 object PreviewModel {
 
@@ -45,7 +46,8 @@ object PreviewModel {
     private val comment = Comment(
         id = 1,
         rating = 3,
-        description = "pues ahí le va"
+        description = "pues ahí le va",
+        collector = CollectorDTO(id = 1)
     )
 
     private val permorfer = Performer(

@@ -1,6 +1,5 @@
 package com.uniandes.vynilos.presentation.ui.screen.album
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -46,6 +45,34 @@ import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material3.Card
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.TextField
+import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
+import com.uniandes.vynilos.data.model.Performer
+import com.uniandes.vynilos.presentation.ui.theme.vynilOSTopAppBarColors
 
 @Composable
 fun AlbumDetailScreen(
@@ -140,8 +167,13 @@ private fun AlbumDetailView(
             viewModel.resetAddTrackResult()
         }
     }
+    
+    val ctx = LocalContext.current
+    var comments by remember { mutableStateOf(album.comments.map { it.description }) }
+    var newComment by remember { mutableStateOf("") }
+    var isAddingComment by remember { mutableStateOf(false) }
 
-    LazyColumn(
+    LazyColumn (
         Modifier
             .fillMaxSize()
             .padding(16.dp)
@@ -208,6 +240,89 @@ private fun AlbumDetailView(
                     text = stringResource(R.string.no_tracks),
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+            }
+        }
+        // Sección de Comentarios
+        item {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Comentarios:",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(1f)
+                )
+
+                IconButton(
+                    onClick = { isAddingComment = !isAddingComment }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Add Comment",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+        }
+
+        if (isAddingComment) {
+            item {
+                Column {
+                    TextField(
+                        value = newComment,
+                        onValueChange = { newComment = it },
+                        label = { Text("Add your comment...") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                    )
+                    Button(
+                        onClick = {
+                            viewModel.addComment(album.id, newComment)
+                            comments = listOf(newComment) + comments
+                            newComment = ""
+                            isAddingComment = false
+                        },
+                        modifier = Modifier.align(Alignment.End)
+                    ) {
+                        Text("Enviar")
+                    }
+                }
+            }
+        }
+
+        // Mostrar los comentarios existentes
+        items(comments) { comment ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+            ) {
+                Column(modifier = Modifier.padding(8.dp)) {
+                    Text(
+                        text = comment,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Row(
+                        horizontalArrangement = Arrangement.Start,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(top = 4.dp)
+                    ) {
+                        repeat(5) { // Estrellas de ejemplo (rating)
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = null,
+                                tint = Color(0xFF613EEA),
+                                modifier = Modifier.size(16.dp)
+                            )
+                        }
+                    }
+                }
             }
         }
 

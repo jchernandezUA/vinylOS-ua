@@ -7,6 +7,10 @@ import com.uniandes.vynilos.data.model.DTO
 import com.uniandes.vynilos.data.model.Tracks
 import com.uniandes.vynilos.data.model.toDomain
 import com.uniandes.vynilos.data.remote.entity.TrackRequest
+import com.uniandes.vynilos.data.model.Artist
+import com.uniandes.vynilos.data.model.Comment
+import com.uniandes.vynilos.data.model.DTO
+import com.uniandes.vynilos.data.model.toDomain
 import com.uniandes.vynilos.data.remote.service.AlbumServiceAdapter
 
 interface AlbumRepository {
@@ -14,6 +18,7 @@ interface AlbumRepository {
     suspend fun getAlbum(id: Int): DataState<Album>
     suspend fun addAlbum(album: Album): DataState<Album>
     suspend fun addTrackToAlbum(albumId: Int, track: Tracks): DataState<Tracks>
+    suspend fun addComment(albumId: Int, comment: Comment): DataState<Unit>
 }
 class AlbumRepositoryImpl(
     private val albumService: AlbumServiceAdapter
@@ -49,6 +54,13 @@ class AlbumRepositoryImpl(
             )
             val response = albumService.addTrackToAlbum(albumId, request)
             response.DTO()
+        }
+    }
+
+    override suspend fun addComment(albumId: Int, comment: Comment): DataState<Unit> {
+        return resultOrError {
+            val commentRequest = comment.toDomain()
+            albumService.addComment(albumId, commentRequest)
         }
     }
 }

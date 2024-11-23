@@ -16,7 +16,8 @@ data class AlbumResponse(
 data class CommentResponse(
     val id: Int,
     val description: String,
-    val rating: Int
+    val rating: Int,
+    val collectorId: Int
 )
 
 data class TracksResponse(

@@ -1,5 +1,8 @@
 package com.uniandes.vynilos.data.remote.entity
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 data class CollectorResponse(
     val id: Int,
     val name: String,
@@ -15,3 +18,8 @@ data class CollectorAlbumResponse(
     val price: Double,
     val status: String
 )
+
+@Parcelize
+data class CollectorDTO(
+    val id: Int
+): Parcelable
