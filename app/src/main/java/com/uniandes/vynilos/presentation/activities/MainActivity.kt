@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.uniandes.vynilos.presentation.navigation.HomeNavigation
-import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
+import com.uniandes.vynilos.presentation.viewModel.album.ListAlbumViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListCollectorViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel

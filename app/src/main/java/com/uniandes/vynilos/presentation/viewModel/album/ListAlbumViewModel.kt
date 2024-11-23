@@ -1,27 +1,27 @@
-package com.uniandes.vynilos.presentation.viewModel
+package com.uniandes.vynilos.presentation.viewModel.album
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Album
-import com.uniandes.vynilos.data.model.Artist
 import com.uniandes.vynilos.data.repository.AlbumRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class AlbumViewModel(
-    val album : Album,
+class ListAlbumViewModel(
     private val albumRepository: AlbumRepository
-) : ViewModel() {
+): ViewModel() {
 
-    private val _albumResult = MutableStateFlow<DataState<Album>>(DataState.Idle)
-    val albumResult: StateFlow<DataState<Album>?> = _albumResult
+    private val _albumsResult: MutableStateFlow<DataState<List<Album>>?> = MutableStateFlow(null)
+    val albumsResult: StateFlow<DataState<List<Album>>?>
+        get() = _albumsResult
 
-    fun getAlbum(){
+
+    fun getAlbums() {
         viewModelScope.launch {
-            _albumResult.value = DataState.Loading
-            _albumResult.value = albumRepository.getAlbum(album.id)
+            _albumsResult.value = DataState.Loading
+            _albumsResult.value = albumRepository.getAlbums() //success or error
         }
     }
 }

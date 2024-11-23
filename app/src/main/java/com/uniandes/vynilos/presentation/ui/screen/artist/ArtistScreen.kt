@@ -45,13 +45,10 @@ import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.common.NetworkModule
 import com.uniandes.vynilos.common.ObserveAsActions
 import com.uniandes.vynilos.data.model.Artist
-import com.uniandes.vynilos.data.repository.AlbumRepositoryImpl
 import com.uniandes.vynilos.data.repository.ArtistRepositoryImpl
 import com.uniandes.vynilos.presentation.navigation.ArtistActions
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
-import com.uniandes.vynilos.presentation.ui.preview.PreviewViewModel
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
-import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 
 @Composable

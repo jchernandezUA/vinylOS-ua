@@ -2,7 +2,9 @@ package com.uniandes.vynilos.screens
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.uniandes.vynilos.R
@@ -14,10 +16,10 @@ import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.data.repository.ArtistRepository
 import com.uniandes.vynilos.data.repository.CollectorRepository
 import com.uniandes.vynilos.model.ALBUM_LIST
-import com.uniandes.vynilos.model.ALBUM_RESPONSE_LIST
 import com.uniandes.vynilos.model.DEFAULT_ERROR
+import com.uniandes.vynilos.model.createAlbumList
 import com.uniandes.vynilos.presentation.navigation.HomeNavigation
-import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
+import com.uniandes.vynilos.presentation.viewModel.album.ListAlbumViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListCollectorViewModel
 import io.mockk.coEvery
@@ -26,6 +28,15 @@ import org.junit.Rule
 import org.junit.Test
 
 class AlbumListScreenTest {
+
+    companion object {
+        fun changeToCollectorType(composeTestRule: AndroidComposeTestRule<*,*>) {
+            composeTestRule.onNodeWithText(
+                composeTestRule.activity.getString(R.string.visitor),
+                ignoreCase = true
+            ).performClick()
+        }
+    }
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
@@ -54,7 +65,6 @@ class AlbumListScreenTest {
     private fun setMockResponseAlbumById(albumResponse: AlbumResponse) {
         coEvery { albumRepository.getAlbum(albumResponse.id) } returns DataState.Success(albumResponse.DTO())
     }
-
 
     @Test
     fun testLoadEmptyAlbumScreen() {
@@ -98,6 +108,27 @@ class AlbumListScreenTest {
         // Then
         composeTestRule.onNodeWithText(
             DEFAULT_ERROR
+        ).assertIsDisplayed()
+    }
+
+    @Test
+    fun testClickVisitorElement() {
+        // Given
+        val testList = createAlbumList()
+        setUp(DataState.Success(testList))
+
+        // When
+        changeToCollectorType(composeTestRule)
+
+        // Then
+        composeTestRule.onNodeWithText(
+            composeTestRule.activity.getString(R.string.collectors),
+            ignoreCase = true
+        ).assertIsDisplayed()
+
+        composeTestRule.onNodeWithContentDescription(
+            composeTestRule.activity.getString(R.string.add_album),
+            ignoreCase = true
         ).assertIsDisplayed()
     }
 }

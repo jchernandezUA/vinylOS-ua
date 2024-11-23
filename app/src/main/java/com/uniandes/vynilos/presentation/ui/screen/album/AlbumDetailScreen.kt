@@ -44,7 +44,6 @@ import com.uniandes.vynilos.presentation.navigation.ActionType
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.ui.preview.PreviewViewModel
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
-import com.uniandes.vynilos.presentation.viewModel.AlbumViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -73,6 +72,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.uniandes.vynilos.data.model.Performer
 import com.uniandes.vynilos.data.model.Tracks
 import com.uniandes.vynilos.presentation.ui.theme.vynilOSTopAppBarColors
+import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

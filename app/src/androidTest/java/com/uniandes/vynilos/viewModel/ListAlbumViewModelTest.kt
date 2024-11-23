@@ -4,7 +4,7 @@ import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.model.ALBUM_LIST
 import com.uniandes.vynilos.model.DEFAULT_ERROR
-import com.uniandes.vynilos.presentation.viewModel.ListAlbumViewModel
+import com.uniandes.vynilos.presentation.viewModel.album.ListAlbumViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

@@ -5,10 +5,10 @@ import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.model.Artist
 import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.data.repository.ArtistRepository
-import com.uniandes.vynilos.presentation.ui.preview.PreviewModel.album
-import com.uniandes.vynilos.presentation.viewModel.AlbumViewModel
+import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 import com.uniandes.vynilos.presentation.viewModel.ArtistViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
+import com.uniandes.vynilos.presentation.viewModel.album.AddAlbumViewModel
 
 object PreviewViewModel {
 
@@ -63,6 +63,14 @@ object PreviewViewModel {
                 DataState.Error(Exception("Preview Error"))
             }
         }
+
+        override suspend fun addAlbum(_album: Album): DataState<Album> {
+            return if(album != null) {
+                DataState.Success(album)
+            } else {
+                DataState.Error(Exception("Preview Error"))
+            }
+        }
     }
 
 
@@ -71,6 +79,10 @@ object PreviewViewModel {
         albumRepository = getAlbumRepository(
             album= album,
         )
+    )
+
+    fun getAddAlbumViewModel() = AddAlbumViewModel(
+        albumRepository = getAlbumRepository()
     )
 
 }

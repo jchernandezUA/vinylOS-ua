@@ -93,16 +93,19 @@ fun createAlbum(
     id: Int = 1,
     name: String = "Album Name",
     cover: String = "https://www.example.com/album.png",
-    description: String = "Description of an album"
+    description: String = "Description of an album",
+    recordLabel: String = "Sony Music",
+    genre: String = "Rock",
+    releaseDate: Long = 0
 ): Album {
     return Album(
         id = id,
         name = name,
         cover = cover,
         description = description,
-        releaseDate = 0,
-        genre = "",
-        recordLabel = "",
+        releaseDate = releaseDate,
+        genre = genre,
+        recordLabel = recordLabel,
         tracks = emptyList(),
         performers = emptyList(),
         comments = emptyList(),

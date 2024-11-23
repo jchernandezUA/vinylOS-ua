@@ -1,5 +1,6 @@
 package com.uniandes.vynilos.common
 
+import android.util.Log
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -9,6 +10,7 @@ sealed class DataState<out T> {
     data class Success<out T> (val data: T): DataState<T>()
     class Error(val error: DataError): DataState<Nothing>() {
         constructor(exception: Exception) : this(exception.let {
+            Log.e("Error", exception.message?:"Unexpected error")
             when(exception) {
                 is IOException  -> {
                     DataError(

@@ -10,6 +10,7 @@ sealed class NavItem (val baseRoute: String) {
     data object  NotMain: NavItem("not_main")
     data object  AlbumDetail: NavItem("album_detail")
     data object  ArtistDetail: NavItem("artist_detail")
+    data object  AddAlbum: NavItem("add_album")
 
 }
 

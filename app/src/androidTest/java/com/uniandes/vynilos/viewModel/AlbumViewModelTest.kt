@@ -4,7 +4,7 @@ import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.model.ALBUM_LIST
 import com.uniandes.vynilos.model.DEFAULT_ERROR
-import com.uniandes.vynilos.presentation.viewModel.AlbumViewModel
+import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +45,7 @@ class AlbumViewModelTest {
 
     @Test
     fun testGetAlbumSuccess() = runTest {
-        coEvery { albumRepository.getAlbum(testAlbum.id) } returns DataState.Success(testAlbum)
+        coEvery { albumRepository.getAlbum(testAlbum.id!!) } returns DataState.Success(testAlbum)
 
         viewModel.getAlbum()
         runCurrent()
@@ -57,7 +57,7 @@ class AlbumViewModelTest {
 
     @Test
     fun testGetAlbumError() = runTest {
-        coEvery { albumRepository.getAlbum(testAlbum.id) } returns DataState.Error(Exception(DEFAULT_ERROR))
+        coEvery { albumRepository.getAlbum(testAlbum.id!!) } returns DataState.Error(Exception(DEFAULT_ERROR))
 
         viewModel.getAlbum()
         advanceUntilIdle()
