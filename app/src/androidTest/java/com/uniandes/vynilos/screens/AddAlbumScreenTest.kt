@@ -19,12 +19,9 @@ import com.uniandes.vynilos.di.albumModule
 import com.uniandes.vynilos.di.artistModule
 import com.uniandes.vynilos.di.collectorModule
 import com.uniandes.vynilos.model.createAlbum
-import com.uniandes.vynilos.model.createAlbumList
 import com.uniandes.vynilos.presentation.activities.MainActivity
-import com.uniandes.vynilos.presentation.viewModel.album.AddAlbumViewModel
 import com.uniandes.vynilos.screens.AlbumListScreenTest.Companion.changeToCollectorType
 import io.mockk.coEvery
-import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.koin.core.context.startKoin
