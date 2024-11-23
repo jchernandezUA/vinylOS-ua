@@ -1,5 +1,6 @@
 package com.uniandes.vynilos.screens
 
+import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasAnySibling
@@ -14,39 +15,47 @@ import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.repository.AlbumRepository
+import com.uniandes.vynilos.di.albumModule
+import com.uniandes.vynilos.di.artistModule
+import com.uniandes.vynilos.di.collectorModule
 import com.uniandes.vynilos.model.createAlbum
-import com.uniandes.vynilos.presentation.navigation.ActionType
-import com.uniandes.vynilos.presentation.navigation.AlbumActions
-import com.uniandes.vynilos.presentation.navigation.NavigationActions
-import com.uniandes.vynilos.presentation.ui.screen.album.AddAlbumScreen
+import com.uniandes.vynilos.model.createAlbumList
+import com.uniandes.vynilos.presentation.activities.MainActivity
 import com.uniandes.vynilos.presentation.viewModel.album.AddAlbumViewModel
+import com.uniandes.vynilos.screens.AlbumListScreenTest.Companion.changeToCollectorType
 import io.mockk.coEvery
-import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Rule
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.test.KoinTest
+import org.koin.test.get
 import kotlin.test.Test
 
-class AddAlbumScreenTest {
+class AddAlbumScreenTest : KoinTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
-    private val albumRepository: AlbumRepository = mockk()
-    private val viewModel = AddAlbumViewModel(albumRepository)
-    private var action: ActionType? = null
 
     @Before
     fun setUp() {
-        composeTestRule.setContent {
-            AddAlbumScreen(
-                viewModel = viewModel,
-                navigationActions = NavigationActions {
-                    action = it
-                }
-            )
+        stopKoin()
+        startKoin {
+            modules(albumModule, artistModule, collectorModule)
         }
+        composeTestRule.activityRule.scenario.onActivity {
+            it.startActivity(Intent(it, MainActivity::class.java))
+        }
+        coEvery { get<AlbumRepository>().getAlbums() } returns DataState.Success(emptyList())
+        changeToCollectorType(composeTestRule)
+        composeTestRule.onNodeWithContentDescription(
+            composeTestRule.activity.getString(R.string.add_album),
+            ignoreCase = true
+        ).performClick()
     }
 
-    private fun initValidValues(album: Album, genre: String, recordLabel: String) {
+
+    private fun setUpvValidAlbumInput(album: Album, genre: String, recordLabel: String) {
         composeTestRule.apply {
             onNodeWithText(activity.getString(R.string.album))
                 .performTextInput(album.name)
@@ -76,12 +85,12 @@ class AddAlbumScreenTest {
                 recordLabel
             ).performClick()
         }
-
     }
 
     @Test
     fun testValidAlbumShowingFloatingActionButton() {
         // Given
+
         val recordLabel = composeTestRule.activity.resources.getStringArray(R.array.record_labels)[0]
         val genre = composeTestRule.activity.resources.getStringArray(R.array.genres)[0]
         val album = createAlbum(
@@ -90,41 +99,12 @@ class AddAlbumScreenTest {
         )
 
         // When
-        initValidValues(album, genre, recordLabel)
+        setUpvValidAlbumInput(album, genre, recordLabel)
 
         //then
-        assertEquals(album.name, viewModel.name.value)
-        assertEquals(album.description, viewModel.description.value)
-        assertEquals(album.cover, viewModel.cover.value)
-        assertEquals(album.recordLabel, viewModel.recordLabel.value)
-        assertEquals(album.genre, viewModel.genre.value)
         composeTestRule.onNodeWithContentDescription(
             composeTestRule.activity.getString(R.string.add_album)
         ).isDisplayed()
-
-    }
-
-    @Test
-    fun testSuccessAddAlbum() {
-        // Given
-        val recordLabel = composeTestRule.activity.resources.getStringArray(R.array.record_labels)[0]
-        val genre = composeTestRule.activity.resources.getStringArray(R.array.genres)[0]
-        val album = createAlbum(
-            genre = genre,
-            recordLabel = recordLabel
-        )
-
-        coEvery { albumRepository.addAlbum(any()) } returns DataState.Success(album.copy(id = 1))
-
-        // When
-        initValidValues(album, genre, recordLabel)
-        composeTestRule.onNodeWithContentDescription(
-            composeTestRule.activity.getString(R.string.add_album)
-
-        ).performClick()
-
-        //then
-        assertEquals(AlbumActions.OnAlbumAdded, action)
     }
 
     @Test
@@ -287,5 +267,32 @@ class AddAlbumScreenTest {
                 )
             ).assertIsDisplayed()
         }
+    }
+
+    @org.junit.Test
+    fun testClickShowAlbumAddedElement() {
+        // Given
+        val recordLabel = composeTestRule.activity.resources.getStringArray(R.array.record_labels)[0]
+        val genre = composeTestRule.activity.resources.getStringArray(R.array.genres)[0]
+        val album = createAlbum(
+            genre = genre,
+            recordLabel = recordLabel
+        )
+
+        // When
+        setUpvValidAlbumInput(album, genre, recordLabel)
+
+        coEvery { get<AlbumRepository>().addAlbum(any()) } returns DataState.Success(album)
+
+        composeTestRule.onNodeWithContentDescription(
+            composeTestRule.activity.getString(R.string.add_album),
+            ignoreCase = true
+        ).performClick()
+
+        // Then very is already added
+        composeTestRule.onNodeWithText(
+            composeTestRule.activity.getString(R.string.album_added),
+            ignoreCase = true
+        ).performClick()
     }
 }
