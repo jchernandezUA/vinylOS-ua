@@ -27,13 +27,13 @@ val albumModule = module {
 }
 
 val artistModule = module {
-    single<ArtistRepository> { mockk() } // Usa el mock proporcionado en las pruebas
+    single<ArtistRepository> { mockk() }
     factory { ListArtistViewModel(get()) }
     viewModel { (artist: Artist) -> ArtistViewModel(artist, get()) }
 }
 
 val collectorModule = module {
-    single<CollectorRepository> { mockk() } // Usa el mock proporcionado en las pruebas
+    single<CollectorRepository> { mockk() }
     viewModel { ListCollectorViewModel(get()) }
     viewModel { (collectorId: Int) -> CollectorDetailViewModel(collectorId, get()) }
 }

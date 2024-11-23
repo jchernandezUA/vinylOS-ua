@@ -103,7 +103,7 @@ fun createAlbum(
         name = name,
         cover = cover,
         description = description,
-        releaseDate = 0,
+        releaseDate = releaseDate,
         genre = genre,
         recordLabel = recordLabel,
         tracks = emptyList(),
