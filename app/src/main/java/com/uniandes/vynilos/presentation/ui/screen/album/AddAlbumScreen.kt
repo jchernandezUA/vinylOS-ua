@@ -14,6 +14,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -162,7 +163,7 @@ fun AddAlbumScreen(
                                 IconButton(onClick = {
                                     showDatePicker = true
                                 }) {
-                                    Icon(Icons.Default.ArrowDropDown, contentDescription = null)
+                                    Icon(Icons.Default.CalendarMonth, contentDescription = null)
                                 }
                             },
                             interactionSource = remember { MutableInteractionSource() }
