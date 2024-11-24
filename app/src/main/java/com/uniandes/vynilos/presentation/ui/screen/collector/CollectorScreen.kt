@@ -2,6 +2,7 @@ package com.uniandes.vynilos.presentation.ui.screen.collector
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,12 +39,15 @@ import coil.compose.rememberAsyncImagePainter
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Collector
+import com.uniandes.vynilos.presentation.navigation.CollectorActions
+import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.viewModel.ListCollectorViewModel
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun CollectorScreen(
-    viewModel: ListCollectorViewModel
+    viewModel: ListCollectorViewModel,
+    navigationActions: NavigationActions = NavigationActions()
 ) {
     val collectorsResult by viewModel.collectorsResult.collectAsState()
 
@@ -76,7 +80,11 @@ fun CollectorScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         items(data) { collector ->
-                            CollectorCard(collector)
+                            CollectorCard(collector){
+                                navigationActions.onAction(
+                                    CollectorActions.OnClickCollector(collector)
+                                )
+                            }
                         }
                     }
                 } else {
@@ -100,10 +108,13 @@ fun CollectorScreen(
 }
 
 @Composable
-fun CollectorCard(collector: Collector) {
+fun CollectorCard(collector: Collector, onItemClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth(0.9f)
+            .clickable {
+                onItemClick()
+            }
     ) {
         Row(
             modifier = Modifier

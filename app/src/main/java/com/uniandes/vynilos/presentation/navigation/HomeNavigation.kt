@@ -44,6 +44,7 @@ import com.uniandes.vynilos.R
 import com.uniandes.vynilos.presentation.activities.AddAlbumActivity
 import com.uniandes.vynilos.presentation.activities.AlbumActivity
 import com.uniandes.vynilos.presentation.activities.ArtistActivity
+import com.uniandes.vynilos.presentation.activities.CollectorActivity
 import com.uniandes.vynilos.presentation.navigation.BottomNavItem.Companion.BOTTOM_ITEMS
 import com.uniandes.vynilos.presentation.ui.screen.album.AlbumListScreen
 import com.uniandes.vynilos.presentation.ui.screen.artist.ArtistScreen
@@ -136,8 +137,17 @@ fun HomeNavigation(
 
                 }
                 composable(BottomNavItem.Collectors.baseRoute) {
+                    val context = LocalContext.current
                     CollectorScreen(
-                        viewModel = listCollectorViewModel
+                        viewModel = listCollectorViewModel,
+                        navigationActions = NavigationActions {
+
+                            if (it is CollectorActions.OnClickCollector) {
+                                val intent = Intent(context, CollectorActivity::class.java)
+                                intent.putExtra(CollectorActivity.COLLECTOR, it.collector)
+                                context.startActivity(intent)
+                            }
+                        }
                     )
                 }
             }
