@@ -3,19 +3,21 @@ package com.uniandes.vynilos.data.repository
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.common.resultOrError
 import com.uniandes.vynilos.data.model.Album
-import com.uniandes.vynilos.data.model.Artist
 import com.uniandes.vynilos.data.model.DTO
+import com.uniandes.vynilos.data.model.Tracks
 import com.uniandes.vynilos.data.model.toDomain
+import com.uniandes.vynilos.data.remote.entity.TrackRequest
 import com.uniandes.vynilos.data.remote.service.AlbumServiceAdapter
 
 interface AlbumRepository {
     suspend fun getAlbums(): DataState<List<Album>>
     suspend fun getAlbum(id: Int): DataState<Album>
     suspend fun addAlbum(album: Album): DataState<Album>
+    suspend fun addTrackToAlbum(albumId: Int, track: Tracks): DataState<Tracks>
 }
 class AlbumRepositoryImpl(
     private val albumService: AlbumServiceAdapter
-): AlbumRepository {
+) : AlbumRepository {
 
     override suspend fun getAlbums(): DataState<List<Album>> {
         return resultOrError {
@@ -36,6 +38,17 @@ class AlbumRepositoryImpl(
             val albumRequest = album.toDomain()
             val albumResponse = albumService.addAlbum(albumRequest)
             albumResponse.DTO()
+        }
+    }
+
+    override suspend fun addTrackToAlbum(albumId: Int, track: Tracks): DataState<Tracks> {
+        return resultOrError {
+            val request = TrackRequest(
+                name = track.name,
+                duration = track.duration
+            )
+            val response = albumService.addTrackToAlbum(albumId, request)
+            response.DTO()
         }
     }
 }

@@ -33,7 +33,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,9 +49,9 @@ import com.uniandes.vynilos.presentation.ui.screen.album.AlbumListScreen
 import com.uniandes.vynilos.presentation.ui.screen.artist.ArtistScreen
 import com.uniandes.vynilos.presentation.ui.screen.collector.CollectorScreen
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
-import com.uniandes.vynilos.presentation.viewModel.album.ListAlbumViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListCollectorViewModel
+import com.uniandes.vynilos.presentation.viewModel.album.ListAlbumViewModel
 import java.util.Locale
 
 

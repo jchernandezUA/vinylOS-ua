@@ -18,10 +18,10 @@ data class Album(
     val description: String,
     val genre: String,
     val recordLabel: String,
-    val tracks : List<Tracks> = emptyList(),
-    val performers : List<Performer> = emptyList(),
-    val comments : List<Comment> = emptyList()
-): Parcelable
+    val tracks: List<Tracks> = emptyList(),
+    val performers: List<Performer> = emptyList(),
+    val comments: List<Comment> = emptyList()
+) : Parcelable
 
 
 fun AlbumResponse.DTO() = Album(

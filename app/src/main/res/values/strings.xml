@@ -38,11 +38,19 @@
         <item>Elektra</item>
         <item>Fania Records</item>
     </string-array>
-    <string name="collector">Collecionista</string>
+    <string name="collector">Coleccionista</string>
     <string name="album_added">El álbum se agregó correctamente</string>
     <string name="invalid_url">Url no válida</string>
     <string name="required_field">Campo obligatorio</string>
     <string name="open_calendar">Abrir Calendario</string>
     <string name="collapse">Colapsar</string>
     <string name="expand">Expandir</string>
+    <string name="add_track">Agregar Track</string>
+    <string name="add_new_track">Agregar Nuevo Track</string>
+    <string name="track_name">Nombre del Track</string>
+    <string name="track_duration">Duración del Track</string>
+    <string name="add">Agregar</string>
+    <string name="no_tracks">No hay tracks disponibles.</string>
+    <string name="error_loading_album">Error al cargar el álbum.</string>
+    <string name="error_adding_track">Error al agregar el track.</string>
 </resources>

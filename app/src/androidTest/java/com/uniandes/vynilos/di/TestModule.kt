@@ -1,10 +1,7 @@
 package com.uniandes.vynilos.di
 
-import com.uniandes.vynilos.common.NetworkModule.createService
+import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.model.Artist
-import com.uniandes.vynilos.data.remote.service.AlbumServiceAdapter
-import com.uniandes.vynilos.data.remote.service.ArtistServiceAdapter
-import com.uniandes.vynilos.data.remote.service.CollectorServiceAdapter
 import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.data.repository.ArtistRepository
 import com.uniandes.vynilos.data.repository.CollectorRepository
@@ -21,8 +18,13 @@ import org.koin.dsl.module
 
 val albumModule = module {
     single<AlbumRepository> { mockk() }
+    viewModel { (album: Album) ->
+        AlbumViewModel(
+            album = album,
+            albumRepository = get()
+        )
+    }
     viewModel { ListAlbumViewModel(get()) }
-    viewModel { AlbumViewModel(get(), get()) }
     viewModel { AddAlbumViewModel(get()) }
 }
 

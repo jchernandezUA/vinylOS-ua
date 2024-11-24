@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.uniandes.vynilos.presentation.ui.screen.NotMainScreen
-import com.uniandes.vynilos.presentation.ui.screen.album.AlbumDetalScreen
+import com.uniandes.vynilos.presentation.ui.screen.album.AlbumDetailScreen
 import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 
 @Composable
@@ -18,9 +18,13 @@ fun AlbumNavigation(
         startDestination = NavItem.AlbumDetail.baseRoute
     ) {
         composable(NavItem.AlbumDetail) {
-            AlbumDetalScreen(viewModel,NavigationActions{
-                onFinish()
-            })
+            AlbumDetailScreen(
+                viewModel = viewModel,
+                isCollector = true,
+                NavigationActions {
+                    onFinish()
+                }
+            )
         }
 
         composable(NavItem.NotMain) {

@@ -3,12 +3,13 @@ package com.uniandes.vynilos.presentation.ui.preview
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.model.Artist
+import com.uniandes.vynilos.data.model.Tracks
 import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.data.repository.ArtistRepository
-import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 import com.uniandes.vynilos.presentation.viewModel.ArtistViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 import com.uniandes.vynilos.presentation.viewModel.album.AddAlbumViewModel
+import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 
 object PreviewViewModel {
 
@@ -57,27 +58,33 @@ object PreviewViewModel {
         }
 
         override suspend fun getAlbum(id: Int): DataState<Album> {
-            return if(album != null) {
+            return if (album != null) {
                 DataState.Success(album)
             } else {
                 DataState.Error(Exception("Preview Error"))
             }
         }
 
-        override suspend fun addAlbum(_album: Album): DataState<Album> {
-            return if(album != null) {
+        override suspend fun addAlbum(album: Album): DataState<Album> {
+            return if (album != null) {
                 DataState.Success(album)
             } else {
                 DataState.Error(Exception("Preview Error"))
             }
+        }
+
+        override suspend fun addTrackToAlbum(albumId: Int, track: Tracks): DataState<Tracks> {
+            // Provide a dummy implementation for preview purposes
+            return DataState.Success(track)
         }
     }
 
 
+
     fun getAlbumViewModel(album: Album? = PreviewModel.album) = AlbumViewModel(
-        album = album?: PreviewModel.album,
+        album = album ?: PreviewModel.album,
         albumRepository = getAlbumRepository(
-            album= album,
+            album = album,
         )
     )
 

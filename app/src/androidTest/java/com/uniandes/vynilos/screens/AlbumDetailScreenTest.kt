@@ -1,8 +1,11 @@
 package com.uniandes.vynilos.screens
 
-import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.isDisplayed
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Album
@@ -10,7 +13,7 @@ import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.model.DEFAULT_ERROR
 import com.uniandes.vynilos.model.createAlbum
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
-import com.uniandes.vynilos.presentation.ui.screen.album.AlbumDetalScreen
+import com.uniandes.vynilos.presentation.ui.screen.album.AlbumDetailScreen
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 import io.mockk.coEvery
@@ -32,9 +35,10 @@ class AlbumDetailScreenTest {
         coEvery { albumRepository.getAlbum(1) } returns dataState
         composeTestRule.setContent {
             VynilOSTheme {
-                AlbumDetalScreen(
+                AlbumDetailScreen(
                     viewModel = viewModel,
-                    navigationActions = NavigationActions()
+                    navigationActions = NavigationActions(),
+                    isCollector = true,
                 )
             }
         }
