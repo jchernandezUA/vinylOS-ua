@@ -50,7 +50,7 @@ fun DropdownTextField(
                     .also { interactionSource ->
                         LaunchedEffect(interactionSource) {
                             interactionSource.interactions.collect {
-                                if (it is PressInteraction.Release) {
+                                if (it is PressInteraction.Press) {
                                     expanded = !expanded
                                 }
                             }
