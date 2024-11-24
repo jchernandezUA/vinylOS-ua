@@ -160,10 +160,10 @@ fun AddAlbumScreen(
                             isError = releaseDateErrorId != null,
                             label = { Text(stringResource(R.string.release_date)) },
                             trailingIcon = {
-                                IconButton(onClick = {
-                                    showDatePicker = true
-                                }) {
-                                    Icon(Icons.Default.CalendarMonth, contentDescription = null)
+                                IconButton(
+                                    onClick = {
+                                    showDatePicker = true }) {
+                                    Icon(Icons.Default.CalendarMonth, contentDescription = stringResource(R.string.open_calendar))
                                 }
                             },
                             interactionSource = remember { MutableInteractionSource() }

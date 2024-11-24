@@ -42,4 +42,7 @@
     <string name="album_added">El álbum se agregó correctamente</string>
     <string name="invalid_url">Url no válida</string>
     <string name="required_field">Campo obligatorio</string>
+    <string name="open_calendar">Abrir Calendario</string>
+    <string name="collapse">Colapsar</string>
+    <string name="expand">Expandir</string>
 </resources>

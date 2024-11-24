@@ -20,6 +20,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.uniandes.vynilos.R
 
 @Composable
 fun DropdownTextField(
@@ -41,7 +43,12 @@ fun DropdownTextField(
                 readOnly = true,
                 trailingIcon = {
                     IconButton(onClick = { expanded = !expanded }) {
-                        Icon(Icons.Default.ArrowDropDown, contentDescription = null)
+                        Icon(
+                            imageVector = Icons.Default.ArrowDropDown,
+                            contentDescription = if (expanded)
+                                stringResource(R.string.collapse) else
+                            stringResource(R.string.expand)
+                        )
                     }
                 },
                 textError = textError,
