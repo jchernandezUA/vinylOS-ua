@@ -10,21 +10,18 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class CollectorDetailViewModel(
-    private val collectorId: Int,
+    private val collector: Collector,
     private val collectorRepository: CollectorRepository
 ) : ViewModel() {
 
     private val _collectorResult = MutableStateFlow<DataState<Collector>>(DataState.Idle)
     val collectorResult: StateFlow<DataState<Collector>> = _collectorResult
 
-    init {
-        getCollector()
-    }
 
-    private fun getCollector() {
+    fun getCollector() {
         viewModelScope.launch {
             _collectorResult.value = DataState.Loading
-            _collectorResult.value = collectorRepository.getCollector(collectorId)
+            _collectorResult.value = collectorRepository.getCollector(collector.id)
         }
     }
 }
