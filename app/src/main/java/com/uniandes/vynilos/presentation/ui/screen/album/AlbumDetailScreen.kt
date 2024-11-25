@@ -245,91 +245,109 @@ private fun AlbumDetailView(
         }
         // Sección de Comentarios
         item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(R.string.comments),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.weight(1f)
-                )
-
-                IconButton(
-                    onClick = { isAddingComment = !isAddingComment }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = stringResource(R.string.add_comments),
-                        tint = MaterialTheme.colorScheme.primary
-                    )
+            CommentsSection(
+                comments = comments,
+                onAddComment = { description, rating ->
+                    viewModel.addComment(album.id, description, rating)
+                    comments = listOf(description to rating) + comments
                 }
+            )
+        }
+
+
+    }
+}
+
+@Composable
+fun CommentsSection(
+    comments: List<Pair<String, Int>>,
+    onAddComment: (String, Int) -> Unit
+) {
+    var isAddingComment by remember { mutableStateOf(false) }
+    var newComment by remember { mutableStateOf("") }
+    var newRating by remember { mutableStateOf(0) }
+
+    Column {
+        // Título de la sección
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(R.string.comments),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.weight(1f)
+            )
+            IconButton(
+                onClick = { isAddingComment = !isAddingComment }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.add_comments),
+                    tint = MaterialTheme.colorScheme.primary
+                )
             }
         }
 
+        // Formulario para agregar comentarios
         if (isAddingComment) {
-            item {
-                Column {
-                    // TextField para ingresar el comentario
-                    TextField(
-                        value = newComment,
-                        onValueChange = { newComment = it },
-                        label = { Text(stringResource(R.string.add_comments)) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp)
+            Column(
+                modifier = Modifier.padding(8.dp)
+            ) {
+                TextField(
+                    value = newComment,
+                    onValueChange = { newComment = it },
+                    label = { Text(stringResource(R.string.add_comments)) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(R.string.select_rating),
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.weight(1f)
                     )
-
-                    // Selector de estrellas (rating)
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(R.string.select_rating),
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.weight(1f)
-                        )
-                        // Seleccionar el rating
-                        Row {
-                            repeat(5) { index ->
-                                IconButton(
-                                    onClick = { newRating = index + 1 }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Star,
-                                        contentDescription = null,
-                                        tint = if (index < newRating) Color(0xFF613EEA) else Color.Gray
-                                    )
-                                }
+                    Row {
+                        repeat(5) { index ->
+                            IconButton(
+                                onClick = { newRating = index + 1 }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Star,
+                                    contentDescription = null,
+                                    tint = if (index < newRating) Color(0xFF613EEA) else Color.Gray
+                                )
                             }
                         }
                     }
-
-                    Button(
-                        onClick = {
-                            if (newComment.isNotBlank() && newRating > 0) {
-                                viewModel.addComment(album.id, newComment, newRating)
-                                comments = listOf(newComment to newRating) + comments
-                                newComment = ""
-                                newRating = 0
-                                isAddingComment = false
-                            }
-                        },
-                        modifier = Modifier.align(Alignment.End)
-                    ) {
-                        Text(stringResource(R.string.send))
-                    }
+                }
+                Button(
+                    onClick = {
+                        if (newComment.isNotBlank() && newRating > 0) {
+                            onAddComment(newComment, newRating)
+                            newComment = ""
+                            newRating = 0
+                            isAddingComment = false
+                        }
+                    },
+                    modifier = Modifier.align(Alignment.End)
+                ) {
+                    Text(stringResource(R.string.send))
                 }
             }
         }
+
         // Mostrar los comentarios existentes
-        items(comments) { (description, rating) ->
+        comments.reversed().forEach { (description, rating) ->
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
