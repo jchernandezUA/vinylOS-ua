@@ -21,6 +21,8 @@ class AlbumViewModel(
     private val _addTrackResult = MutableStateFlow<DataState<Tracks>>(DataState.Idle)
     val addTrackResult: StateFlow<DataState<Tracks>> get() = _addTrackResult
 
+    var isCollector: Boolean = false
+
     fun getAlbum() {
         viewModelScope.launch {
             _albumResult.value = DataState.Loading

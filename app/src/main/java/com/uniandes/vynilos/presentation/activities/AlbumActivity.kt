@@ -1,5 +1,7 @@
 package com.uniandes.vynilos.presentation.activities
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,6 +16,18 @@ class AlbumActivity : ComponentActivity() {
 
     companion object {
         const val ALBUM = "album"
+        const val IS_COLLECTOR = "is_collector"
+
+        fun startActivity(
+            context: Context,
+            album: Album,
+            isCollector: Boolean = false
+        ) {
+            val intent = Intent(context, AlbumActivity::class.java)
+            intent.putExtra(ALBUM, album)
+            intent.putExtra(IS_COLLECTOR, isCollector)
+            context.startActivity(intent)
+        }
     }
 
     private lateinit var albumViewModel: AlbumViewModel
@@ -25,6 +39,7 @@ class AlbumActivity : ComponentActivity() {
         if (album == null) finish()
 
         albumViewModel = AlbumViewModel(album!!,albumRepository)
+        albumViewModel.isCollector = intent.getBooleanExtra(IS_COLLECTOR, false)
         setContent {
             AlbumNavigation(albumViewModel){
                 finish()

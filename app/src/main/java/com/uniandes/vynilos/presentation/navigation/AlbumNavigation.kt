@@ -20,7 +20,7 @@ fun AlbumNavigation(
         composable(NavItem.AlbumDetail) {
             AlbumDetailScreen(
                 viewModel = viewModel,
-                isCollector = true,
+                isCollector = viewModel.isCollector,
                 NavigationActions {
                     onFinish()
                 }

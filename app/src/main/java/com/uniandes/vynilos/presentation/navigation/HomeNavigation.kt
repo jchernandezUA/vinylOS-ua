@@ -168,9 +168,11 @@ private fun AlbumScreenWrapper(
         navigationActions = NavigationActions {
 
             if (it is AlbumActions.OnClickAlbum) {
-                val intent = Intent(context, AlbumActivity::class.java)
-                intent.putExtra(AlbumActivity.ALBUM, it.album)
-                context.startActivity(intent)
+                AlbumActivity.startActivity(
+                    context,
+                    it.album,
+                    isCollector
+                )
             }
             if (it is AlbumActions.OnClickAddAlbum)  {
                 val intent = AddAlbumActivity.getIntent(context)
