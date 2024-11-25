@@ -49,6 +49,7 @@ class AddAlbumScreenTest : KoinTest {
             composeTestRule.activity.getString(R.string.add_album),
             ignoreCase = true
         ).performClick()
+        composeTestRule.waitForIdle()
     }
 
 
