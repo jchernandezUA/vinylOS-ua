@@ -1,6 +1,7 @@
 package com.uniandes.vynilos.presentation.ui.screen.album
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +13,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -149,18 +152,28 @@ fun AddAlbumScreen(
                     Column {
                         androidx.compose.material3.TextField(
                             modifier = Modifier
-                                .fillMaxWidth(),
+                                .fillMaxWidth().clickable {
+                                    showDatePicker = true
+                                },
                             value = releaseDate,
                             onValueChange = {},
                             isError = releaseDateErrorId != null,
                             label = { Text(stringResource(R.string.release_date)) },
+                            trailingIcon = {
+                                IconButton(
+                                    onClick = {
+                                    showDatePicker = true }) {
+                                    Icon(Icons.Default.CalendarMonth, contentDescription = stringResource(R.string.open_calendar))
+                                }
+                            },
                             interactionSource = remember { MutableInteractionSource() }
                                 .also { interactionSource ->
                                     LaunchedEffect(interactionSource) {
                                         interactionSource.interactions.collect {
-                                            if (it is PressInteraction.Release) {
+                                            if (it is PressInteraction.Press) {
                                                 showDatePicker = true
                                             }
+
                                         }
                                     }
                                 }
