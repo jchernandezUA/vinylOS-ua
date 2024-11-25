@@ -82,4 +82,40 @@ class AlbumDetailScreenTest {
         composeTestRule.onNodeWithText(errorMessage)
             .assertIsDisplayed()
     }
+    @Test
+    fun testAddCommentButtonIsDisplayed() {
+        // Given
+        val album = album
+        initWithDataState(DataState.Success(album))
+
+        // Then
+        composeTestRule.onNodeWithContentDescription(composeTestRule.activity.getString(R.string.add_comments))
+            .assertIsDisplayed()
+    }
+    @Test
+    fun testClickAddCommentButton() {
+        // Given
+        val album = album
+        initWithDataState(DataState.Success(album))
+
+        // When
+        composeTestRule.onNodeWithContentDescription(composeTestRule.activity.getString(R.string.add_comments))
+            .performClick()
+
+        // Then
+        composeTestRule.onNodeWithText(composeTestRule.activity.getString(R.string.add_comments))
+            .assertIsDisplayed()
+    }
+
+
+    @Test
+    fun testAlbumTitleIsDisplayed() {
+        // Given
+        val album = album
+        initWithDataState(DataState.Success(album))
+
+        // Then
+        composeTestRule.onNodeWithText(album.name)
+            .assertIsDisplayed()
+    }
 }
