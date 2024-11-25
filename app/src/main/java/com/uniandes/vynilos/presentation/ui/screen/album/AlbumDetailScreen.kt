@@ -93,13 +93,13 @@ fun AlbumDetailScreen(
                     navigationActions.onAction(ActionType.OnBack)
                 }
             }
-        ) { paddingValues ->
+        ){  paddingValues ->
             Box(
                 Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-            ) {
-                when (val result = albumResult) {
+            ){
+                when (val result = albumResult.value){
                     is DataState.Loading -> {
                         CircularProgressIndicator(
                             Modifier
@@ -169,9 +169,10 @@ private fun AlbumDetailView(
     }
     
     val ctx = LocalContext.current
-    var comments by remember { mutableStateOf(album.comments.map { it.description }) }
+    var comments by remember { mutableStateOf(album.comments.map { it.description to it.rating  }) }
     var newComment by remember { mutableStateOf("") }
     var isAddingComment by remember { mutableStateOf(false) }
+    var newRating by remember { mutableStateOf(0) }
 
     LazyColumn (
         Modifier
@@ -251,7 +252,7 @@ private fun AlbumDetailView(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Comentarios:",
+                    text = stringResource(R.string.comments),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f)
@@ -262,7 +263,7 @@ private fun AlbumDetailView(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Add Comment",
+                        contentDescription = stringResource(R.string.add_comments),
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }
@@ -272,40 +273,78 @@ private fun AlbumDetailView(
         if (isAddingComment) {
             item {
                 Column {
+                    // TextField para ingresar el comentario
                     TextField(
                         value = newComment,
                         onValueChange = { newComment = it },
-                        label = { Text("Add your comment...") },
+                        label = { Text(stringResource(R.string.add_comments)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp)
                     )
+
+                    // Selector de estrellas (rating)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(R.string.select_rating),
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.weight(1f)
+                        )
+                        // Seleccionar el rating
+                        Row {
+                            repeat(5) { index ->
+                                IconButton(
+                                    onClick = { newRating = index + 1 }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Star,
+                                        contentDescription = null,
+                                        tint = if (index < newRating) Color(0xFF613EEA) else Color.Gray
+                                    )
+                                }
+                            }
+                        }
+                    }
+
                     Button(
                         onClick = {
-                            viewModel.addComment(album.id, newComment)
-                            comments = listOf(newComment) + comments
-                            newComment = ""
-                            isAddingComment = false
+                            if (newComment.isNotBlank() && newRating > 0) {
+                                viewModel.addComment(album.id, newComment, newRating)
+                                comments = listOf(newComment to newRating) + comments
+                                newComment = ""
+                                newRating = 0
+                                isAddingComment = false
+                            }
                         },
                         modifier = Modifier.align(Alignment.End)
                     ) {
-                        Text("Enviar")
+                        Text(stringResource(R.string.send))
                     }
                 }
             }
         }
-
         // Mostrar los comentarios existentes
-        items(comments) { comment ->
+        items(comments) { (description, rating) ->
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 4.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+                    .padding(vertical = 4.dp)
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(8.dp)
+                    ),
+                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+                shape = RoundedCornerShape(8.dp)
             ) {
                 Column(modifier = Modifier.padding(8.dp)) {
                     Text(
-                        text = comment,
+                        text = description,
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Row(
@@ -313,7 +352,7 @@ private fun AlbumDetailView(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(top = 4.dp)
                     ) {
-                        repeat(5) { // Estrellas de ejemplo (rating)
+                        repeat(rating) {
                             Icon(
                                 imageVector = Icons.Default.Star,
                                 contentDescription = null,

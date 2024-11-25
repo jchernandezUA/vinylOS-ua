@@ -28,13 +28,13 @@ class ListAlbumViewModel(
             _albumsResult.value = albumRepository.getAlbums() //success or error
         }
     }
-    fun addComment(albumId: Int, description: String) {
+    fun addComment(albumId: Int, description: String, rating: Int) {
         viewModelScope.launch {
             val newComment = Comment(
                 id = 0,
                 description = description,
-                rating = 5,
-                collector = CollectorDTO(id = 100)
+                rating = rating,
+                collector = CollectorDTO(id = 1)
             )
             _albumResult.value = DataState.Loading
             albumRepository.addComment(albumId, newComment)
