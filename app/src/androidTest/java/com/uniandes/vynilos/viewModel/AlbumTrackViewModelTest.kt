@@ -8,10 +8,13 @@ import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -30,9 +33,11 @@ class AlbumTrackViewModelTest {
     )
 
     private lateinit var albumRepository: AlbumRepository
+    private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun setup() {
+        Dispatchers.setMain(testDispatcher)
         albumRepository = mockk()
         coEvery { albumRepository.getAlbum(any()) } returns DataState.Success(album)
     }
