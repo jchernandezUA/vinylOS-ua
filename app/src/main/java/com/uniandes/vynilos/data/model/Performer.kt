@@ -5,7 +5,6 @@ import com.uniandes.vynilos.common.convertDateToTimestamp
 import com.uniandes.vynilos.data.remote.entity.PerformerResponse
 import kotlinx.parcelize.Parcelize
 
-
 @Parcelize
 data class Performer(
     val id: Int,
@@ -13,7 +12,7 @@ data class Performer(
     val image: String,
     val description: String,
     val birthDate: Long
-): Parcelable
+) : Parcelable
 
 fun PerformerResponse.DTO() = Performer(
     id = id,

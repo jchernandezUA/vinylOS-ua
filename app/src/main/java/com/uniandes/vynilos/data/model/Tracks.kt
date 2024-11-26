@@ -4,13 +4,12 @@ import android.os.Parcelable
 import com.uniandes.vynilos.data.remote.entity.TracksResponse
 import kotlinx.parcelize.Parcelize
 
-
 @Parcelize
 data class Tracks(
-    val id: Int,
+    val id: Int? = null,
     val name: String,
     val duration: String
-): Parcelable
+) : Parcelable
 
 fun TracksResponse.DTO() = Tracks(
     id = id,
