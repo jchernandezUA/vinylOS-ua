@@ -1,21 +1,27 @@
 package com.uniandes.vynilos.presentation.ui.screen.album
 
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -31,8 +37,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
@@ -40,39 +48,12 @@ import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.model.Tracks
 import com.uniandes.vynilos.presentation.navigation.ActionType
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
+import com.uniandes.vynilos.presentation.ui.component.TextField
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.Card
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.MusicNote
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.TextField
-import androidx.compose.ui.Alignment.Companion.Center
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
-import com.uniandes.vynilos.data.model.Performer
-import com.uniandes.vynilos.presentation.ui.theme.vynilOSTopAppBarColors
 
 @Composable
 fun AlbumDetailScreen(
@@ -99,7 +80,7 @@ fun AlbumDetailScreen(
                     .fillMaxSize()
                     .padding(paddingValues)
             ){
-                when (val result = albumResult.value){
+                when (val result = albumResult){
                     is DataState.Loading -> {
                         CircularProgressIndicator(
                             Modifier
@@ -110,8 +91,7 @@ fun AlbumDetailScreen(
                     }
                     is DataState.Error -> {
                         Text(
-                            text = result.error.message
-                                ?: stringResource(R.string.error_loading_album),
+                            text = result.error.message,
                             style = MaterialTheme.typography.headlineMedium,
                             color = MaterialTheme.colorScheme.error,
                             modifier = Modifier.align(Alignment.Center)
@@ -168,11 +148,7 @@ private fun AlbumDetailView(
         }
     }
     
-    val ctx = LocalContext.current
     var comments by remember { mutableStateOf(album.comments.map { it.description to it.rating  }) }
-    var newComment by remember { mutableStateOf("") }
-    var isAddingComment by remember { mutableStateOf(false) }
-    var newRating by remember { mutableStateOf(0) }
 
     LazyColumn (
         Modifier
@@ -196,7 +172,7 @@ private fun AlbumDetailView(
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
-            Divider()
+            HorizontalDivider()
         }
 
         if (isCollector) {
@@ -244,31 +220,30 @@ private fun AlbumDetailView(
             }
         }
         // Sección de Comentarios
-        item {
-            CommentsSection(
-                comments = comments,
-                onAddComment = { description, rating ->
-                    viewModel.addComment(album.id, description, rating)
-                    comments = listOf(description to rating) + comments
-                }
-            )
+        if(isCollector) {
+            item {
+                CommentsSection(
+                    viewModel,
+                    comments = comments
+                )
+            }
         }
-
-
     }
 }
 
 @Composable
 fun CommentsSection(
-    comments: List<Pair<String, Int>>,
-    onAddComment: (String, Int) -> Unit
+    viewModel: AlbumViewModel,
+    comments: List<Pair<String, Int>>
 ) {
-    var isAddingComment by remember { mutableStateOf(false) }
-    var newComment by remember { mutableStateOf("") }
-    var newRating by remember { mutableStateOf(0) }
+    val isAddingComment by viewModel.isAddingComment.collectAsState()
+    val newComment by viewModel.newComment.collectAsState()
+    val newRating by viewModel.newRating.collectAsState()
+    val commentError by viewModel.commentError.collectAsState()
+    val isButtonEnabled by viewModel.isCommentButtonEnabled.collectAsState()
 
     Column {
-        // Título de la sección
+        // Title
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -282,7 +257,9 @@ fun CommentsSection(
                 modifier = Modifier.weight(1f)
             )
             IconButton(
-                onClick = { isAddingComment = !isAddingComment }
+                onClick = {
+                    viewModel.toggleCommentSection()
+                }
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -292,18 +269,19 @@ fun CommentsSection(
             }
         }
 
-        // Formulario para agregar comentarios
+        // Comment box
         if (isAddingComment) {
             Column(
                 modifier = Modifier.padding(8.dp)
             ) {
                 TextField(
                     value = newComment,
-                    onValueChange = { newComment = it },
-                    label = { Text(stringResource(R.string.add_comments)) },
+                    onValueChange = { viewModel.setComment(it) },
+                    label = stringResource(R.string.add_comments),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp)
+                        .padding(vertical = 8.dp),
+                    textError = commentError
                 )
                 Row(
                     modifier = Modifier
@@ -319,12 +297,12 @@ fun CommentsSection(
                     Row {
                         repeat(5) { index ->
                             IconButton(
-                                onClick = { newRating = index + 1 }
+                                onClick = { viewModel.setRating(index + 1) }
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Star,
                                     contentDescription = null,
-                                    tint = if (index < newRating) Color(0xFF613EEA) else Color.Gray
+                                    tint = if (index < newRating) MaterialTheme.colorScheme.primary else Color.Gray
                                 )
                             }
                         }
@@ -332,21 +310,17 @@ fun CommentsSection(
                 }
                 Button(
                     onClick = {
-                        if (newComment.isNotBlank() && newRating > 0) {
-                            onAddComment(newComment, newRating)
-                            newComment = ""
-                            newRating = 0
-                            isAddingComment = false
-                        }
+                        viewModel.addComment()
                     },
-                    modifier = Modifier.align(Alignment.End)
+                    modifier = Modifier.align(Alignment.End),
+                    enabled = isButtonEnabled
                 ) {
                     Text(stringResource(R.string.send))
                 }
             }
         }
 
-        // Mostrar los comentarios existentes
+        // List of existing comments
         comments.reversed().forEach { (description, rating) ->
             Card(
                 modifier = Modifier
@@ -381,19 +355,6 @@ fun CommentsSection(
                     }
                 }
             }
-        }
-
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = stringResource(R.string.description),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = 4.dp)
-            )
-            Text(
-                text = album.description,
-                style = MaterialTheme.typography.bodyMedium
-            )
         }
     }
 }

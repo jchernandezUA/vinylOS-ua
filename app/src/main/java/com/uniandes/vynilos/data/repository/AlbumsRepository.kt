@@ -61,6 +61,8 @@ class AlbumRepositoryImpl(
         return resultOrError {
             val commentRequest = comment.toDomain()
             albumService.addComment(albumId, commentRequest)
+            Unit
+
         }
     }
 }

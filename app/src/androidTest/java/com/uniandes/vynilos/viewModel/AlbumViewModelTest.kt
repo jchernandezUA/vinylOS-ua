@@ -50,7 +50,7 @@ class AlbumViewModelTest {
         coEvery { albumRepository.getAlbum(testAlbum.id!!) } returns DataState.Success(testAlbum)
 
         viewModel.getAlbum()
-        runCurrent()
+        advanceUntilIdle()
 
         val result = viewModel.albumResult.first()
         assertTrue(result is DataState.Success)
@@ -81,16 +81,17 @@ class AlbumViewModelTest {
             rating = rating,
             collector = CollectorDTO(id = 1)
         )
-        coEvery { albumRepository.addComment(albumId, expectedComment) } returns DataState.Success(Unit)
+        coEvery { albumRepository.addComment(albumId!!, any()) } returns DataState.Success(Unit)
+        coEvery { albumRepository.getAlbum(albumId!!) } returns DataState.Success(testAlbum)
 
         // When
-        viewModel.addComment(albumId, description, rating)
+        viewModel.addComment()
         advanceUntilIdle()
 
         // Then
         val result = viewModel.albumResult.first()
-        assertTrue(result is DataState.Loading || result is DataState.Idle)
-        assertEquals(DataState.Loading, viewModel.albumResult.value)
+        assertTrue(result is DataState.Success)
+        assertEquals(DataState.Success(testAlbum), viewModel.albumResult.value)
     }
 
     @Test
@@ -99,22 +100,20 @@ class AlbumViewModelTest {
         val albumId = testAlbum.id
         val description = "Amazing album!"
         val rating = 5
-        val errorMessage = "Error adding comment"
         val expectedComment = Comment(
             id = 0,
             description = description,
             rating = rating,
             collector = CollectorDTO(id = 1)
         )
-        coEvery { albumRepository.addComment(albumId, expectedComment) } returns DataState.Error(Exception(DEFAULT_ERROR))
+        coEvery { albumRepository.addComment(albumId!!, any()) } returns DataState.Error(Exception(DEFAULT_ERROR))
 
         // When
-        viewModel.addComment(albumId, description, rating)
+        viewModel.addComment()
         advanceUntilIdle()
 
         // Then
-        val loadingState = viewModel.albumResult.first()
-        assertTrue(loadingState is DataState.Loading)
+        assertTrue(viewModel.commentError.value != null)
     }
     @After
     fun tearDown() {
