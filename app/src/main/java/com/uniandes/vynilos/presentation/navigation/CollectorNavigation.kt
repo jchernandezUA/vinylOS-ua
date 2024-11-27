@@ -20,7 +20,7 @@ fun CollectorNavigation(
         composable(NavItem.AlbumDetail) {
             CollectorDetailScreen(viewModel,NavigationActions{
                 onFinish()
-            })
+            },)
         }
         composable(NavItem.NotMain) {
             NotMainScreen()
