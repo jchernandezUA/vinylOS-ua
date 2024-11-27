@@ -4,8 +4,10 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Album
@@ -80,6 +82,42 @@ class AlbumDetailScreenTest {
 
         // then
         composeTestRule.onNodeWithText(errorMessage)
+            .assertIsDisplayed()
+    }
+    @Test
+    fun testAddCommentButtonIsDisplayed() {
+        // Given
+        val album = album
+        initWithDataState(DataState.Success(album))
+
+        // Then
+        composeTestRule.onNodeWithContentDescription(composeTestRule.activity.getString(R.string.add_comments))
+            .assertIsDisplayed()
+    }
+    @Test
+    fun testClickAddCommentButton() {
+        // Given
+        val album = album
+        initWithDataState(DataState.Success(album))
+
+        // When
+        composeTestRule.onNodeWithContentDescription(composeTestRule.activity.getString(R.string.add_comments))
+            .performClick()
+
+        // Then
+        composeTestRule.onNodeWithText(composeTestRule.activity.getString(R.string.add_comments))
+            .assertIsDisplayed()
+    }
+
+
+    @Test
+    fun testAlbumTitleIsDisplayed() {
+        // Given
+        val album = album
+        initWithDataState(DataState.Success(album))
+
+        // Then
+        composeTestRule.onNodeWithText(album.name)
             .assertIsDisplayed()
     }
 }

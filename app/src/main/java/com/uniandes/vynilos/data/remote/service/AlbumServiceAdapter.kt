@@ -4,6 +4,8 @@ import com.uniandes.vynilos.data.remote.entity.AlbumRequest
 import com.uniandes.vynilos.data.remote.entity.AlbumResponse
 import com.uniandes.vynilos.data.remote.entity.TrackRequest
 import com.uniandes.vynilos.data.remote.entity.TracksResponse
+import com.uniandes.vynilos.data.remote.entity.ArtistResponse
+import com.uniandes.vynilos.data.remote.entity.CommentRequest
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -24,4 +26,7 @@ interface AlbumServiceAdapter {
         @Path("id") albumId: Int,
         @Body track: TrackRequest
     ): TracksResponse
+
+    @POST("/albums/{id}/comments")
+    suspend fun addComment(@Path("id") id: Int, @Body comment: CommentRequest): AlbumResponse
 }

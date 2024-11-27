@@ -1,6 +1,8 @@
 package com.uniandes.vynilos.viewModel
 
 import com.uniandes.vynilos.common.DataState
+import com.uniandes.vynilos.data.model.Comment
+import com.uniandes.vynilos.data.remote.entity.CollectorDTO
 import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.model.ALBUM_LIST
 import com.uniandes.vynilos.model.DEFAULT_ERROR
@@ -48,7 +50,7 @@ class AlbumViewModelTest {
         coEvery { albumRepository.getAlbum(testAlbum.id!!) } returns DataState.Success(testAlbum)
 
         viewModel.getAlbum()
-        runCurrent()
+        advanceUntilIdle()
 
         val result = viewModel.albumResult.first()
         assertTrue(result is DataState.Success)
@@ -67,7 +69,52 @@ class AlbumViewModelTest {
         assertEquals(DEFAULT_ERROR, (result as DataState.Error).error.message)
     }
 
+    @Test
+    fun testAddCommentSuccess() = runTest {
+        // Given
+        val albumId = testAlbum.id
+        val description = "Amazing album!"
+        val rating = 5
+        val expectedComment = Comment(
+            id = 0,
+            description = description,
+            rating = rating,
+            collector = CollectorDTO(id = 1)
+        )
+        coEvery { albumRepository.addComment(albumId!!, any()) } returns DataState.Success(Unit)
+        coEvery { albumRepository.getAlbum(albumId!!) } returns DataState.Success(testAlbum)
 
+        // When
+        viewModel.addComment()
+        advanceUntilIdle()
+
+        // Then
+        val result = viewModel.albumResult.first()
+        assertTrue(result is DataState.Success)
+        assertEquals(DataState.Success(testAlbum), viewModel.albumResult.value)
+    }
+
+    @Test
+    fun testAddCommentError() = runTest {
+        // Given
+        val albumId = testAlbum.id
+        val description = "Amazing album!"
+        val rating = 5
+        val expectedComment = Comment(
+            id = 0,
+            description = description,
+            rating = rating,
+            collector = CollectorDTO(id = 1)
+        )
+        coEvery { albumRepository.addComment(albumId!!, any()) } returns DataState.Error(Exception(DEFAULT_ERROR))
+
+        // When
+        viewModel.addComment()
+        advanceUntilIdle()
+
+        // Then
+        assertTrue(viewModel.commentError.value != null)
+    }
     @After
     fun tearDown() {
         Dispatchers.resetMain()

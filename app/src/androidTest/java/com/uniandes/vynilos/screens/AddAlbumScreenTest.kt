@@ -10,6 +10,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
@@ -40,10 +41,10 @@ class AddAlbumScreenTest : KoinTest {
         startKoin {
             modules(albumModule, artistModule, collectorModule)
         }
+        coEvery { get<AlbumRepository>().getAlbums() } returns DataState.Success(emptyList())
         composeTestRule.activityRule.scenario.onActivity {
             it.startActivity(Intent(it, MainActivity::class.java))
         }
-        coEvery { get<AlbumRepository>().getAlbums() } returns DataState.Success(emptyList())
         changeToCollectorType(composeTestRule)
         composeTestRule.onNodeWithContentDescription(
             composeTestRule.activity.getString(R.string.add_album),
@@ -134,7 +135,7 @@ class AddAlbumScreenTest : KoinTest {
                         )
                     )
                 )
-            ).assertIsDisplayed()
+            ).performScrollTo().isDisplayed()
         }
     }
 
@@ -161,7 +162,7 @@ class AddAlbumScreenTest : KoinTest {
                 ).and(
                     hasAnySibling(hasText(activity.getString(R.string.image)))
                 )
-            ).assertIsDisplayed()
+            ).performScrollTo().isDisplayed()
         }
 
     }
@@ -179,7 +180,7 @@ class AddAlbumScreenTest : KoinTest {
             //and then clicks on other TextField
             onNodeWithText(
                 activity.getString(R.string.album)
-            ).performClick()
+            ).performClick().performTextInput("Only for test")
 
             //then displays name album required field
             onNode(
@@ -188,7 +189,7 @@ class AddAlbumScreenTest : KoinTest {
                 ).and(
                     hasAnySibling(hasText(activity.getString(R.string.image)))
                 )
-            ).assertIsDisplayed()
+            ).performScrollTo().isDisplayed()
         }
     }
 
@@ -200,13 +201,18 @@ class AddAlbumScreenTest : KoinTest {
         composeTestRule.apply {
             onNodeWithText(
                 composeTestRule.activity.getString(R.string.release_date)
-            ).performClick()
+            ).performScrollTo().performClick()
 
             //and then clicks on other TextField
             onNodeWithText(
                 activity.getString(R.string.cancel)
             ).performClick()
 
+            composeTestRule
+            composeTestRule
+            composeTestRule
+            composeTestRule
+            composeTestRule
             //then displays name album required field
             onNode(
                 matcher = hasText(
@@ -214,7 +220,7 @@ class AddAlbumScreenTest : KoinTest {
                 ).and(
                     hasAnySibling(hasText(activity.getString(R.string.release_date)))
                 )
-            ).assertIsDisplayed()
+            ).performScrollTo().isDisplayed()
         }
 
     }
@@ -232,7 +238,7 @@ class AddAlbumScreenTest : KoinTest {
             //and then clicks on other TextField
             onNodeWithText(
                 activity.getString(R.string.album)
-            ).performClick()
+            ).performClick().performTextInput("Only for test")
 
             //then displays name album required field
             onNode(
@@ -258,7 +264,8 @@ class AddAlbumScreenTest : KoinTest {
             //and then clicks on other TextField
             onNodeWithText(
                 activity.getString(R.string.album)
-            ).performClick()
+            ).performClick().performTextInput("Only for test")
+
 
             //then displays name album required field
             onNode(
@@ -267,7 +274,7 @@ class AddAlbumScreenTest : KoinTest {
                 ).and(
                     hasAnySibling(hasText(activity.getString(R.string.record_label)))
                 )
-            ).assertIsDisplayed()
+            ).performScrollTo().assertIsDisplayed()
         }
     }
 
