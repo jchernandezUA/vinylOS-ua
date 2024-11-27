@@ -126,6 +126,5 @@ fun createCollectors(
     telephone,
     email,
     comments,
-    favoriteArtists,
-    collectorAlbums
+    favoriteArtists
 )
