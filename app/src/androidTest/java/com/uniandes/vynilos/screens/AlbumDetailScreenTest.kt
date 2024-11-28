@@ -85,7 +85,6 @@ class AlbumDetailScreenTest {
         composeTestRule.onNodeWithText(errorMessage)
             .assertIsDisplayed()
     }
-    @Test
     fun testAddCommentButtonIsDisplayed() {
         // Given
         val album = album
@@ -96,7 +95,6 @@ class AlbumDetailScreenTest {
             .performScrollTo()
             .assertIsDisplayed()
     }
-    @Test
     fun testClickAddCommentButton() {
         // Given
         val album = album
