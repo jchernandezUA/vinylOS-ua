@@ -48,11 +48,9 @@
     <string name="no_tracks">No hay tracks disponibles.</string>
     <string name="error_adding_track">Error al agregar el track.</string>
     <string name="comments">Comentarios</string>
-<<<<<<< HEAD
     <string name="add_comments">Agrega un comentario</string>
     <string name="send">Enviar</string>
     <string name="select_rating">Raking</string>
-=======
     <string name="artist_image">Imagen del Artista</string>
     <string name="telephone">Teléfono</string>
     <string name="Email">Email</string>
@@ -61,7 +59,5 @@
     <string name="No_Album_Collector">El Coleccionista no tiene Álbumes</string>
     <string name="album_image">Imagen del Álbum</string>
     <string name="precio">Precio</string>
-
->>>>>>> 10ddf95 (Se agrega funcionalidad del detalle del collector.)
 
 </resources>
