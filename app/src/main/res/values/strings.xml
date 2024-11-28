@@ -58,7 +58,10 @@
     <string name="No_Album_Collector">El Coleccionista no tiene Álbumes</string>
     <string name="album_image">Imagen del Álbum</string>
     <string name="precio">Precio</string>
+<<<<<<< HEAD
     <string name="see_less">Ver menos</string>
     <string name="see_more">Ver más</string>
+=======
+>>>>>>> e1c24a6 (corrección string.xml por conflicto de ramas)
 
 </resources>
