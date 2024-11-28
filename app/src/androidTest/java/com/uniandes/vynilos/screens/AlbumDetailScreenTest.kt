@@ -90,10 +90,10 @@ class AlbumDetailScreenTest {
         // Given
         val album = album
         initWithDataState(DataState.Success(album))
-
+        composeTestRule.waitForIdle()
         // Then
         composeTestRule.onNodeWithContentDescription(composeTestRule.activity.getString(R.string.add_comments))
-            .performClick()
+            .performScrollTo()
             .assertIsDisplayed()
     }
     @Test
@@ -101,6 +101,7 @@ class AlbumDetailScreenTest {
         // Given
         val album = album
         initWithDataState(DataState.Success(album))
+        composeTestRule.waitForIdle()
 
         // When
         composeTestRule.onNodeWithContentDescription(composeTestRule.activity.getString(R.string.add_comments))
