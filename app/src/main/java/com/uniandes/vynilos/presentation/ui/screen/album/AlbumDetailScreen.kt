@@ -1,6 +1,8 @@
 package com.uniandes.vynilos.presentation.ui.screen.album
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -36,19 +40,33 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Album
+import com.uniandes.vynilos.data.model.Artist
+import com.uniandes.vynilos.data.model.Performer
 import com.uniandes.vynilos.data.model.Tracks
 import com.uniandes.vynilos.presentation.navigation.ActionType
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.ui.component.TextField
+import com.uniandes.vynilos.presentation.ui.preview.PreviewModel
+import com.uniandes.vynilos.presentation.ui.preview.PreviewViewModel
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 import java.text.SimpleDateFormat
@@ -147,32 +165,103 @@ private fun AlbumDetailView(
             viewModel.resetAddTrackResult()
         }
     }
+    val ctx = LocalContext.current
     
-    var comments by remember { mutableStateOf(album.comments.map { it.description to it.rating  }) }
+    val comments by remember { mutableStateOf(album.comments.map { it.description to it.rating  }) }
 
     LazyColumn (
         Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
+
+
+        // Album Header
         item {
-            Text(
-                text = album.name,
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            Text(
-                text = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
-                    .format(Date(album.releaseDate)),
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(bottom = 4.dp)
-            )
-            Text(
-                text = "${stringResource(R.string.genre)}: ${album.genre}",
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
+                contentAlignment = Center
+            ) {
+                AsyncImage(
+                    model = album.cover,
+                    contentDescription = "Album Cover",
+                    modifier = Modifier
+                        .size(160.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+            }
+        }
+        // Album Title and Date
+        item {
+            Column( modifier = Modifier
+                .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = album.name,
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 1.dp)
+                )
+                Text(
+                    text = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+                        .format(Date(album.releaseDate)),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(bottom = 30.dp)
+                )
+            }
             HorizontalDivider()
+
+        }
+        // Record Label and Genre
+        item {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = ctx.getString(R.string.record_label)+":",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = album.recordLabel,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = ctx.getString(R.string.genre)+": ",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = album.genre,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        }
+        // Description
+        item {
+            HorizontalDivider()
+            ExpandableDescription(album.description)
         }
 
         if (isCollector) {
@@ -200,6 +289,7 @@ private fun AlbumDetailView(
         }
 
         item {
+            HorizontalDivider()
             Text(
                 text = stringResource(R.string.songs),
                 style = MaterialTheme.typography.titleMedium,
@@ -210,6 +300,7 @@ private fun AlbumDetailView(
         if (album.tracks.isNotEmpty()) {
             items(album.tracks) { track ->
                 TrackCard(track = track)
+                HorizontalDivider()
             }
         } else {
             item {
@@ -219,14 +310,48 @@ private fun AlbumDetailView(
                 )
             }
         }
-        // Sección de Comentarios
-        if(isCollector) {
+
+        item {
+            Text(
+                text = ctx.getString(R.string.artists)+": ",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(top = 15.dp)
+            )
+        }
+
+        if (album.performers.isNotEmpty()) {
             item {
-                CommentsSection(
-                    viewModel,
-                    comments = comments
-                )
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(15.dp)
+                ) {
+                    items(album.performers) { performer ->
+                        PerformerCard(performer = performer)
+                    }
+                }
             }
+        } else {
+            item {
+                Box(
+                    Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = stringResource(R.string.no_albums_artist),
+                        color = Color.Gray,
+                        modifier = Modifier.align(Center)
+                    )
+                }
+            }
+        }
+
+        // Sección de Comentarios
+        item {
+            CommentsSection(
+                viewModel,
+                comments = comments,
+                isCollector = isCollector
+            )
         }
     }
 }
@@ -234,7 +359,8 @@ private fun AlbumDetailView(
 @Composable
 fun CommentsSection(
     viewModel: AlbumViewModel,
-    comments: List<Pair<String, Int>>
+    comments: List<Pair<String, Int>>,
+    isCollector: Boolean = false
 ) {
     val isAddingComment by viewModel.isAddingComment.collectAsState()
     val newComment by viewModel.newComment.collectAsState()
@@ -256,17 +382,19 @@ fun CommentsSection(
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)
             )
-            IconButton(
-                onClick = {
-                    viewModel.toggleCommentSection()
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.add_comments),
-                    tint = MaterialTheme.colorScheme.primary
-                )
-            }
+           if(isCollector) {
+               IconButton(
+                   onClick = {
+                       viewModel.toggleCommentSection()
+                   }
+               ) {
+                   Icon(
+                       imageVector = Icons.Default.Add,
+                       contentDescription = stringResource(R.string.add_comments),
+                       tint = MaterialTheme.colorScheme.primary
+                   )
+               }
+           }
         }
 
         // Comment box
@@ -357,6 +485,91 @@ fun CommentsSection(
             }
         }
     }
+}
+
+@Composable
+fun PerformerCard(
+    performer: Performer
+){
+    Card(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Transparent
+        )
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth()
+        ) {
+            Image(
+                painter = rememberAsyncImagePainter(performer.image),
+                contentDescription = stringResource(R.string.artist_image),
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop)
+                Text(
+                    text = performer.name,
+                    fontSize = 10.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+        }
+    }
+}
+
+@Composable
+private fun ExpandableDescription(description: String) {
+    var isExpanded by remember { mutableStateOf(false) }
+    val maxLength = 150
+    val shouldShowButton = description.length > maxLength
+    Text(
+        text = stringResource(R.string.description),
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(bottom = 4.dp),
+    )
+    Column {
+        Text(
+            text = description,
+            style = MaterialTheme.typography.bodyMedium,
+            maxLines = if (isExpanded) Int.MAX_VALUE else 3,
+            overflow = TextOverflow.Ellipsis
+        )
+        if (shouldShowButton) {
+            Text(
+                text = stringResource(if (isExpanded) R.string.see_less else R.string.see_more),
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier
+                    .clickable { isExpanded = !isExpanded }
+                    .padding(top = 4.dp)
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun AlbumDetailErrorScreenPreview() {
+    AlbumDetailScreen(
+        PreviewViewModel.getAlbumViewModel(
+            PreviewModel.album
+        ),
+        isCollector = false
+    )
+}
+@Preview
+@Composable
+private fun AlbumDetailScreenPreview() {
+    AlbumDetailScreen(
+        PreviewViewModel.getAlbumViewModel(),
+        isCollector = false
+    )
 }
 
 @Composable

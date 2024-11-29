@@ -14,7 +14,7 @@ import com.uniandes.vynilos.data.repository.CollectorRepository
 import com.uniandes.vynilos.model.DEFAULT_ERROR
 import com.uniandes.vynilos.model.createCollectors
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
-import com.uniandes.vynilos.presentation.ui.screen.album.AlbumDetalScreen
+import com.uniandes.vynilos.presentation.ui.screen.album.AlbumDetailScreen
 import com.uniandes.vynilos.presentation.ui.screen.collector.CollectorDetailScreen
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.viewModel.CollectorDetailViewModel
