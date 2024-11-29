@@ -51,5 +51,8 @@
     <string name="add_comments">Agrega un comentario</string>
     <string name="send">Enviar</string>
     <string name="select_rating">Raking</string>
+    <string name="artist_image">Imagen del artista</string>
+    <string name="see_less">Ver menos</string>
+    <string name="see_more">Ver más</string>
 
 </resources>

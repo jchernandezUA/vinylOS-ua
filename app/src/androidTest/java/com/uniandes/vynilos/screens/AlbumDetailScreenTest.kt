@@ -8,6 +8,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Album
@@ -84,25 +85,25 @@ class AlbumDetailScreenTest {
         composeTestRule.onNodeWithText(errorMessage)
             .assertIsDisplayed()
     }
-    @Test
     fun testAddCommentButtonIsDisplayed() {
         // Given
         val album = album
         initWithDataState(DataState.Success(album))
-
+        composeTestRule.waitForIdle()
         // Then
         composeTestRule.onNodeWithContentDescription(composeTestRule.activity.getString(R.string.add_comments))
+            .performScrollTo()
             .assertIsDisplayed()
     }
-    @Test
     fun testClickAddCommentButton() {
         // Given
         val album = album
         initWithDataState(DataState.Success(album))
+        composeTestRule.waitForIdle()
 
         // When
         composeTestRule.onNodeWithContentDescription(composeTestRule.activity.getString(R.string.add_comments))
-            .performClick()
+            .performScrollTo().performClick()
 
         // Then
         composeTestRule.onNodeWithText(composeTestRule.activity.getString(R.string.add_comments))
