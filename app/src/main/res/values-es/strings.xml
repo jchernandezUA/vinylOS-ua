@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">VynilOS</string>
+    <string name="artists">Artistas</string>
+    <string name="albums">Álbumes</string>
+    <string name="collectors">Coleccionistas</string>
+    <string name="no_artist">No se encontraron artistas</string>
+    <string name="empty_message_album">No hay álbumes disponibles en este momento.</string>
+    <string name="visitor">Visitante</string>
+    <string name="try_again">Intentar de nuevo</string>
+    <string name="no_albums_artist">El artista no tiene álbumes aún</string>
+    <string name="back">Atrás</string>
+    <string name="no_collectors">No hay coleccionistas disponibles en este momento.</string>
+    <string name="description">Descripción</string>
+    <string name="songs">Canciones</string>
+    <string name="genre">Género</string>
+    <string name="record_label">Discográfica</string>
+    <string name="album">Álbum</string>
+    <string name="image">Imágen</string>
+    <string name="release_date">Fecha de publicación</string>
+    <string name="add_album">Agregar Álbum</string>
+    <string name="select">Seleccionar</string>
+    <string name="cancel">Cancelar</string>
+    <string-array name="genres">
+        <item>Classical</item>
+        <item>Salsa</item>
+        <item>Rock</item>
+        <item>Folk</item>
+    </string-array>
+    <string-array name="record_labels">
+        <item>Sony Music</item>
+        <item>EMI</item>
+        <item>Discos Fuentes</item>
+        <item>Elektra</item>
+        <item>Fania Records</item>
+    </string-array>
+    <string name="collector">Coleccionista</string>
+    <string name="album_added">El álbum se agregó correctamente</string>
+    <string name="invalid_url">Url no válida</string>
+    <string name="required_field">Campo obligatorio</string>
+    <string name="open_calendar">Abrir Calendario</string>
+    <string name="collapse">Colapsar</string>
+    <string name="expand">Expandir</string>
+    <string name="add_track">Agregar Track</string>
+    <string name="add_new_track">Agregar Nuevo Track</string>
+    <string name="track_name">Nombre del Track</string>
+    <string name="track_duration">Duración del Track</string>
+    <string name="add">Agregar</string>
+    <string name="no_tracks">No hay tracks disponibles.</string>
+    <string name="comments">Comentarios</string>
+    <string name="add_comments">Agrega un comentario</string>
+    <string name="send">Enviar</string>
+    <string name="select_rating">Raking</string>
+    <string name="telephone">Teléfono</string>
+    <string name="Email">Email</string>
+    <string name="favoritePerformers">Artistas Favoritos</string>
+    <string name="No_Performers_Collector">El Coleccionista no tiene Artistas</string>
+    <string name="No_Album_Collector">El Coleccionista no tiene Álbumes</string>
+    <string name="album_image">Imagen del Álbum</string>
+    <string name="precio">Precio</string>
+    <string name="artist_image">Imagen artista</string>
+    <string name="see_less">Ver menos</string>
+    <string name="see_more">Ver más</string>
+</resources>
