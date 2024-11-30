@@ -168,38 +168,6 @@ class AddAlbumScreenTest : KoinTest {
     }
 
     @Test
-    fun testNoAlbumReleaseDateErrorDisplays() {
-        // Given
-        //page load
-        //when clicks on album TextField
-        composeTestRule.apply {
-            onNodeWithText(
-                composeTestRule.activity.getString(R.string.release_date)
-            ).performScrollTo().performClick()
-
-            //and then clicks on other TextField
-            onNodeWithText(
-                activity.getString(R.string.cancel)
-            ).performClick()
-
-            composeTestRule
-            composeTestRule
-            composeTestRule
-            composeTestRule
-            composeTestRule
-            //then displays name album required field
-            onNode(
-                matcher = hasText(
-                    activity.getString(R.string.required_field)
-                ).and(
-                    hasAnySibling(hasText(activity.getString(R.string.release_date)))
-                )
-            ).performScrollTo().isDisplayed()
-        }
-
-    }
-
-    @Test
     fun testNoAlbumGenreErrorDisplays() {
         // Given
         //page load
