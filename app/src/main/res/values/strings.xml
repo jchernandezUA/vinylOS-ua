@@ -58,6 +58,7 @@
     <string name="No_Album_Collector">El Coleccionista no tiene Álbumes</string>
     <string name="album_image">Imagen del Álbum</string>
     <string name="precio">Precio</string>
+    <string name="artist_image">Imagen artista</string>
     <string name="see_less">Ver menos</string>
     <string name="see_more">Ver más</string>
 </resources>
