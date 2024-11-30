@@ -5,6 +5,7 @@ package com.uniandes.vynilos.common
 import android.content.Intent
 import android.os.Build
 import android.os.Parcelable
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -17,6 +18,7 @@ inline fun <T> resultOrError(block: () -> T): DataState<T> {
     return try {
         DataState.Success(block())
     } catch (e: Exception) {
+        Log.e("DataState" , e.message?:"Error no identificado")
         DataState.Error(e)
     }
 }

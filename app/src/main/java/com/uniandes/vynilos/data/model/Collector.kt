@@ -11,8 +11,7 @@ data class Collector(
     val telephone: String,
     val email: String,
     val comments: List<Comment> = emptyList(),
-    val favoritePerformers: List<Performer> = emptyList(),
-    val collectorAlbums: List<CollectorAlbum> = emptyList()
+    val favoritePerformers: List<Performer> = emptyList()
 ) : Parcelable
 
 fun CollectorResponse.toModel() = Collector(
@@ -21,8 +20,7 @@ fun CollectorResponse.toModel() = Collector(
     telephone = telephone,
     email = email,
     comments = comments.map { it.DTO() },
-    favoritePerformers = favoritePerformers.map { it.DTO() },
-    collectorAlbums = collectorAlbums.map { it.toModel() }
+    favoritePerformers = favoritePerformers.map { it.DTO() }
 )
 
 fun List<CollectorResponse>.toModelList() = map { it.toModel() }
