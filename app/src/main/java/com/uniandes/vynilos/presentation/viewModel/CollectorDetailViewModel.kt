@@ -37,9 +37,9 @@ class CollectorDetailViewModel(
 
         }else if(collector is DataState.Error || collectorAlbum is DataState.Error){
             if(collector is DataState.Error){
-                DataState.Error(collector.error.copy(collector.error.message + "Collector"))
+                DataState.Error(collector.error.copy(collector.error.message))
             }else{
-                DataState.Error((collectorAlbum as DataState.Error).error.copy(collectorAlbum.error.message + "collectorAlbum"))
+                DataState.Error((collectorAlbum as DataState.Error).error.copy(collectorAlbum.error.message))
             }
 
         } else {

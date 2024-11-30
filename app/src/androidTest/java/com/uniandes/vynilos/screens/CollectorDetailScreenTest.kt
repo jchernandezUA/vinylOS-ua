@@ -18,9 +18,12 @@ import org.junit.Test
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Collector
 import com.uniandes.vynilos.data.model.CollectorAlbum
+import com.uniandes.vynilos.data.repository.CollectorRepository
+import com.uniandes.vynilos.model.DEFAULT_ERROR
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.ui.screen.collector.CollectorDetailScreen
 import com.uniandes.vynilos.presentation.viewModel.CollectorDetailViewModel
+import kotlinx.coroutines.flow.first
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -28,10 +31,7 @@ class CollectorDetailScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
-
-    // Mock del ViewModel
-    private val mockViewModel = mockk<CollectorDetailViewModel>(relaxed = true)
-
+    val collectorRepository: CollectorRepository = mockk()
     // Datos simulados
     private val mockCollector = Collector(
         id = 1,
@@ -39,6 +39,10 @@ class CollectorDetailScreenTest {
         email = "mock@example.com",
         telephone = "123-456-7890",
         favoritePerformers = listOf()
+    )
+    val viewModel = CollectorDetailViewModel(
+        mockCollector,
+        collectorRepository
     )
 
     private val mockCollectorAlbums = listOf<CollectorAlbum>()
@@ -56,37 +60,38 @@ class CollectorDetailScreenTest {
     }
 
     @Test
-    fun testErrorState() = runTest {
+    fun testErrorState() {
         // Simula el estado de error
-        val errorState: StateFlow<DataState<Pair<Collector, List<CollectorAlbum>>>> =
-            MutableStateFlow(DataState.Error(Exception("Mock error")))
+        val errorState = DataState.Error(Exception(
+            DEFAULT_ERROR
+        ))
 
         // Configura el comportamiento del ViewModel simulado
-        coEvery { mockViewModel.collectorState } returns errorState
-        coEvery { mockViewModel.getCollector() } returns Unit
+        coEvery { collectorRepository.getCollector(any()) } returns errorState
+        coEvery { collectorRepository.getCollectorAlbum(any()) } returns errorState
 
         // Configura el contenido de la pantalla
         composeTestRule.setContent {
-            CollectorDetailScreen(viewModel = mockViewModel, navigationActions = NavigationActions())
+            CollectorDetailScreen(viewModel = viewModel, navigationActions = NavigationActions())
         }
 
         // Verifica que el mensaje de error se muestre
-        composeTestRule.onNodeWithText("Mock error").assertIsDisplayed()
+        composeTestRule.onNodeWithText(DEFAULT_ERROR).assertIsDisplayed()
     }
 
     @Test
-    fun testSuccessState() = runTest(timeout = 20.seconds) { // Aumenta el tiempo de espera a 20 segundos
+    fun testSuccessState() { // Aumenta el tiempo de espera a 20 segundos
         // Simula el estado de éxito en el flujo de collectorState
-        val successState: StateFlow<DataState<Pair<Collector, List<CollectorAlbum>>>> =
-            MutableStateFlow(DataState.Success(Pair(mockCollector, mockCollectorAlbums)))
+        val successStateCollector = DataState.Success(mockCollector)
+        val successStateCollectorAlbums = DataState.Success(mockCollectorAlbums)
 
         // Configuración del mock del ViewModel
-        coEvery { mockViewModel.collectorState } returns successState
-        coEvery { mockViewModel.getCollector() } returns Unit
+        coEvery { collectorRepository.getCollector(any()) } returns successStateCollector
+        coEvery { collectorRepository.getCollectorAlbum(any()) } returns successStateCollectorAlbums
 
         // Configura el contenido del Composable
         composeTestRule.setContent {
-            CollectorDetailScreen(viewModel = mockViewModel, navigationActions = NavigationActions())
+            CollectorDetailScreen(viewModel = viewModel, navigationActions = NavigationActions())
         }
 
         // Verifica que los datos simulados se muestren en la pantalla
