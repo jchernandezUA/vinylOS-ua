@@ -229,7 +229,6 @@ private fun CollectorDetailView(pair: Pair<Collector, List<CollectorAlbum>>){
             }
         }
 
-// Artistas preferidos Section
         item {
             Text(
                 text = ctx.getString(R.string.favoritePerformers)+":",

@@ -96,7 +96,7 @@ class AlbumViewModel(
         }
     }
 
-    fun resetCommentsValue() {
+    private fun resetCommentsValue() {
         _newComment.value = ""
         _newRating.value = 0
         toggleCommentSection()

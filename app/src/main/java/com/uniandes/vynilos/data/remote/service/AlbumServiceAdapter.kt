@@ -2,10 +2,9 @@ package com.uniandes.vynilos.data.remote.service
 
 import com.uniandes.vynilos.data.remote.entity.AlbumRequest
 import com.uniandes.vynilos.data.remote.entity.AlbumResponse
+import com.uniandes.vynilos.data.remote.entity.CommentRequest
 import com.uniandes.vynilos.data.remote.entity.TrackRequest
 import com.uniandes.vynilos.data.remote.entity.TracksResponse
-import com.uniandes.vynilos.data.remote.entity.ArtistResponse
-import com.uniandes.vynilos.data.remote.entity.CommentRequest
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

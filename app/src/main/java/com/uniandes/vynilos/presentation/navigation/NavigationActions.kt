@@ -10,7 +10,6 @@ class NavigationActions (
 
 
 sealed class ActionType {
-    data object ClickNotMain : ActionType()
     data object OnBack: ActionType()
 }
 

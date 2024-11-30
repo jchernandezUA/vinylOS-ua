@@ -1,6 +1,5 @@
 package com.uniandes.vynilos.data.repository
 
-import android.util.Log
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.common.resultOrError
 import com.uniandes.vynilos.data.model.Collector

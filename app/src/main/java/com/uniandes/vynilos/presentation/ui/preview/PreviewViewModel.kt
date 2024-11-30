@@ -3,10 +3,10 @@ package com.uniandes.vynilos.presentation.ui.preview
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.model.Artist
+import com.uniandes.vynilos.data.model.Comment
 import com.uniandes.vynilos.data.model.Tracks
 import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.data.repository.ArtistRepository
-import com.uniandes.vynilos.data.model.Comment
 import com.uniandes.vynilos.presentation.viewModel.ArtistViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 import com.uniandes.vynilos.presentation.viewModel.album.AddAlbumViewModel
@@ -14,7 +14,6 @@ import com.uniandes.vynilos.presentation.viewModel.album.AlbumViewModel
 
 object PreviewViewModel {
 
-    // Crear una instancia de ArtistRepository para usar en los previews.
     private fun getArtistRepository(
         artist: Artist? = null,
         artistList: List<Artist>? = null
@@ -32,17 +31,14 @@ object PreviewViewModel {
         }
     }
 
-    // ViewModel de ejemplo para un artista específico.
     fun getArtistViewModel(artist: Artist? = PreviewModel.artist) = ArtistViewModel(
         artist = artist ?: PreviewModel.artist,
         artistRepository = getArtistRepository(artist = artist)
     )
 
-    // ViewModel de ejemplo para una lista de artistas.
     fun getListArtistViewModel(artistList: List<Artist>? = List(10) { PreviewModel.artist }) =
         ListArtistViewModel(getArtistRepository(artistList = artistList))
 
-    // Crear una instancia de AlbumRepository para usar en los previews.
     private fun getAlbumRepository(
         album: Album? = null,
         albumList: List<Album>? = null
@@ -65,7 +61,6 @@ object PreviewViewModel {
         }
 
         override suspend fun addComment(albumId: Int, comment: Comment): DataState<Unit> {
-            // Implementación de ejemplo para preview, podrías retornar un estado de éxito o error.
             return DataState.Success(Unit)
         }
 

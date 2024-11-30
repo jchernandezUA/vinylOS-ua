@@ -6,7 +6,6 @@ import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.data.repository.ArtistRepository
 import com.uniandes.vynilos.data.repository.CollectorRepository
 import com.uniandes.vynilos.presentation.viewModel.ArtistViewModel
-import com.uniandes.vynilos.presentation.viewModel.CollectorDetailViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListCollectorViewModel
 import com.uniandes.vynilos.presentation.viewModel.album.AddAlbumViewModel

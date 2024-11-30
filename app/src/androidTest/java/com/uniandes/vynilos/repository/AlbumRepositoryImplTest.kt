@@ -1,16 +1,12 @@
 package com.uniandes.vynilos.repository
 
 import com.uniandes.vynilos.common.DataState
-import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.model.Comment
 import com.uniandes.vynilos.data.model.DTO
-import com.uniandes.vynilos.data.model.Performer
-import com.uniandes.vynilos.data.model.Tracks
 import com.uniandes.vynilos.data.remote.entity.AlbumResponse
 import com.uniandes.vynilos.data.remote.entity.CollectorDTO
 import com.uniandes.vynilos.data.remote.entity.CommentRequest
 import com.uniandes.vynilos.data.remote.service.AlbumServiceAdapter
-import com.uniandes.vynilos.data.repository.AlbumRepository
 import com.uniandes.vynilos.data.repository.AlbumRepositoryImpl
 import com.uniandes.vynilos.model.ALBUM_RESPONSE_LIST
 import com.uniandes.vynilos.model.NOT_DEFINED_ERROR

@@ -13,7 +13,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.DatePicker
@@ -50,11 +49,11 @@ import com.uniandes.vynilos.presentation.navigation.AlbumActions
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
 import com.uniandes.vynilos.presentation.ui.component.DropdownTextField
 import com.uniandes.vynilos.presentation.ui.component.ProgressDialog
+import com.uniandes.vynilos.presentation.ui.component.TextField
 import com.uniandes.vynilos.presentation.ui.preview.PreviewViewModel
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.ui.theme.vynilOSTopAppBarColors
 import com.uniandes.vynilos.presentation.viewModel.album.AddAlbumViewModel
-import com.uniandes.vynilos.presentation.ui.component.TextField
 import java.util.Date
 
 

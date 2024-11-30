@@ -46,7 +46,6 @@
     <string name="track_duration">Duración del Track</string>
     <string name="add">Agregar</string>
     <string name="no_tracks">No hay tracks disponibles.</string>
-    <string name="error_adding_track">Error al agregar el track.</string>
     <string name="comments">Comentarios</string>
     <string name="add_comments">Agrega un comentario</string>
     <string name="send">Enviar</string>
