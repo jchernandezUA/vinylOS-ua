@@ -54,7 +54,7 @@ import com.uniandes.vynilos.data.model.Collector
 import com.uniandes.vynilos.data.model.CollectorAlbum
 import com.uniandes.vynilos.presentation.navigation.ActionType
 import com.uniandes.vynilos.presentation.navigation.NavigationActions
-import com.uniandes.vynilos.presentation.ui.screen.album.PerformerCard
+    import com.uniandes.vynilos.presentation.ui.screen.album.PerformerCard
 import com.uniandes.vynilos.presentation.ui.theme.VynilOSTheme
 import com.uniandes.vynilos.presentation.ui.theme.vynilOSTopAppBarColors
 import com.uniandes.vynilos.presentation.viewModel.CollectorDetailViewModel
