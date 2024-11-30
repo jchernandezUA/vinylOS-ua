@@ -15,9 +15,9 @@ import com.uniandes.vynilos.data.repository.CollectorRepository
 import com.uniandes.vynilos.model.COLLECTOR_LIST
 import com.uniandes.vynilos.model.DEFAULT_ERROR
 import com.uniandes.vynilos.presentation.navigation.HomeNavigation
-import com.uniandes.vynilos.presentation.viewModel.album.ListAlbumViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListArtistViewModel
 import com.uniandes.vynilos.presentation.viewModel.ListCollectorViewModel
+import com.uniandes.vynilos.presentation.viewModel.album.ListAlbumViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import org.junit.Before

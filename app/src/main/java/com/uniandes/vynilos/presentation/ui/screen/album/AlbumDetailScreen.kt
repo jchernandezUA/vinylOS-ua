@@ -59,7 +59,6 @@ import coil.compose.rememberAsyncImagePainter
 import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Album
-import com.uniandes.vynilos.data.model.Artist
 import com.uniandes.vynilos.data.model.Performer
 import com.uniandes.vynilos.data.model.Tracks
 import com.uniandes.vynilos.presentation.navigation.ActionType
@@ -103,7 +102,7 @@ fun AlbumDetailScreen(
                         CircularProgressIndicator(
                             Modifier
                                 .size(100.dp)
-                                .align(Alignment.Center)
+                                .align(Center)
                                 .testTag("CircularProgressIndicator")
                         )
                     }
@@ -112,7 +111,7 @@ fun AlbumDetailScreen(
                             text = result.error.message,
                             style = MaterialTheme.typography.headlineMedium,
                             color = MaterialTheme.colorScheme.error,
-                            modifier = Modifier.align(Alignment.Center)
+                            modifier = Modifier.align(Center)
                         )
                     }
                     is DataState.Success -> {
@@ -345,7 +344,6 @@ private fun AlbumDetailView(
             }
         }
 
-        // Sección de Comentarios
         item {
             CommentsSection(
                 viewModel,

@@ -1,10 +1,12 @@
 package com.uniandes.vynilos.screens
 
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.activity.ComponentActivity
+import com.uniandes.vynilos.R
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.model.Tracks
@@ -21,7 +23,7 @@ import org.junit.Test
 class AlbumDetailTrackScreenTest {
 
     @get:Rule
-    val composeTestRule = createComposeRule()
+    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val album = Album(
         id = 1,
@@ -52,7 +54,9 @@ class AlbumDetailTrackScreenTest {
 
         composeTestRule.waitForIdle()
 
-        composeTestRule.onNodeWithText("Agregar Track").assertIsDisplayed()
+        composeTestRule.onNodeWithText(
+            composeTestRule.activity.getString(R.string.add_track)
+        ).assertIsDisplayed()
     }
 
     @Test
@@ -74,7 +78,9 @@ class AlbumDetailTrackScreenTest {
 
         composeTestRule.waitForIdle()
 
-        composeTestRule.onNodeWithText("Agregar Track").assertDoesNotExist()
+        composeTestRule.onNodeWithText(
+            composeTestRule.activity.getString(R.string.add_track)
+        ).assertDoesNotExist()
     }
 
     @Test
@@ -96,9 +102,13 @@ class AlbumDetailTrackScreenTest {
 
         composeTestRule.waitForIdle()
 
-        composeTestRule.onNodeWithText("Agregar Track").performClick()
+        composeTestRule.onNodeWithText(
+            composeTestRule.activity.getString(R.string.add_track)
+        ).performClick()
 
-        composeTestRule.onNodeWithText("Agregar Nuevo Track").assertIsDisplayed()
+        composeTestRule.onNodeWithText(
+            composeTestRule.activity.getString(R.string.add_new_track)
+        ).assertIsDisplayed()
     }
 
     @Test
@@ -122,12 +132,20 @@ class AlbumDetailTrackScreenTest {
 
         composeTestRule.waitForIdle()
 
-        composeTestRule.onNodeWithText("Agregar Track").performClick()
+        composeTestRule.onNodeWithText(
+            composeTestRule.activity.getString(R.string.add_track)
+        ).performClick()
 
-        composeTestRule.onNodeWithText("Nombre del Track").performTextInput(newTrack.name)
-        composeTestRule.onNodeWithText("Duración del Track").performTextInput(newTrack.duration)
+        composeTestRule.onNodeWithText(
+            composeTestRule.activity.getString(R.string.track_name)
+        ).performTextInput(newTrack.name)
+        composeTestRule.onNodeWithText(
+            composeTestRule.activity.getString(R.string.track_duration)
+        ).performTextInput(newTrack.duration)
 
-        composeTestRule.onNodeWithText("Agregar").performClick()
+        composeTestRule.onNodeWithText(
+            composeTestRule.activity.getString(R.string.add)
+        ).performClick()
 
         composeTestRule.waitForIdle()
 

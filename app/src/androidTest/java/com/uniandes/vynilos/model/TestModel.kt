@@ -3,7 +3,6 @@ package com.uniandes.vynilos.model
 import com.uniandes.vynilos.data.model.Album
 import com.uniandes.vynilos.data.model.Artist
 import com.uniandes.vynilos.data.model.Collector
-import com.uniandes.vynilos.data.model.CollectorAlbum
 import com.uniandes.vynilos.data.model.Comment
 import com.uniandes.vynilos.data.model.Performer
 import com.uniandes.vynilos.data.remote.entity.AlbumResponse
@@ -118,8 +117,7 @@ fun createCollectors(
     telephone: String = "1234567890",
     email: String = "james.a.garfield@examplepetstore.com",
     comments : List<Comment> = emptyList(),
-    favoriteArtists : List<Performer>  = emptyList(),
-    collectorAlbums : List<CollectorAlbum>  = emptyList()
+    favoriteArtists : List<Performer>  = emptyList()
 ) = Collector(
     id,
     name,

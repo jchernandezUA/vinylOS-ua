@@ -107,8 +107,7 @@ fun AddTrackForm(
             }
             is DataState.Error -> {
                 Text(
-                    text = (addTrackResult as DataState.Error).error.message
-                        ?: stringResource(R.string.error_adding_track),
+                    text = (addTrackResult as DataState.Error).error.message,
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.padding(top = 8.dp)
                 )

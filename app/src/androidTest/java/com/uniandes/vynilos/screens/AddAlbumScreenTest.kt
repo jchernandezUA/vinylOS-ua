@@ -46,6 +46,7 @@ class AddAlbumScreenTest : KoinTest {
             it.startActivity(Intent(it, MainActivity::class.java))
         }
         changeToCollectorType(composeTestRule)
+        composeTestRule.waitForIdle()
         composeTestRule.onNodeWithContentDescription(
             composeTestRule.activity.getString(R.string.add_album),
             ignoreCase = true

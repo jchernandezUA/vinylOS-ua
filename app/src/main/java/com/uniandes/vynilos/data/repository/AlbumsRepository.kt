@@ -3,14 +3,11 @@ package com.uniandes.vynilos.data.repository
 import com.uniandes.vynilos.common.DataState
 import com.uniandes.vynilos.common.resultOrError
 import com.uniandes.vynilos.data.model.Album
+import com.uniandes.vynilos.data.model.Comment
 import com.uniandes.vynilos.data.model.DTO
 import com.uniandes.vynilos.data.model.Tracks
 import com.uniandes.vynilos.data.model.toDomain
 import com.uniandes.vynilos.data.remote.entity.TrackRequest
-import com.uniandes.vynilos.data.model.Artist
-import com.uniandes.vynilos.data.model.Comment
-import com.uniandes.vynilos.data.model.DTO
-import com.uniandes.vynilos.data.model.toDomain
 import com.uniandes.vynilos.data.remote.service.AlbumServiceAdapter
 
 interface AlbumRepository {

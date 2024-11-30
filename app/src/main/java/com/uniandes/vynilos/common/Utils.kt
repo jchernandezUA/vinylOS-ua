@@ -12,7 +12,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-val TIME_SERVER_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+const val TIME_SERVER_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 
 inline fun <T> resultOrError(block: () -> T): DataState<T> {
     return try {
