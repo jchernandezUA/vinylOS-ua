@@ -37,5 +37,5 @@ val artistModule = module {
 val collectorModule = module {
     single<CollectorRepository> { mockk() }
     viewModel { ListCollectorViewModel(get()) }
-    viewModel { (collectorId: Int) -> CollectorDetailViewModel(collectorId, get()) }
+    //viewModel { (collectorId: Int) -> CollectorDetailViewModel(collectorId, get()) }
 }
